@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Chorbar.Tests/Chorbar.Tests.csproj" />
+  <Project Path="Chorbar/Chorbar.csproj" />
+</Solution>
