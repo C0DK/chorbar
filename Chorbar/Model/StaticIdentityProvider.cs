@@ -1,7 +1,6 @@
 namespace Chorbar.Model;
 
-// TODO: do correctly!
-public class IdentityProvider(Email email)
+public class StaticIdentityProvider(Email email) : IIdentityProvider
 {
     public Email GetIdentity() => email;
 }

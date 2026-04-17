@@ -13,21 +13,19 @@
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
-    pointer-events: none;
   }
 
   &:empty {
     display: none;
   }
+}
 
-  /* filter element not supposed to catch mouse events */
-  body:has(:popover-open) :is(button, a) {
-    pointer-events: none;
-  }
+/* Disable interaction behind popover */
+body:has(:popover-open) > :not([popover]) {
+  pointer-events: none;
+}
 
-  /* then allow click from #mypopover */
-  div[popover] :is(button, a) {
-    pointer-events: auto;
-  }
-
+/* Re-enable inside the popover itself */
+[popover] {
+  pointer-events: auto;
 }

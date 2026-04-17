@@ -1,0 +1,11 @@
+<h1>
+  Sign In
+</h1>
+<form hx-post="/auth/" hx-target="this" hx-swap="outerHTML">
+  <div class="inputWithButton">
+    <input required type="email" name="email" value="{{email?}}" placeholder="Enter your email"
+      hx-trigger="keyup[key=='Enter']" />
+    <button type="submit">Sign In</button>
+  </div>
+  {{ error? }}
+</form>

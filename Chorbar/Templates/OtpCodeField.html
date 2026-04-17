@@ -1,0 +1,23 @@
+<form hx-post="/auth/code" hx-target="this" hx-swap="outerHTML">
+  <p>
+    We sent a login code to <span class="emphasis">{{email}}</span> - Enter it below to continue
+  </p>
+  <div class="inputWithButton">
+    <input name="code" class="AuthCode" required type="text" autocomplete="off" placeholder="Insert code"
+      inputmode="numeric" maxlength="6" pattern="\d{6}">
+    <button type="submit">Sign In</button>
+  </div>
+  <input type="hidden" id="email" name="email" value="{{email}}">
+  <label>
+    <input type="checkbox" value="persist" name="persist" {% if persist %}checked{% end %}>Remember
+    me
+  </label>
+  <p class="error">
+    {{error?}}
+  </p>
+
+  <p>
+    Not {{email}}?
+    <a href="/auth" hx-boost="true">Sign into another account</a>
+  </p>
+</form>

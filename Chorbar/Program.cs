@@ -2,6 +2,7 @@ global using ILogger = Serilog.ILogger;
 using Chorbar;
 using Chorbar.Model;
 using Chorbar.Routes;
+using Chorbar.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Npgsql;
 using Serilog;
@@ -17,10 +18,22 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder
+    .Services.AddAuthorization()
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromDays(14);
+        options.SlidingExpiration = true;
+        options.AccessDeniedPath = "/forbidden/";
+        options.LoginPath = "/auth"; // TODO: redirect doesnt fully work with htmx!
+        options.LogoutPath = "/auth/logout";
+    });
 builder.Services.AddSerilog();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(Log.Logger);
-builder.Services.AddTransient<IdentityProvider>(_ => new IdentityProvider(new Email("c@cwb.dk")));
+builder.Services.AddTransient<IIdentityProvider, ClaimsBasedIdentityProvider>();
 builder.Services.AddTransient<HouseholdStore>();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<NpgsqlConnection>(s =>
@@ -34,20 +47,6 @@ builder.Services.AddAntiforgery(options =>
     options.HeaderName = "X-CSRF-TOKEN";
     options.SuppressXFrameOptionsHeader = false;
 });
-builder
-    .Services.AddAuthorization()
-    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        // TODO: handle never Remember Me and stuff
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-        options.SlidingExpiration = true;
-        // TODO: add
-        options.AccessDeniedPath = "/forbidden/";
-        options.LoginPath = "/auth"; // TODO: redirect doesnt fully work with htmx!
-        options.LogoutPath = "/auth/logout";
-    });
-
 var app = builder.Build();
 
 app.UseAntiforgery();
@@ -57,5 +56,6 @@ app.UseStaticFiles();
 app.UseSession();
 app.UseSerilogRequestLogging();
 RootRouter.Map(app);
+HtmxErrorMiddleware.Use(app);
 
 app.Run();

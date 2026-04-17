@@ -14,3 +14,8 @@ CREATE TABLE household_event (
   PRIMARY KEY (household_id, version)
 );
 
+CREATE TABLE signin_otp (
+  email TEXT NOT NULL,
+  code TEXT NOT NULL,
+  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
+);

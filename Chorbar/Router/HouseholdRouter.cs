@@ -79,7 +79,6 @@ public static class HouseholdRouter
                 var household = await store.Read(householdId, cancellationToken);
                 return new PageResult(
                     new HouseholdPage(
-                        name: household.Name,
                         chores: household
                             .Chores.OrderBy(c =>
                                 c.Value.History.Any() ? c.Value.History.Last() : c.Value.Created
@@ -253,10 +252,7 @@ public static class HouseholdRouter
                 );
 
                 return new PageResult(
-                    new HouseholdPage(
-                        name: household.Name,
-                        chores: household.Chores.Select(ChoreCard)
-                    )
+                    new HouseholdPage(chores: household.Chores.Select(ChoreCard))
                 );
             }
         );

@@ -16,23 +16,6 @@ public static class RootRouter
             }
         );
         HouseholdRouter.Map(app.MapGroup("/household/"));
-    }
-}
-
-public static class AuthRouter
-{
-    public static void Map(WebApplication app)
-    {
-        app.MapGet(
-            "/",
-            async Task<IResult> (
-                HttpContext context,
-                HouseholdStore store,
-                CancellationToken cancellationToken
-            ) =>
-            {
-                return Results.Redirect("/household/");
-            }
-        );
+        AuthRouter.Map(app.MapGroup("/auth/"));
     }
 }

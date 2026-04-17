@@ -7,7 +7,7 @@ namespace Chorbar;
 
 public class HouseholdStore
 {
-    public HouseholdStore(NpgsqlConnection connection, IdentityProvider identityProvider)
+    public HouseholdStore(NpgsqlConnection connection, IIdentityProvider identityProvider)
     {
         _connection = connection;
         _identityProvider = identityProvider;
@@ -16,7 +16,7 @@ public class HouseholdStore
 
     public HouseholdStore(
         NpgsqlConnection connection,
-        IdentityProvider identityProvider,
+        IIdentityProvider identityProvider,
         TimeProvider timeProvider
     )
     {
@@ -26,7 +26,7 @@ public class HouseholdStore
     }
 
     private readonly NpgsqlConnection _connection;
-    private readonly IdentityProvider _identityProvider;
+    private readonly IIdentityProvider _identityProvider;
     private readonly TimeProvider _timeProvider;
 
     public async ValueTask<HouseholdId> New(string name, CancellationToken cancellationToken)

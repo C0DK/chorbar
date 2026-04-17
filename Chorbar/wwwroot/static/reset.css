@@ -20,6 +20,11 @@ body {
   padding: var(--space-lg);
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
 
 /* Headings */
 h1,
@@ -116,6 +121,12 @@ input[type="reset"],
     padding: var(--space-xs) var(--space-md);
     min-height: 2rem;
     font-size: var(--font-size-xs);
+  }
+
+  &.outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
   }
 
   &.danger,

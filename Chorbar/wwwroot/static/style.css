@@ -3,22 +3,26 @@
 @import url("reset.css");
 @import url("modal.css");
 
-nav {
+.inputWithButton {
   display: flex;
-  gap: var(--space-md);
-  align-items: center;
-  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
 
-  > :first-child {
+
+  input {
     flex: 1;
-    display: flex;
-    justify-content: center;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 
   }
 
-  > :last-child {
-    margin-left: auto;
+  button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-width: 0;
   }
+
 }
 
 #new-chore {
@@ -30,9 +34,6 @@ nav {
 
   input {
     width: 70%;
-  }
-
-  input {
     flex: 1;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -252,4 +253,14 @@ li {
       color: var(--color-primary);
     }
   }
+}
+
+.AuthCode {
+  /* TODO: figure out how we get around important.. */
+  font-family: monospace !important;
+  letter-spacing: 0.5rem;
+  font-weight: bolder !important;
+  font-size: 1rem;
+  text-align: center;
+  text-transform: uppercase;
 }
