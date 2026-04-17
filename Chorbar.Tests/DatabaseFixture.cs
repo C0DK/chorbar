@@ -7,9 +7,6 @@ namespace Chorbar.Tests;
 [SetUpFixture]
 public class DatabaseFixture
 {
-    // Note: stikl.chat_event has a missing comma in the production SQL file
-    // (between `kind TEXT NOT NULL` and `payload TEXT NOT NULL`). The corrected
-    // version is used here.
     static PostgreSqlContainer? _container;
     public static NpgsqlDataSource DataSource => NpgsqlDataSource.Create(ConnectionString);
 

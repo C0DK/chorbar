@@ -51,27 +51,13 @@ INSERT INTO
                 )
             )
             {
-                command.Parameters.Add(new NpgsqlParameter() { Value = identity.Value });
-                command.Parameters.Add(
-                    new NpgsqlParameter()
-                    {
-                        Value = (user.History.LastOrDefault()?.Version ?? 0) + 1,
-                    }
+                command.Parameters.AddWithValue(identity.Value);
+                command.Parameters.AddWithValue((user.History.LastOrDefault()?.Version ?? 0) + 1);
+                command.Parameters.AddWithValue(
+                    NpgsqlDbType.TimestampTz,
+                    _timeProvider.GetUtcNow()
                 );
-                command.Parameters.Add(
-                    new NpgsqlParameter()
-                    {
-                        Value = _timeProvider.GetUtcNow(),
-                        NpgsqlDbType = NpgsqlDbType.TimestampTz,
-                    }
-                );
-                command.Parameters.Add(
-                    new NpgsqlParameter<string>()
-                    {
-                        TypedValue = payload.Serialize(),
-                        NpgsqlDbType = NpgsqlDbType.Jsonb,
-                    }
-                );
+                command.Parameters.AddWithValue(NpgsqlDbType.Jsonb, payload.Serialize());
 
                 await command.ExecuteNonQueryAsync(cancellationToken);
             }
@@ -98,7 +84,7 @@ ORDER BY timestamp
 ",
             _connection
         );
-        command.Parameters.Add(new NpgsqlParameter() { Value = identity.Value });
+        command.Parameters.AddWithValue(identity.Value);
         await using var enumerator = command
             .ReadAllAsync(
                 reader => new UserEvent(
