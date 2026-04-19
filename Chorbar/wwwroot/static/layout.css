@@ -10,6 +10,16 @@ body {
 
   width: 100dvw;
   overflow-x: clip;
+
+  &>footer {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 1rem 2rem;
+    font-style: italic;
+    font-size: var(--font-size-xs);
+
+    color: var(--color-secondary);
+  }
 }
 
 
@@ -21,14 +31,4 @@ main {
   justify-content: center;
 
   view-transition-name: slide;
-}
-
-footer {
-  display: flex;
-  flex-direction: row-reverse;
-  padding: 1rem 2rem;
-  font-style: italic;
-  font-size: var(--font-size-xs);
-
-  color: var(--color-secondary);
 }

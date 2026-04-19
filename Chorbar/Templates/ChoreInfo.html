@@ -1,0 +1,20 @@
+<article class="chore details">
+  <h2 hx-get="/chore" hx-vals='{"label":"{{label}}" }' hx-target="closest .chore" hx-swap="outerHTML">{{label}}</h2>
+  <p>Last done {{timeAgo}} ago</p>
+  <h3>You've done it {{count}} Times</h3>
+  <ol>
+    {{..actions}}
+  </ol>
+
+  <footer>
+    <form hx-post="/chore/remove" hx-target="body" hx-confirm="Are you sure you want to delete '{{label}}'?">
+      <input type="hidden" id="label" Value="{{label}}" name="Label" />
+      <button type="submit" class="small danger">Delete</button>
+    </form>
+
+    <form hx-post="/chore/do" hx-target="closest .chore" hx-swap="outerHTML">
+      <input type="hidden" id="label" Value="{{label}}" name="Label" />
+      <button type="submit" class="small">I did it!</button>
+    </form>
+  </footer>
+</article>

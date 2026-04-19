@@ -1,10 +1,13 @@
-<section class="chore">
-  <h2>{{label}}</h2>
-  <p>You've done it {{count}} Times!</p>
+<article class="chore">
+  <h2 hx-get="/chore/details" hx-vals='{"label":"{{label}}" }' hx-target="closest .chore" hx-swap="outerHTML"
+    hx-target="#chore-info">{{label}}</h2>
   <p>Last done {{timeAgo}} ago</p>
+  <h3>You've done it {{count}} Times</h3>
 
-  <form hx-post="/chore/do" hx-target="closest section">
-    <input type="hidden" id="Label" Value="{{label}}" name="Label" />
-    <button type="submit">I did it!</button>
-  </form>
-</section>
+  <footer>
+    <form hx-post="/chore/do" hx-target="closest .chore" hx-swap="outerHTML">
+      <input type="hidden" id="label" Value="{{label}}" name="label" />
+      <button type="submit" class="small">I did it!</button>
+    </form>
+  </footer>
+</article>

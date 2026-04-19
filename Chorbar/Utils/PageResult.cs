@@ -51,4 +51,3 @@ public class PageResult(string content, string? title = null) : IResult
         }
     }
 }
-

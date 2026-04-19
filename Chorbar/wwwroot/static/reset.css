@@ -102,6 +102,28 @@ input[type="reset"],
   color: var(--color-bg);
 
   transition: opacity 0.15s ease, box-shadow 0.15s ease;
+
+  &.small {
+    padding: var(--space-xs) var(--space-md);
+    min-height: 2rem;
+    font-size: var(--font-size-xs);
+  }
+
+  &.danger {
+    /* Monochrome signal: full inversion — strongest contrast available */
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    border-style: dashed;
+    transform: capitalize;
+    font-weight: 700;
+    /* secondary cue: unstable / warning */
+    border-width: 2px;
+  }
+
+  &.danger:hover {
+    opacity: 0.8;
+  }
 }
 
 button:hover,
