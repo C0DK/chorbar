@@ -1,0 +1,10 @@
+<section class="chore">
+  <h2>{{label}}</h2>
+  <p>You've done it {{count}} Times!</p>
+  <p>Last done {{timeAgo}} ago</p>
+
+  <form hx-post="/chore/do" hx-target="closest section">
+    <input type="hidden" id="Label" Value="{{label}}" name="Label" />
+    <button type="submit">I did it!</button>
+  </form>
+</section>

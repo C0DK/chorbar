@@ -1,0 +1,9 @@
+<form hx-post="/chore/add" hx-target="#chores">
+  <label for="Label">Create a new chore</label>
+  <input required type="text" id="Label" name="Label" placeholder="What do you want to do?"
+    hx-trigger="keyup[key=='Enter']" />
+  <button type="submit">Create</button>
+</form>
+<div id="chores">
+  {{..chores}}
+</div>

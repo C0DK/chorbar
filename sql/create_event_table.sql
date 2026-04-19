@@ -6,3 +6,4 @@ CREATE TABLE user_event (
 
   PRIMARY KEY (identity, version)
 );
+

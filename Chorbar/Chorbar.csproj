@@ -6,12 +6,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <StrongbarsVisibility>public</StrongbarsVisibility>
-    <ConstEmbedNamespace>Chorbar.Const</ConstEmbedNamespace>
-    <ConstEmbedVisibility>public</ConstEmbedVisibility>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Npgsql" Version="10.0.1" />
-    <PackageReference Include="Podimo.ConstEmbed" Version="1.0.1" />
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
@@ -20,6 +17,5 @@
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Templates/*.html" StrongbarsNamespace="Chorbar.Templates" />
-    <AdditionalFiles Include="sql/*.sql" ConstEmbed="Sql" />
   </ItemGroup>
 </Project>

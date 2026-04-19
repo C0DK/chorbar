@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <ConstEmbedNamespace>Chorbar.Const</ConstEmbedNamespace>
+    <ConstEmbedVisibility>public</ConstEmbedVisibility>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
@@ -14,11 +16,15 @@
     <PackageReference Include="NUnit.Analyzers" Version="4.7.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageReference Include="Testcontainers.PostgreSql" Version="4.3.0" />
+    <PackageReference Include="Podimo.ConstEmbed" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Chorbar/Chorbar.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="NUnit.Framework" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="../sql/*.sql" ConstEmbed="Sql" />
   </ItemGroup>
 </Project>

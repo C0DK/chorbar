@@ -1,5 +1,5 @@
 global using ILogger = Serilog.ILogger;
-using System.Text.Json;
+using Chorbar;
 using Chorbar.Routes;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Npgsql;
@@ -19,6 +19,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddSerilog();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(Log.Logger);
+builder.Services.AddTransient<UserStore>();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<NpgsqlConnection>(s =>
     s.GetRequiredService<NpgsqlDataSource>().OpenConnection()

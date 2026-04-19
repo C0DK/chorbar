@@ -1,0 +1,27 @@
+@import url("theme.css");
+@import url("layout.css");
+@import url("reset.css");
+
+#chores {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 2rem;
+  gap: 1rem;
+  max-width: 60dvw;
+
+  @media (max-width: 1500px) {
+    max-width: 95dvw;
+  }
+
+
+}
+
+.chore {
+ 
+  background:    var(--color-surface);
+  border:        1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding:       var(--space-lg);
+  box-shadow:    var(--shadow-sm); 
+}
