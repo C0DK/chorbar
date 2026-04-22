@@ -7,6 +7,7 @@ namespace Chorbar.Model;
 [JsonDerivedType(typeof(RemoveChore), RemoveChore.Kind)]
 [JsonDerivedType(typeof(RenameChore), RenameChore.Kind)]
 [JsonDerivedType(typeof(DoChore), DoChore.Kind)]
+[JsonDerivedType(typeof(UndoChore), UndoChore.Kind)]
 [JsonDerivedType(typeof(SetGoal), SetGoal.Kind)]
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "Kind")]
 public abstract record UserEventPayload

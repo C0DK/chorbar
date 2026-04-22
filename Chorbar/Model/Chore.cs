@@ -3,23 +3,26 @@ using System.Collections.Immutable;
 namespace Chorbar.Model;
 
 public record Chore(
-    DateTimeOffset created,
-    ImmutableArray<DateTimeOffset> history,
+    DateTimeOffset Created,
+    ImmutableArray<DateTimeOffset> History,
     Goal? Goal = null
 )
 {
     public virtual bool Equals(Chore? other) =>
         other is not null
-        && created == other.created
+        && Created == other.Created
         && Goal == other.Goal
-        && history.SequenceEqual(other.history);
+        && History.SequenceEqual(other.History);
 
-    public override int GetHashCode() => HashCode.Combine(created, history.Length);
+    public override int GetHashCode() => HashCode.Combine(Created, History.Length);
+
+    public override string ToString() =>
+        $"Chore {{ Created = {Created}, History = [{string.Join(", ", History)}], Goal = {Goal} }}";
 
     // TODO: set "do we achieve match goal"
     public List<TimeSpan> Intervals()
     {
-        var sorted = history.Append(created).OrderBy(t => t).ToList();
+        var sorted = History.Append(Created).OrderBy(t => t).ToList();
         if (sorted.Count < 2)
             return [];
 

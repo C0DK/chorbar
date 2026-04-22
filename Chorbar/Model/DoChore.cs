@@ -20,7 +20,7 @@ public record DoChore(string Label) : UserEventPayload
                 Label,
                 chore with
                 {
-                    history = chore.history.Add(timestamp),
+                    History = chore.History.Add(timestamp),
                 }
             ),
         };

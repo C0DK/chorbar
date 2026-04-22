@@ -129,3 +129,18 @@
     list-style: inside;
   }
 }
+
+.chore-activity {
+
+  form {
+    display: inline;
+
+    button {
+      padding: 0;
+      min-height: 0;
+      border: 0;
+      background: none;
+      color: var(--color-primary);
+    }
+  }
+}

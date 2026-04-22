@@ -95,6 +95,34 @@ public class UserStoreTest
     }
 
     [Test, CancelAfter(10_000)]
+    public async Task UndoChoreUndoesIt(CancellationToken cancellationToken)
+    {
+        var store = GetSubject();
+        await store.Write(
+            _identity,
+            [new AddChore("Sleep"), new DoChore("Sleep"), new DoChore("Sleep")],
+            cancellationToken
+        );
+        var user = await store.Write(_identity, new UndoChore("Sleep", t(1)), cancellationToken);
+        Assert.Multiple(() =>
+        {
+            Assert.That(user.Chores.Keys, Is.EquivalentTo(["Sleep"]));
+            Assert.That(user.Chores["Sleep"], Is.EqualTo(new Chore(t(0), [t(2)])));
+            Assert.That(
+                user.History,
+                Is.EquivalentTo(
+                    [
+                        new UserEvent(_identity, 1, t(0), new AddChore("Sleep")),
+                        new UserEvent(_identity, 2, t(1), new DoChore("Sleep")),
+                        new UserEvent(_identity, 3, t(2), new DoChore("Sleep")),
+                        new UserEvent(_identity, 4, t(3), new UndoChore("Sleep", t(1))),
+                    ]
+                )
+            );
+        });
+    }
+
+    [Test, CancelAfter(10_000)]
     public async Task AddTwoChoresAndDoBothDoesIt(CancellationToken cancellationToken)
     {
         var store = GetSubject();
@@ -142,12 +170,7 @@ public class UserStoreTest
                 Is.EquivalentTo(
                     [
                         new UserEvent(_identity, 1, t(0), new AddChore("A")),
-                        new UserEvent(
-                            _identity,
-                            2,
-                            t(1),
-                            new SetGoal("A", 2, DateUnit.Day)
-                        ),
+                        new UserEvent(_identity, 2, t(1), new SetGoal("A", 2, DateUnit.Day)),
                         new UserEvent(_identity, 3, t(2), new DoChore("A")),
                     ]
                 )
@@ -189,11 +212,7 @@ public class UserStoreTest
         var store = GetSubject();
 
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await store.Write(
-                _identity,
-                new SetGoal("Sleep", 2, DateUnit.Day),
-                cancellationToken
-            )
+            await store.Write(_identity, new SetGoal("Sleep", 2, DateUnit.Day), cancellationToken)
         );
     }
 

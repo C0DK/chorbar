@@ -14,7 +14,7 @@ public record AddChore(string Label) : UserEventPayload
     public override User Apply(User user, DateTimeOffset timestamp) =>
         user with
         {
-            Chores = user.Chores.Add(Label, new Chore(timestamp, history: [])),
+            Chores = user.Chores.Add(Label, new Chore(timestamp, History: [])),
         };
 }
 
