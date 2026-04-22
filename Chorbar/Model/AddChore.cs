@@ -17,6 +17,7 @@ public record AddChore(string Label) : UserEventPayload
             Chores = user.Chores.Add(Label, new Chore(timestamp, history: [])),
         };
 }
+
 // TODO: test
 public record RemoveChore(string Label) : UserEventPayload
 {

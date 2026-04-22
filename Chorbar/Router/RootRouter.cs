@@ -52,16 +52,28 @@ public static class RootRouter
                 if (chore is null)
                     return Results.NotFound();
 
-                return new PartialResult(
-                    new ChoreInfo(
-                        label: label,
-                        actions: chore.history.Select(timestamp =>
-                            $"<li>Done {TimeAgo(timestamp)}</li>"
-                        ),
-                        count: chore.history.Count(),
-                        timeAgo: TimeAgo(chore.history.LastOrDefault())
-                    )
+                return new PartialResult(ChoreInfo(label, chore));
+            }
+        );
+        app.MapPost(
+            "/chore/goal",
+            async Task<IResult> (
+                HttpContext context,
+                UserStore store,
+                [FromForm] string label,
+                [FromForm] DateUnit unit,
+                CancellationToken cancellationToken,
+                [FromForm] int numerator
+            ) =>
+            {
+                var user = await store.Write(
+                    Identity,
+                    new SetGoal(label, numerator, unit),
+                    cancellationToken
                 );
+
+                var chore = user.Chores[label];
+                return new PartialResult(ChoreInfo(label, chore));
             }
         );
         app.MapPost(
@@ -104,16 +116,7 @@ public static class RootRouter
             {
                 var user = await store.Write(Identity, new DoChore(label), cancellationToken);
                 var chore = user.Chores[label];
-                return new PartialResult(
-                    new ChoreInfo(
-                        label: label,
-                        actions: chore.history.Select(timestamp =>
-                            $"<li>Done {TimeAgo(timestamp)}</li>"
-                        ),
-                        count: chore.history.Count(),
-                        timeAgo: TimeAgo(chore.history.LastOrDefault())
-                    )
-                );
+                return new PartialResult(ChoreInfo(label, chore));
             }
         );
     }
@@ -125,8 +128,23 @@ public static class RootRouter
         new ChoreCard(
             label: label,
             count: chore.history.Count(),
-            // TODO: better time!
-            timeAgo: TimeAgo(chore.history.LastOrDefault())
+            hasDone: chore.history.Count() > 0,
+            timeAgo: TimeAgo(chore.history.LastOrDefault()),
+            hasGoal: chore.Goal is not null,
+            goalNumerator: chore.Goal?.Numerator,
+            goalUnit: chore?.Goal?.Unit.ToString()
+        );
+
+    private static ChoreInfo ChoreInfo(string label, Chore chore) =>
+        new ChoreInfo(
+            label: label,
+            actions: chore.history.Select(timestamp => $"<li>Done {TimeAgo(timestamp)}</li>"),
+            count: chore.history.Count(),
+            hasDone: chore.history.Count() > 0,
+            timeAgo: TimeAgo(chore.history.LastOrDefault()),
+            hasGoal: chore.Goal is not null,
+            goalNumerator: chore.Goal?.Numerator,
+            goalUnit: chore?.Goal?.Unit.ToString()
         );
 
     private static string TimeAgo(DateTimeOffset? timestamp)
@@ -141,7 +159,7 @@ public static class RootRouter
             { TotalMinutes: < 2 } => "a few seconds ago",
             { TotalMinutes: < 121 } => $"{span.TotalMinutes:N0} minutes ago",
             { TotalHours: < 49 } => $"{span.TotalHours:N0} hours ago",
-            { TotalDays: < 7 } => $"{span.TotalHours:N0} days ago",
+            { TotalDays: < 7 } => $"{span.TotalDays:N0} days ago",
             _ => timestamp.Value.ToString("yyyy-MM-dd HH:MM"),
         };
     }

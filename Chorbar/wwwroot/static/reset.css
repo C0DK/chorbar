@@ -103,13 +103,16 @@ input[type="reset"],
 
   transition: opacity 0.15s ease, box-shadow 0.15s ease;
 
-  &.small {
+
+  &.small,
+  form.small & {
     padding: var(--space-xs) var(--space-md);
     min-height: 2rem;
     font-size: var(--font-size-xs);
   }
 
-  &.danger {
+  &.danger,
+  form.danger & {
     /* Monochrome signal: full inversion — strongest contrast available */
     background-color: var(--color-surface);
     color: var(--color-primary);
@@ -182,14 +185,35 @@ select {
   min-height: 2.5rem;
   border-radius: var(--radius-md);
   border: 1.5px solid var(--color-border);
-
   background-color: var(--color-surface);
   color: var(--color-primary);
   font-family: var(--font-body);
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
 
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  &.small,
+  form.small & {
+    padding: var(--space-xs) var(--space-md);
+    min-height: 2rem;
+    font-size: var(--font-size-xs);
+  }
+
+  transition: border-color 0.15s ease,
+  box-shadow 0.15s ease;
+}
+
+
+/* Remove number input spinners */
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+  /* Firefox */
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
 
 input:focus,
@@ -224,6 +248,12 @@ select {
   background-repeat: no-repeat;
   background-position: right var(--space-md) center;
   cursor: pointer;
+
+  &.small,
+  form.small & {
+    padding-right: 1.75rem;
+    /* tighter than the default 2.25rem */
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -307,4 +337,10 @@ label {
   color: var(--color-secondary);
   font-size: var(--font-size-sm);
   user-select: none;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
 }

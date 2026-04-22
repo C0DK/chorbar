@@ -17,7 +17,6 @@
 }
 
 
-
 #chores {
   --chore-height: 15rem;
 
@@ -52,9 +51,21 @@
     flex-direction: column;
     /* height: 15rem; */
 
-    footer {
-      margin-top: auto;
+    p.goal {
+      font-style: italic;
       align-self: flex-end;
+      margin-top: calc(var(--space-sm) * -1);
+      color: var(--color-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    footer {
+      /* margin-top: var(--space-md); */
+      /* TODO make margin top work with goal form or or put goal form in footer.*/
+      margin-top: auto;
+      flex-direction: row-reverse;
+      width: 100%;
+      flex-wrap: wrap;
       display: flex;
       gap: var(--space-sm);
     }
@@ -69,8 +80,33 @@
       grid-row: span 2;
       height: calc(var(--chore-height) * 2 + var(--space-lg));
     }
+
+    .goal-form {
+      align-self: flex-end;
+      margin-bottom: var(--space-sm);
+      width: 100%;
+
+      fieldset {
+        display: flex;
+
+        :not(:first-child) {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+          border-left-width: 0;
+        }
+
+        :not(:last-child) {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+
+
+    }
   }
+
 }
+
 
 
 #chore-info {

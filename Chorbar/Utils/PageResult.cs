@@ -1,10 +1,7 @@
-
-using Microsoft.AspNetCore.Antiforgery;
 using System.Text.Json;
 using Chorbar.Templates;
+using Microsoft.AspNetCore.Antiforgery;
 using Strongbars.Abstractions;
-
-
 
 namespace Chorbar.Utils;
 
@@ -31,11 +28,7 @@ public class PageResult(string content, string? title = null) : IResult
 
         if (!headers.ContainsKey("HX-Request")) // this also includes boosted
             await response.WriteAsync(
-                new Layout(
-                    title: pageTitle,
-                    content: content,
-                    csrfToken: tokenSet.RequestToken!
-                )
+                new Layout(title: pageTitle, content: content, csrfToken: tokenSet.RequestToken!)
             );
         else
         {

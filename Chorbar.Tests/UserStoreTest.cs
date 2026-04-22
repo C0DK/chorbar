@@ -125,7 +125,7 @@ public class UserStoreTest
         var store = GetSubject();
         await store.Write(
             _identity,
-            [new AddChore("A"), new SetGoal("A", TimeSpan.FromMinutes(2)), new DoChore("A")],
+            [new AddChore("A"), new SetGoal("A", 2, DateUnit.Day), new DoChore("A")],
             cancellationToken
         );
 
@@ -135,7 +135,7 @@ public class UserStoreTest
             Assert.That(user.Chores.Keys, Is.EquivalentTo(["A"]));
             Assert.That(
                 user.Chores["A"],
-                Is.EqualTo(new Chore(t(0), [t(2)], idealFrequency: TimeSpan.FromMinutes(2)))
+                Is.EqualTo(new Chore(t(0), [t(2)], Goal: new Goal(2, DateUnit.Day)))
             );
             Assert.That(
                 user.History,
@@ -146,13 +146,55 @@ public class UserStoreTest
                             _identity,
                             2,
                             t(1),
-                            new SetGoal("A", TimeSpan.FromMinutes(2))
+                            new SetGoal("A", 2, DateUnit.Day)
                         ),
                         new UserEvent(_identity, 3, t(2), new DoChore("A")),
                     ]
                 )
             );
         });
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task ChoreHasNoGoalByDefault(CancellationToken cancellationToken)
+    {
+        var store = GetSubject();
+        await store.Write(_identity, new AddChore("Sleep"), cancellationToken);
+
+        var user = await store.Read(_identity, cancellationToken);
+        Assert.That(user.Chores["Sleep"].Goal, Is.Null);
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task OverrideGoalReplacesFrequency(CancellationToken cancellationToken)
+    {
+        var store = GetSubject();
+        await store.Write(
+            _identity,
+            [
+                new AddChore("Sleep"),
+                new SetGoal("Sleep", 2, DateUnit.Day),
+                new SetGoal("Sleep", 5, DateUnit.Week),
+            ],
+            cancellationToken
+        );
+
+        var user = await store.Read(_identity, cancellationToken);
+        Assert.That(user.Chores["Sleep"].Goal, Is.EqualTo(new Goal(5, DateUnit.Week)));
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task SetGoalOnNonExistingChoreThrows(CancellationToken cancellationToken)
+    {
+        var store = GetSubject();
+
+        Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await store.Write(
+                _identity,
+                new SetGoal("Sleep", 2, DateUnit.Day),
+                cancellationToken
+            )
+        );
     }
 
     [Test, CancelAfter(10_000)]

@@ -5,13 +5,13 @@ namespace Chorbar.Model;
 public record Chore(
     DateTimeOffset created,
     ImmutableArray<DateTimeOffset> history,
-    TimeSpan? idealFrequency = null
+    Goal? Goal = null
 )
 {
     public virtual bool Equals(Chore? other) =>
         other is not null
         && created == other.created
-        && idealFrequency == other.idealFrequency
+        && Goal == other.Goal
         && history.SequenceEqual(other.history);
 
     public override int GetHashCode() => HashCode.Combine(created, history.Length);
