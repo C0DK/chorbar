@@ -2,22 +2,22 @@ using System.Text.Json.Serialization;
 
 namespace Chorbar.Model;
 
-public record UndoChore(string Label, DateTimeOffset timestamp) : UserEventPayload
+public record UndoChore(string Label, DateTimeOffset timestamp) : HouseholdEventPayload
 {
     [JsonIgnore]
     public const string Kind = "undo_chore";
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(User user) =>
-        user.Chores.ContainsKey(Label) && user.Chores[Label].History.Contains(timestamp);
+    public override bool IsValid(Household household) =>
+        household.Chores.ContainsKey(Label) && household.Chores[Label].History.Contains(timestamp);
 
-    public override User Apply(User user, DateTimeOffset eventTime)
+    public override Household Apply(Household household, DateTimeOffset eventTime)
     {
-        var chore = user.Chores[Label];
-        return user with
+        var chore = household.Chores[Label];
+        return household with
         {
-            Chores = user.Chores.SetItem(
+            Chores = household.Chores.SetItem(
                 Label,
                 chore with
                 {

@@ -1,5 +1,5 @@
 <article class="chore details">
-  <h2 hx-get="/chore/" hx-vals='{"label":"{{label}}" }' hx-target="closest .chore" hx-swap="outerHTML"
+  <h2 hx-get="chore/" hx-vals='{"label":"{{label}}" }' hx-target="closest .chore" hx-swap="outerHTML"
     hx-target="#chore-info">
     {{label}}
   </h2>
@@ -14,7 +14,7 @@
   </ol>
 
   <footer>
-    <form class="goal-form small" hx-post="/chore/goal" hx-target="closest .chore" hx-swap="outerHTML">
+    <form class="goal-form small" hx-post="chore/goal" hx-target="closest .chore" hx-swap="outerHTML">
       <input type="hidden" Value="{{label}}" name="label" />
       <h3>I want to do it every...</h3>
       <fieldset>
@@ -42,12 +42,12 @@
 
       </fieldset>
     </form>
-    <form hx-post="/chore/remove" hx-target="body" hx-confirm="Are you sure you want to delete '{{label}}'?">
+    <form hx-post="chore/remove" hx-target="body" hx-confirm="Are you sure you want to delete '{{label}}'?">
       <input type="hidden" Value="{{label}}" name="label" />
       <button type="submit" class="small danger">Delete</button>
     </form>
 
-    <form hx-post="/chore/do" hx-target="closest .chore" hx-swap="outerHTML">
+    <form hx-post="chore/do" hx-target="closest .chore" hx-swap="outerHTML">
       <input type="hidden" Value="{{label}}" name="label" />
       <button type="submit" class="small">I did it!</button>
     </form>

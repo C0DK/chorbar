@@ -1,0 +1,31 @@
+<nav>
+  <h2>
+    Edit
+    '<a href="/household/{{id}}/">{{name}}</a>'
+  </h2>
+  <span>
+    <a class="btn" href="/household/" hx-boost="true" hx-history="true" hx-swap="innerHTML" hx-target="#modal">
+      {{name}} ⌄
+    </a>
+  </span>
+</nav>
+<div id="edit-household">
+  <form hx-post="">
+    <label for="name">Name: </label>
+    <input required type="text" id="name" name="name" value="{{name}}"
+      placeholder="What should we call the household?" />
+    <button type="submit">Update</button>
+  </form>
+
+  <div class="members">
+    <h3>Members</h3>
+    <ul>
+      {{..members}}
+    </ul>
+  </div>
+  <form hx-post="invite">
+    <label for="name">Email: </label>
+    <input required type="email" id="email" name="email" placeholder="Write the email of your household-buddy" />
+    <button type="submit">Invite</button>
+  </form>
+</div>

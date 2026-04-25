@@ -13,14 +13,88 @@ public static class RootRouter
             "/",
             async Task<IResult> (
                 HttpContext context,
-                UserStore store,
+                HouseholdStore store,
                 CancellationToken cancellationToken
             ) =>
             {
-                var user = await store.Read(Identity, cancellationToken);
+                return Results.Redirect("/household/");
+            }
+        );
+        var householdGroup = app.MapGroup("/household/");
+
+        householdGroup.MapGet(
+            "/",
+            async Task<IResult> (
+                HttpContext context,
+                HouseholdStore store,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                var households = await store.List(cancellationToken).ToArrayAsync();
+                var selector = new HouseholdSelector(
+                    households: households.Select(h => new HouseholdSelectorOption(
+                        id: h.Id.ToString() ?? "id",
+                        name: h.Name ?? "name"
+                    ))
+                );
+                if (context.Request.Headers["HX-Target"].Contains("modal"))
+                {
+                    context.Response.Headers.Append("HX-Push-Url", "false");
+                    return new ModalResult(selector);
+                }
+
+                return new PageResult(selector);
+            }
+        );
+        householdGroup.MapGet(
+            "/new",
+            async Task<IResult> (
+                HttpContext context,
+                HouseholdStore store,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                return new PageResult(new NewHousehold());
+            }
+        );
+        householdGroup.MapPost(
+            "/new",
+            async Task<IResult> (
+                HttpContext context,
+                HouseholdStore store,
+                [Microsoft.AspNetCore.Mvc.FromForm] string name,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                if (string.IsNullOrEmpty(name))
+                    // error?
+                    return new PageResult(new NewHousehold());
+                var id = await store.New(name, cancellationToken);
+
+                return new HxRedirectResult($"/household/{id.Value}/");
+            }
+        );
+
+        MapSpecificHousehold(householdGroup.MapGroup("/{householdId:int}/"));
+    }
+
+    public static void MapSpecificHousehold(IEndpointRouteBuilder app)
+    {
+        app.MapGet(
+            "/",
+            async Task<IResult> (
+                HttpContext context,
+                HouseholdStore store,
+                HouseholdId householdId,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                var household = await store.Read(householdId, cancellationToken);
                 return new PageResult(
-                    new IndexPage(
-                        chores: user.Chores.OrderBy(c =>
+                    new HouseholdPage(
+                        name: household.Name,
+                        chores: household
+                            .Chores.OrderBy(c =>
                                 c.Value.History.Any() ? c.Value.History.Last() : c.Value.Created
                             )
                             .Select(ChoreCard)
@@ -29,16 +103,86 @@ public static class RootRouter
             }
         );
         app.MapGet(
+            "/edit",
+            async Task<IResult> (
+                HttpContext context,
+                HouseholdStore store,
+                HouseholdId householdId,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                var household = await store.Read(householdId, cancellationToken);
+                return new PageResult(EditPage(household));
+            }
+        );
+        app.MapPost(
+            "/edit",
+            async Task<IResult> (
+                HttpContext context,
+                HouseholdStore store,
+                HouseholdId householdId,
+                [Microsoft.AspNetCore.Mvc.FromForm] string name,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                var household = await store.Read(householdId, cancellationToken);
+                if (string.IsNullOrEmpty(name))
+                    return new PageResult(EditPage(household));
+
+                household = await store.Write(householdId, new Rename(name), cancellationToken);
+                return new PageResult(EditPage(household));
+            }
+        );
+        app.MapPost(
+            "/invite",
+            async Task<IResult> (
+                HttpContext context,
+                HouseholdStore store,
+                HouseholdId householdId,
+                [Microsoft.AspNetCore.Mvc.FromForm] Email email,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                var household = await store.Write(
+                    householdId,
+                    new AddMember(email),
+                    cancellationToken
+                );
+
+                return new PageResult(EditPage(household));
+            }
+        );
+        app.MapPost(
+            "/remove_member",
+            async Task<IResult> (
+                HttpContext context,
+                HouseholdStore store,
+                HouseholdId householdId,
+                [Microsoft.AspNetCore.Mvc.FromForm] Email email,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                var household = await store.Write(
+                    householdId,
+                    new RemoveMember(email),
+                    cancellationToken
+                );
+
+                return new PageResult(EditPage(household));
+            }
+        );
+        app.MapGet(
             "/chore/",
             async Task<IResult> (
                 HttpContext context,
-                UserStore store,
+                HouseholdId householdId,
+                HouseholdStore store,
                 string label,
                 CancellationToken cancellationToken
             ) =>
             {
-                var user = await store.Read(Identity, cancellationToken);
-                var chore = user.Chores.GetValueOrDefault(label);
+                var household = await store.Read(householdId, cancellationToken);
+                var chore = household.Chores.GetValueOrDefault(label);
                 if (chore is null)
                     return Results.NotFound();
 
@@ -49,13 +193,14 @@ public static class RootRouter
             "/chore/details",
             async Task<IResult> (
                 HttpContext context,
-                UserStore store,
+                HouseholdId householdId,
+                HouseholdStore store,
                 string label,
                 CancellationToken cancellationToken
             ) =>
             {
-                var user = await store.Read(Identity, cancellationToken);
-                var chore = user.Chores.GetValueOrDefault(label);
+                var household = await store.Read(householdId, cancellationToken);
+                var chore = household.Chores.GetValueOrDefault(label);
                 if (chore is null)
                     return Results.NotFound();
 
@@ -66,20 +211,21 @@ public static class RootRouter
             "/chore/goal",
             async Task<IResult> (
                 HttpContext context,
-                UserStore store,
+                HouseholdStore store,
+                HouseholdId householdId,
                 [FromForm] string label,
                 [FromForm] DateUnit unit,
                 CancellationToken cancellationToken,
                 [FromForm] int numerator
             ) =>
             {
-                var user = await store.Write(
-                    Identity,
+                var household = await store.Write(
+                    householdId,
                     new SetGoal(label, numerator, unit),
                     cancellationToken
                 );
 
-                var chore = user.Chores[label];
+                var chore = household.Chores[label];
                 return new PartialResult(ChoreInfo(label, chore));
             }
         );
@@ -87,14 +233,19 @@ public static class RootRouter
             "/chore/add",
             async Task<IResult> (
                 HttpContext context,
-                UserStore store,
+                HouseholdStore store,
+                HouseholdId householdId,
                 [FromForm] string label,
                 CancellationToken cancellationToken
             ) =>
             {
-                var user = await store.Write(Identity, new AddChore(label), cancellationToken);
+                var household = await store.Write(
+                    householdId,
+                    new AddChore(label),
+                    cancellationToken
+                );
 
-                var chore = user.Chores[label];
+                var chore = household.Chores[label];
                 return new PartialResult(ChoreCard(label, chore));
             }
         );
@@ -102,27 +253,42 @@ public static class RootRouter
             "/chore/remove",
             async Task<IResult> (
                 HttpContext context,
-                UserStore store,
+                HouseholdStore store,
+                HouseholdId householdId,
                 [FromForm] string label,
                 CancellationToken cancellationToken
             ) =>
             {
-                var user = await store.Write(Identity, new RemoveChore(label), cancellationToken);
+                var household = await store.Write(
+                    householdId,
+                    new RemoveChore(label),
+                    cancellationToken
+                );
 
-                return new PageResult(new IndexPage(chores: user.Chores.Select(ChoreCard)));
+                return new PageResult(
+                    new HouseholdPage(
+                        name: household.Name,
+                        chores: household.Chores.Select(ChoreCard)
+                    )
+                );
             }
         );
         app.MapPost(
             "/chore/do",
             async Task<IResult> (
                 HttpContext context,
-                UserStore store,
+                HouseholdStore store,
+                HouseholdId householdId,
                 [FromForm] string label,
                 CancellationToken cancellationToken
             ) =>
             {
-                var user = await store.Write(Identity, new DoChore(label), cancellationToken);
-                var chore = user.Chores[label];
+                var household = await store.Write(
+                    householdId,
+                    new DoChore(label),
+                    cancellationToken
+                );
+                var chore = household.Chores[label];
                 return new PartialResult(ChoreInfo(label, chore));
             }
         );
@@ -130,23 +296,31 @@ public static class RootRouter
             "/chore/undo",
             async Task<IResult> (
                 HttpContext context,
-                UserStore store,
+                HouseholdStore store,
+                HouseholdId householdId,
                 [FromForm] string label,
                 [FromForm] DateTimeOffset timestamp,
                 CancellationToken cancellationToken
             ) =>
             {
-                var user = await store.Write(
-                    Identity,
+                var household = await store.Write(
+                    householdId,
                     new UndoChore(label, timestamp),
                     cancellationToken
                 );
 
-                var chore = user.Chores[label];
+                var chore = household.Chores[label];
                 return new PartialResult(ChoreInfo(label, chore));
             }
         );
     }
+
+    private static EditHousehold EditPage(Household household) =>
+        new EditHousehold(
+            id: household.Id.Value,
+            name: household.Name,
+            members: household.Members.Select(m => new HouseholdMemberEntity(email: m.ToString()))
+        );
 
     private static ChoreCard ChoreCard(KeyValuePair<string, Chore> chore) =>
         ChoreCard(chore.Key, chore.Value);
@@ -194,6 +368,4 @@ public static class RootRouter
             _ => timestamp.Value.ToString("yyyy-MM-dd HH:MM"),
         };
     }
-
-    private static Email Identity => new Email("c@cwb.dk");
 }

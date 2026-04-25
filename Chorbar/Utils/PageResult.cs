@@ -1,7 +1,5 @@
-using System.Text.Json;
 using Chorbar.Templates;
 using Microsoft.AspNetCore.Antiforgery;
-using Strongbars.Abstractions;
 
 namespace Chorbar.Utils;
 
@@ -16,9 +14,8 @@ public class PageResult(string content, string? title = null) : IResult
         {
             response.Headers.Append("Cache-Control", "no-cache");
         }
-
+        // right?
         response.Headers.Append("Vary", "HX-Request, HX-Trigger-Name");
-        var user = context.User;
         response.StatusCode = StatusCodes.Status200OK;
         response.ContentType = "text/html";
         var tokenSet = context

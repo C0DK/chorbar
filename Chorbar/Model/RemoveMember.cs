@@ -1,0 +1,19 @@
+using System.Text.Json.Serialization;
+
+namespace Chorbar.Model;
+
+public record RemoveMember(Email User) : HouseholdEventPayload
+{
+    [JsonIgnore]
+    public const string Kind = "remove_member";
+
+    public override string EventKind => Kind;
+
+    public override bool IsValid(Household household) => household.Members.Contains(User);
+
+    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+        household with
+        {
+            Members = household.Members.Remove(User),
+        };
+}

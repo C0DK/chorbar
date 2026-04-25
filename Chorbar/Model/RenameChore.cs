@@ -2,19 +2,19 @@ using System.Text.Json.Serialization;
 
 namespace Chorbar.Model;
 
-public record RenameChore(string OldLabel, string NewLabel) : UserEventPayload
+public record RenameChore(string OldLabel, string NewLabel) : HouseholdEventPayload
 {
     [JsonIgnore]
     public const string Kind = "rename_chore";
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(User user) =>
-        user.Chores.ContainsKey(OldLabel) && !user.Chores.ContainsKey(NewLabel);
+    public override bool IsValid(Household household) =>
+        household.Chores.ContainsKey(OldLabel) && !household.Chores.ContainsKey(NewLabel);
 
-    public override User Apply(User user, DateTimeOffset timestamp) =>
-        user with
+    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+        household with
         {
-            Chores = user.Chores.Remove(OldLabel).Add(NewLabel, user.Chores[OldLabel]),
+            Chores = household.Chores.Remove(OldLabel).Add(NewLabel, household.Chores[OldLabel]),
         };
 }

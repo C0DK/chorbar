@@ -1,0 +1,7 @@
+<li>
+  {{email}}
+  <form hx-post="remove_member" hx-confirm="Are you sure you want to remove {{email}} from the household?">
+    <input type="hidden" Value="{{email}}" name="email" />
+    <button type="submit">❌</button>
+  </form>
+</li>

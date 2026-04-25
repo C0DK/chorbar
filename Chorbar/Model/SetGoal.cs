@@ -2,21 +2,27 @@ using System.Text.Json.Serialization;
 
 namespace Chorbar.Model;
 
-public record SetGoal(string Chore, int Numerator, DateUnit Unit) : UserEventPayload
+public record SetGoal(string Chore, int Numerator, DateUnit Unit) : HouseholdEventPayload
 {
     [JsonIgnore]
     public const string Kind = "set_goal";
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(User user) => user.Chores.ContainsKey(Chore);
+    public override bool IsValid(Household household) => household.Chores.ContainsKey(Chore);
 
-    public override User Apply(User user, DateTimeOffset timestamp)
+    public override Household Apply(Household household, DateTimeOffset timestamp)
     {
-        var chore = user.Chores[Chore];
-        return user with
+        var chore = household.Chores[Chore];
+        return household with
         {
-            Chores = user.Chores.SetItem(Chore, chore with { Goal = new Goal(Numerator, Unit) }),
+            Chores = household.Chores.SetItem(
+                Chore,
+                chore with
+                {
+                    Goal = new Goal(Numerator, Unit),
+                }
+            ),
         };
     }
 }

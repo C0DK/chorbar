@@ -97,12 +97,19 @@ input[type="reset"],
   line-height: 1;
   white-space: nowrap;
 
+  text-decoration: none;
+
   /* Default: filled / primary */
   background-color: var(--color-primary);
   color: var(--color-bg);
 
-  transition: opacity 0.15s ease, box-shadow 0.15s ease;
+  transition: opacity 0.15s ease,
+    box-shadow 0.15s ease;
 
+  &.secondary {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+  }
 
   &.small,
   form.small & {

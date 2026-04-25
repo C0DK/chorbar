@@ -1,8 +1,0 @@
-<form id="new-chore" hx-post="/chore/add" hx-target="#chores" hx-swap="afterbegin"
-  hx-on::after-request="if(event.detail.successful) this.reset()">
-  <input required type="text" id="label" name="label" placeholder="What do you want to do?" />
-  <button type="submit">Create</button>
-</form>
-<div id="chores">
-  {{..chores}}
-</div>

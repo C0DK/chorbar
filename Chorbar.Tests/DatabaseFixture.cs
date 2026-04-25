@@ -22,7 +22,7 @@ public class DatabaseFixture
         await _container.StartAsync();
         var conn = new NpgsqlConnection(DatabaseFixture.ConnectionString);
         await conn.OpenAsync();
-        await using var cmd = new NpgsqlCommand(Sql.create_event_table, conn);
+        await using var cmd = new NpgsqlCommand(Sql.init, conn);
         await cmd.ExecuteNonQueryAsync();
     }
 

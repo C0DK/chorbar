@@ -1,5 +1,6 @@
 global using ILogger = Serilog.ILogger;
 using Chorbar;
+using Chorbar.Model;
 using Chorbar.Routes;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Npgsql;
@@ -19,13 +20,14 @@ builder.Services.AddSession(options =>
 builder.Services.AddSerilog();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(Log.Logger);
-builder.Services.AddTransient<UserStore>();
+builder.Services.AddTransient<IdentityProvider>(_ => new IdentityProvider(new Email("c@cwb.dk")));
+builder.Services.AddTransient<HouseholdStore>();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<NpgsqlConnection>(s =>
     s.GetRequiredService<NpgsqlDataSource>().OpenConnection()
 );
 builder.Services.AddSingleton<NpgsqlDataSource>(_ =>
-    NpgsqlDataSource.Create("Host=127.0.0.1;Username=postgres;Database=postgres")
+    NpgsqlDataSource.Create("Host=127.0.0.1;Username=postgres;Database=chorbar")
 );
 builder.Services.AddAntiforgery(options =>
 {
