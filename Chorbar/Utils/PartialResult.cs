@@ -18,4 +18,3 @@ public class PartialResult(string content, Dictionary<string, string>? headers =
         await response.WriteAsync(content);
     }
 }
-

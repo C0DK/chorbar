@@ -65,10 +65,12 @@ public class HouseholdStoreTest
             Assert.That(household.Chores.Keys, Is.EquivalentTo(["Sleep"]));
             Assert.That(
                 household.History,
-                Is.EquivalentTo([
-                    .. _householdAInitialEvents,
-                    new HouseholdEvent(_householdAId, 3, t(0), new AddChore("Sleep"), _userA),
-                ])
+                Is.EquivalentTo(
+                    [
+                        .. _householdAInitialEvents,
+                        new HouseholdEvent(_householdAId, 3, t(0), new AddChore("Sleep"), _userA),
+                    ]
+                )
             );
         });
     }
@@ -371,7 +373,11 @@ public class HouseholdStoreTest
     public async Task RemoveMemberRemovesThem(CancellationToken cancellationToken)
     {
         var store = GetStore();
-        var household = await store.Write(_householdAId, new RemoveMember(_userB), cancellationToken);
+        var household = await store.Write(
+            _householdAId,
+            new RemoveMember(_userB),
+            cancellationToken
+        );
 
         Assert.That(household.Members, Does.Not.Contain(_userB));
     }
@@ -404,7 +410,11 @@ public class HouseholdStoreTest
     {
         var store = GetStore();
         await store.Write(_householdAId, new AddChore("Sleep"), cancellationToken);
-        var household = await store.Write(_householdAId, new RemoveChore("Sleep"), cancellationToken);
+        var household = await store.Write(
+            _householdAId,
+            new RemoveChore("Sleep"),
+            cancellationToken
+        );
 
         Assert.That(household.Chores.Keys, Does.Not.Contain("Sleep"));
     }

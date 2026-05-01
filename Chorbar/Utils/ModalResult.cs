@@ -1,4 +1,5 @@
 using Chorbar.Templates;
+
 namespace Chorbar.Utils;
 
 public class ModalResult(string content) : IResult
