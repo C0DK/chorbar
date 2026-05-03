@@ -49,9 +49,9 @@ builder.Services.AddAntiforgery(options =>
 });
 var app = builder.Build();
 
-app.UseAntiforgery();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseAntiforgery();
 app.UseStaticFiles();
 app.UseSession();
 app.UseSerilogRequestLogging();
