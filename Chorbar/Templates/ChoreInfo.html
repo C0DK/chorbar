@@ -4,7 +4,10 @@
     {{label}}
   </h2>
   {% if hasGoal %}
-  <p class="goal">Every {{ goalNumerator? }} {{ goalUnit? }}</p>
+  <p class="goal">
+    Every {{ goalNumerator? }} {{ goalUnit? }}
+    - {{deadline?}}
+  </p>
   {% end %}
   {% if hasDone %}
   <p>You've done it {{count}} times - last {{timeAgo}} ago</p>

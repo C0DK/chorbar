@@ -38,6 +38,8 @@ public record Chore(
         return intervals[intervals.Count / 2];
     }
 
+    public DateTimeOffset? Deadline() => Goal?.Deadline(History.Any() ? History.Last() : Created);
+
     public TimeSpan WorstFrequency()
     {
         var intervals = Intervals();

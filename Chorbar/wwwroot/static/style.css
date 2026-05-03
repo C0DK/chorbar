@@ -111,6 +111,12 @@
     box-shadow: var(--shadow-sm);
     height: var(--chore-height);
 
+    &:not(.details)>h2 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     display: flex;
     flex-direction: column;
     /* height: 15rem; */

@@ -4,14 +4,17 @@
     {{label}}
   </h2>
   {% if hasGoal %}
-  <p class="goal">Every {{ goalNumerator? }} {{ goalUnit? }}</p>
+  <p class="goal">
+    Every {{ goalNumerator? }} {{ goalUnit? }}
+    - {{deadline?}}
+  </p>
   {% end %}
   {% if hasDone %}
   <p>You've done it {{count}} times - last {{timeAgo}} ago</p>
   {% end %}
   <footer>
     <form hx-post="chore/do" hx-target="closest .chore" hx-swap="outerHTML">
-      <input type="hidden" id="label" Value="{{label}}" name="label" />
+      <input type="hidden" id="label" Value="{{label}}" name="label">
       <button type="submit" class="small">I did it!</button>
     </form>
   </footer>

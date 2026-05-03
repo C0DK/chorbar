@@ -81,7 +81,10 @@ public static class HouseholdRouter
                     new HouseholdPage(
                         chores: household
                             .Chores.OrderBy(c =>
-                                c.Value.History.Any() ? c.Value.History.Last() : c.Value.Created
+                                c.Value.Deadline()
+                                ?? (
+                                    c.Value.History.Any() ? c.Value.History.Last() : c.Value.Created
+                                )
                             )
                             .Select(ChoreCard)
                     )
@@ -315,6 +318,7 @@ public static class HouseholdRouter
             hasDone: chore.History.Count() > 0,
             timeAgo: TimeAgo(chore.History.LastOrDefault()),
             hasGoal: chore.Goal is not null,
+            deadline: TimeUntil(chore.Deadline()),
             goalNumerator: chore.Goal?.Numerator,
             goalUnit: chore?.Goal?.Unit.ToString()
         );
@@ -331,6 +335,7 @@ public static class HouseholdRouter
             hasDone: chore.History.Count() > 0,
             timeAgo: TimeAgo(chore.History.LastOrDefault()),
             hasGoal: chore.Goal is not null,
+            deadline: TimeUntil(chore.Deadline()),
             goalNumerator: chore.Goal?.Numerator,
             goalUnit: chore?.Goal?.Unit.ToString()
         );
@@ -347,8 +352,26 @@ public static class HouseholdRouter
             { TotalMinutes: < 2 } => "a few seconds ago",
             { TotalMinutes: < 121 } => $"{span.TotalMinutes:N0} minutes ago",
             { TotalHours: < 49 } => $"{span.TotalHours:N0} hours ago",
-            { TotalDays: < 7 } => $"{span.TotalDays:N0} days ago",
+            { TotalDays: < 14 } => $"{span.TotalDays:N0} days ago",
             _ => timestamp.Value.ToString("yyyy-MM-dd HH:MM"),
+        };
+    }
+
+    private static string TimeUntil(DateTimeOffset? timestamp)
+    {
+        if (timestamp is null)
+            return "never";
+        var span = (timestamp.Value - DateTimeOffset.UtcNow);
+
+        return span switch
+        {
+            { TotalSeconds: < 0 } => "now",
+            { TotalSeconds: < 60 } => "now",
+            { TotalMinutes: < 2 } => "in a few seconds",
+            { TotalMinutes: < 121 } => $"in {span.TotalMinutes:N0} minutes",
+            { TotalHours: < 49 } => $"in {span.TotalHours:N0} hours",
+            { TotalDays: < 20 } => $"in {span.TotalDays:N0} days",
+            _ => $"on {timestamp:yyyy-MM-dd}",
         };
     }
 }
