@@ -29,6 +29,7 @@ public static class AuthRouter
                 HttpRequest request,
                 NpgsqlConnection connection,
                 CancellationToken cancellationToken,
+                IMailSender mailer,
                 ILogger logger,
                 string? returnUrl = null
             ) =>
@@ -36,8 +37,8 @@ public static class AuthRouter
                 if (!Email.TryParse(request.Form.GetString("email"), out var email))
                     return RenderLoginForm(email: email, error: "Email is not valid!");
 
-                var code = RandomNumberGenerator.GetInt32(100_000, 1_000_000).ToString();
-                logger.ForContext("code", code).Warning("Should have sent {code} via email", code);
+                var code = RandomNumberGenerator.GetInt32(100_000, 1_000_000);
+                await mailer.SendAuthToken(email, code, cancellationToken);
 
                 await using var cmd = new NpgsqlCommand(
                     "INSERT INTO signin_otp(email, code) VALUES($1, $2)",

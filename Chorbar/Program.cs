@@ -35,6 +35,20 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(Log.Logger);
 builder.Services.AddTransient<IIdentityProvider, ClaimsBasedIdentityProvider>();
 builder.Services.AddTransient<HouseholdStore>();
+var brevoApiClient = EnvironmentVariable.GetOrNull("BREVO_API_KEY");
+if (brevoApiClient is not null)
+{
+    builder.Services.AddTransient<IMailSender, BrevoClient>(s => new BrevoClient(
+        s.GetRequiredService<IHttpClientFactory>().CreateClient(),
+        brevoApiClient,
+        s.GetRequiredService<ILogger>()
+    ));
+}
+else
+{
+    builder.Services.AddTransient<IMailSender, LogMailer>();
+}
+builder.Services.AddTransient<HouseholdStore>();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<NpgsqlConnection>(s =>
     s.GetRequiredService<NpgsqlDataSource>().OpenConnection()

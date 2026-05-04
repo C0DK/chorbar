@@ -305,7 +305,6 @@ public static class HouseholdRouter
 
     private static EditHousehold EditPage(Household household) =>
         new EditHousehold(
-            id: household.Id.Value,
             name: household.Name,
             members: household.Members.Select(m => new HouseholdMemberEntity(email: m.ToString()))
         );
