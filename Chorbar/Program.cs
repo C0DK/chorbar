@@ -39,9 +39,11 @@ builder.Services.AddHttpClient();
 builder.Services.AddTransient<NpgsqlConnection>(s =>
     s.GetRequiredService<NpgsqlDataSource>().OpenConnection()
 );
-builder.Services.AddSingleton<NpgsqlDataSource>(_ =>
-    NpgsqlDataSource.Create("Host=127.0.0.1;Username=postgres;Database=chorbar")
-);
+var connectionString =
+    EnvironmentVariable.GetOrNull("DB_CONNECTION_STRING")
+    ?? "Host=127.0.0.1;Username=postgres;Database=chorbar";
+Log.Logger.Information("Using postgres via {conn}", connectionString);
+builder.Services.AddSingleton<NpgsqlDataSource>(_ => NpgsqlDataSource.Create(connectionString));
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-CSRF-TOKEN";

@@ -35,3 +35,5 @@ public class HtmxErrorMiddleware(RequestDelegate next)
     public static void Use(IApplicationBuilder builder) =>
         builder.UseMiddleware<HtmxErrorMiddleware>();
 }
+
+
