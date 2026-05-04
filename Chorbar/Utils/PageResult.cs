@@ -22,7 +22,7 @@ public class PageResult(string content, string? title = null) : IResult
         var tokenSet = context
             .RequestServices.GetRequiredService<IAntiforgery>()
             .GetAndStoreTokens(context);
-        var pageTitle = title is null ? "Chorbar" : $"Chorbar | {title}";
+        var pageTitle = title is null ? "Chor.bar" : $"Chor.bar | {title}";
         string householdName = "";
         var authed =
             context.User.Identity?.IsAuthenticated is true
@@ -34,7 +34,7 @@ public class PageResult(string content, string? title = null) : IResult
             && householdId is not null
         )
         {
-            // TODO: move to optinoal service registration?
+            // TODO: move to optional service registration?
             var household = await context
                 .RequestServices.GetRequiredService<HouseholdStore>()
                 .Read(HouseholdId.Parse(householdId!.ToString()!), context.RequestAborted);
@@ -54,7 +54,7 @@ public class PageResult(string content, string? title = null) : IResult
             );
         else
         {
-            // TODO: check if auth has changed, and if yes, also update nav!
+            // TODO: check if auth or household has changed, and if yes, also update nav!
             response.Headers["HX-Retarget"] = "main";
             response.Headers["HX-Reswap"] = "innerHTML transition:true";
             await response.WriteAsync(
