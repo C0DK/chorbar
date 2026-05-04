@@ -354,7 +354,8 @@ public static class HouseholdRouter
             { TotalMinutes: < 121 } => $"{span.TotalMinutes:N0} minutes ago",
             { TotalHours: < 49 } => $"{span.TotalHours:N0} hours ago",
             { TotalDays: < 14 } => $"{span.TotalDays:N0} days ago",
-            _ => timestamp.Value.ToString("yyyy-MM-dd HH:MM"),
+            { TotalDays: < 200 } => $"{timestamp.Value:d MMMM}",
+            _ => timestamp.Value.ToString("d MMMM yyyy"),
         };
     }
 
@@ -372,7 +373,8 @@ public static class HouseholdRouter
             { TotalMinutes: < 121 } => $"in {span.TotalMinutes:N0} minutes",
             { TotalHours: < 49 } => $"in {span.TotalHours:N0} hours",
             { TotalDays: < 20 } => $"in {span.TotalDays:N0} days",
-            _ => $"on {timestamp:yyyy-MM-dd}",
+            { TotalDays: < 200 } => $"on {timestamp.Value:d MMMM}",
+            _ => $"on {timestamp:d MMMM yyyy}",
         };
     }
 }
