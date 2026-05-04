@@ -87,7 +87,8 @@ public static class HouseholdRouter
                                 )
                             )
                             .Select(ChoreCard)
-                    )
+                    ),
+                    household.Name
                 );
             }
         );
@@ -101,7 +102,7 @@ public static class HouseholdRouter
             ) =>
             {
                 var household = await store.Read(householdId, cancellationToken);
-                return new PageResult(EditPage(household));
+                return new PageResult(EditPage(household), household.Name);
             }
         );
         app.MapPost(
@@ -116,10 +117,10 @@ public static class HouseholdRouter
             {
                 var household = await store.Read(householdId, cancellationToken);
                 if (string.IsNullOrEmpty(name))
-                    return new PageResult(EditPage(household));
+                    return new PageResult(EditPage(household), household.Name);
 
                 household = await store.Write(householdId, new Rename(name), cancellationToken);
-                return new PageResult(EditPage(household));
+                return new PageResult(EditPage(household), household.Name);
             }
         );
         app.MapPost(
@@ -138,7 +139,7 @@ public static class HouseholdRouter
                     cancellationToken
                 );
 
-                return new PageResult(EditPage(household));
+                return new PageResult(EditPage(household), household.Name);
             }
         );
         app.MapPost(
@@ -157,7 +158,7 @@ public static class HouseholdRouter
                     cancellationToken
                 );
 
-                return new PageResult(EditPage(household));
+                return new PageResult(EditPage(household), household.Name);
             }
         );
         app.MapGet(
@@ -255,7 +256,8 @@ public static class HouseholdRouter
                 );
 
                 return new PageResult(
-                    new HouseholdPage(chores: household.Chores.Select(ChoreCard))
+                    new HouseholdPage(chores: household.Chores.Select(ChoreCard)),
+                    household.Name
                 );
             }
         );
