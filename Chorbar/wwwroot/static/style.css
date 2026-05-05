@@ -30,7 +30,7 @@
   justify-content: center;
   flex-wrap: wrap;
   flex-direction: row;
-  margin: 2rem;
+  margin: var(--space-md);
   gap: 0;
 
   input {
@@ -88,17 +88,20 @@
 #chores {
   --chore-height: 15rem;
 
+  @media (max-width: 600px),
+  (max-height: 600px) {
+    --chore-height: 12rem;
+  }
+
   gap: var(--space-lg);
-  max-width: 80dvw;
-  margin: var(--space-lg);
 
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   grid-template-rows: repeat(auto-fill, minmax(var(--chore-height), 1fr));
   grid-auto-flow: dense;
+  max-width: 100%;
 
   @media (max-width: 600px) {
-    max-width: 95dvw;
     grid-template-columns: 1fr;
   }
 
@@ -107,8 +110,11 @@
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
+    /* TODO why this magic number??*/
+    max-width: 90dvw;
+
     padding: var(--space-lg);
-    box-shadow: var(--shadow-sm);
+
     height: var(--chore-height);
 
     &:not(.details)>h2 {

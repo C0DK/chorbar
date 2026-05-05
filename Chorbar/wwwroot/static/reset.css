@@ -41,10 +41,20 @@ h6 {
 
 h1 {
   font-size: 1.75rem;
+
+  @media (max-width: 600px),
+  (max-height: 600px) {
+    font-size: 1.5rem;
+  }
 }
 
 h2 {
   font-size: 1.375rem;
+
+  @media (max-width: 600px),
+  (max-height: 600px) {
+    font-size: 1.2rem;
+  }
 }
 
 h3 {
