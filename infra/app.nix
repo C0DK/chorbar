@@ -29,16 +29,6 @@
     '';
   };
 
-  # Persist the ASP.NET Core Data Protection keyring across container
-  # restarts. Without this, the in-memory keyring is regenerated on every
-  # restart and all auth cookies become undecryptable (everyone is logged
-  # out). Rootful podman runs the container as host root, so root:root
-  # ownership matches the in-container uid.
-  systemd.tmpfiles.rules = [
-    "d /var/lib/chorbar          0755 root root - -"
-    "d /var/lib/chorbar/keys     0700 root root - -"
-  ];
-
   # https://bkiran.com/blog/deploying-containers-nixos
   virtualisation.podman.enable = true;
   virtualisation.oci-containers = {
@@ -49,13 +39,9 @@
         DEV_MODE = "false";
         ASPNETCORE_FORWARDEDHEADERS_ENABLED = "true";
         DB_CONNECTION_STRING = "Host=host.containers.internal;Username=chorbar-pod;Database=chorbar";
-        DATA_PROTECTION_KEY_DIR = "/var/lib/chorbar/keys";
       };
       environmentFiles = [ "/etc/chorbar/app.env" ];
       ports = [ "8080:8080" ];
-      volumes = [
-        "/var/lib/chorbar/keys:/var/lib/chorbar/keys"
-      ];
     };
   };
 

@@ -4,7 +4,8 @@ using Chorbar.Model;
 using Chorbar.Routes;
 using Chorbar.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using Npgsql;
 using Serilog;
 
@@ -12,13 +13,11 @@ Log.Logger = Logging.CreateConfiguration().CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
-var keyRingDir = EnvironmentVariable.GetOrNull("DATA_PROTECTION_KEY_DIR")
-                 ?? "/var/lib/chorbar/keys";
-Directory.CreateDirectory(keyRingDir);
+builder.Services.AddDataProtection().SetApplicationName("chorbar");
+builder.Services.AddSingleton<IXmlRepository, PgXmlRepository>();
 builder.Services
-    .AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(keyRingDir))
-    .SetApplicationName("chorbar");
+    .AddOptions<KeyManagementOptions>()
+    .Configure<IXmlRepository>((opts, repo) => opts.XmlRepository = repo);
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
