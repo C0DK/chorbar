@@ -4,6 +4,7 @@ using Chorbar.Model;
 using Chorbar.Routes;
 using Chorbar.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Npgsql;
