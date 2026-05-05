@@ -99,13 +99,18 @@
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   grid-template-rows: repeat(auto-fill, minmax(var(--chore-height), 1fr));
   grid-auto-flow: dense;
-  width: 95dvw;
-  max-width: 72rem;
   place-content: center;
 
-  &:not(:has(> :nth-child(5))) {
-    grid-template-columns: 18rem 18rem;
+  @media (min-width: 600px) {
+    max-width: 80dvw;
 
+    &:not(:has(> :nth-child(5))) {
+      grid-template-columns: 18rem 18rem;
+    }
+
+    &:not(:has(> :nth-child(10))) {
+      grid-template-columns: 18rem 18rem 18rem;
+    }
   }
 
   @media (max-width: 600px) {
@@ -122,6 +127,8 @@
       max-width: 90dvw;
     }
 
+    display: flex;
+    flex-direction: column;
     padding: var(--space-lg);
 
     height: var(--chore-height);
@@ -132,9 +139,6 @@
       text-overflow: ellipsis;
     }
 
-    display: flex;
-    flex-direction: column;
-    /* height: 15rem; */
 
     p.goal {
       font-style: italic;
