@@ -24,6 +24,7 @@ public static class HouseholdRouter
                         name: h.Name ?? "name"
                     ))
                 );
+
                 if (context.Request.Headers["HX-Target"].Contains("modal"))
                 {
                     context.Response.Headers.Append("HX-Push-Url", "false");
@@ -77,6 +78,7 @@ public static class HouseholdRouter
             ) =>
             {
                 var household = await store.Read(householdId, cancellationToken);
+                context.UpdateHousehold(household);
                 return new PageResult(
                     new HouseholdPage(
                         chores: household

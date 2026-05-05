@@ -46,7 +46,7 @@ if (brevoApiClient is not null)
 }
 else
 {
-Log.Logger.Warning("Configuring mailer to logging");
+    Log.Logger.Warning("Configuring mailer to logging");
     builder.Services.AddTransient<IMailSender, LogMailer>();
 }
 builder.Services.AddTransient<HouseholdStore>();

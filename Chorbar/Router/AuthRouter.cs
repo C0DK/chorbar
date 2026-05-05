@@ -101,6 +101,7 @@ public static class AuthRouter
             (HttpContext context, string? returnUrl = null) =>
             {
                 context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                context.ClearHousehold();
                 return Results.Redirect(returnUrl ?? "/");
             }
         // should we check if authed? will it fail if not?

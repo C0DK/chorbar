@@ -1,4 +1,3 @@
-using Chorbar.Model;
 using Chorbar.Templates;
 using Microsoft.AspNetCore.Antiforgery;
 
@@ -23,45 +22,43 @@ public class PageResult(string content, string? title = null) : IResult
             .RequestServices.GetRequiredService<IAntiforgery>()
             .GetAndStoreTokens(context);
         var pageTitle = title is null ? "Chor.bar" : $"Chor.bar | {title}";
-        string householdName = "";
+        var householdName = context.GetHouseholdName();
         var authed =
             context.User.Identity?.IsAuthenticated is true
             && context.User.GetEmailOrNull() is not null;
-        // TODO: Force redirect if auth state changed!
-        if (
-            authed
-            && context.Request.RouteValues.TryGetValue("householdId", out var householdId)
-            && householdId is not null
-        )
-        {
-            // TODO: move to optional service registration?
-            var household = await context
-                .RequestServices.GetRequiredService<HouseholdStore>()
-                .Read(HouseholdId.Parse(householdId!.ToString()!), context.RequestAborted);
-            householdName = household.Name;
-        }
 
+        // TODO: only if changed
+        var nav = new Nav(
+            inHousehold: !string.IsNullOrWhiteSpace(householdName),
+            householdName: context.GetHouseholdName(),
+            authed: authed
+        );
         if (!headers.ContainsKey("HX-Request")) // this also includes boosted
             await response.WriteAsync(
                 new Layout(
+                    nav: nav,
                     title: pageTitle,
                     content: content,
-                    csrfToken: tokenSet.RequestToken!,
-                    inHousehold: !string.IsNullOrWhiteSpace(householdName),
-                    householdName: householdName,
-                    authed: authed
+                    csrfToken: tokenSet.RequestToken!
                 )
             );
         else
         {
-            // TODO: check if auth or household has changed, and if yes, also update nav!
-            response.Headers["HX-Retarget"] = "main";
+            response.Headers["HX-Retarget"] = "body";
             response.Headers["HX-Reswap"] = "innerHTML transition:true";
+            // make this less codey ugly
             await response.WriteAsync(
-                @$"
-<title>{pageTitle}</title>
-{content.Trim()}
-            "
+                $"""
+                <title>{pageTitle}</title>
+                {nav}
+                <main>
+                    {content.Trim()}
+                </main>
+                <div id="modal"></div>
+                <footer>
+                    Chorbar - A very unfinished product
+                </footer>
+                """
             );
         }
     }
