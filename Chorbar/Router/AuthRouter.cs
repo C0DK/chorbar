@@ -38,7 +38,19 @@ public static class AuthRouter
                     return RenderLoginForm(email: email, error: "Email is not valid!");
 
                 var code = RandomNumberGenerator.GetInt32(100_000, 1_000_000);
-                await mailer.SendAuthToken(email, code, cancellationToken);
+                try
+                {
+                    await mailer.SendAuthToken(email, code, cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
+                catch (Exception exception)
+                {
+                    logger.ForContext("email", email).Error(exception, "Error happened when sending auth mail");
+                    return RenderLoginForm(email: email, error: "Something went wrong. Is your email valid?");
+                }
 
                 await using var cmd = new NpgsqlCommand(
                     "INSERT INTO signin_otp(email, code) VALUES($1, $2)",
