@@ -5,7 +5,6 @@ using Chorbar.Templates;
 using Chorbar.Utils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.RateLimiting;
 using Npgsql;
 
 namespace Chorbar.Routes;
@@ -44,13 +43,21 @@ public static class AuthRouter
                     var code = RandomNumberGenerator.GetInt32(100_000, 1_000_000);
                     await mailer.SendAuthToken(email, code, cancellationToken);
 
-                    await using var cmd = new NpgsqlCommand(
-                        "INSERT INTO signin_otp(email, code) VALUES($1, $2)",
-                        connection
+                    /* for now it's nice for debugging / seeing who tried to log in
+                    await connection.ExecuteAsync(
+                        "DELETE FROM signin_otp WHERE created < now() - interval '20 minutes'",
+                        cancellationToken
                     );
-                    cmd.Parameters.AddWithValue(email.Value);
-                    cmd.Parameters.AddWithValue(code);
-                    await cmd.ExecuteNonQueryAsync();
+                    */
+                    await connection.ExecuteAsync(
+                        "INSERT INTO signin_otp(email, code) VALUES($1, $2)",
+                        p =>
+                        {
+                            p.AddWithValue(email.Value);
+                            p.AddWithValue(code);
+                        },
+                        cancellationToken
+                    );
 
                     return RenderCodeForm(email);
                 }
