@@ -3,7 +3,7 @@ using Chorbar.Templates;
 
 namespace Chorbar.Utils;
 
-public class HtmxErrorMiddleware(RequestDelegate next)
+public class HtmxErrorMiddleware(RequestDelegate next, ILogger logger)
 {
     public async Task InvokeAsync(HttpContext context)
     {
@@ -23,10 +23,13 @@ public class HtmxErrorMiddleware(RequestDelegate next)
         {
             if (context.RequestAborted.IsCancellationRequested)
                 return;
+            logger.Error(exception, "Unhandled exception.");
+
             await new PageResult(
                 new UnhandledErrorPage(
                     message: "An unhandled exception occured!",
-                    exception.Message
+                    "An unexpected error occured."
+                //exception.Message
                 )
             ).ExecuteAsync(context);
         }
