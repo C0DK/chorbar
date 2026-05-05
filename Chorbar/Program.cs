@@ -1,9 +1,13 @@
 global using ILogger = Serilog.ILogger;
+using System.Threading.RateLimiting;
 using Chorbar;
 using Chorbar.Model;
 using Chorbar.Routes;
 using Chorbar.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using Npgsql;
 using Serilog;
 
@@ -11,12 +15,24 @@ Log.Logger = Logging.CreateConfiguration().CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
+var cookieSecurePolicy = builder.Environment.IsDevelopment()
+    ? CookieSecurePolicy.SameAsRequest
+    : CookieSecurePolicy.Always;
+
+builder.Services.AddDataProtection().SetApplicationName("chorbar");
+builder.Services.AddSingleton<IXmlRepository, PgXmlRepository>();
+builder
+    .Services.AddOptions<KeyManagementOptions>()
+    .Configure<IXmlRepository>((opts, repo) => opts.XmlRepository = repo);
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = cookieSecurePolicy;
 });
 
 builder
@@ -29,6 +45,9 @@ builder
         options.AccessDeniedPath = "/forbidden/";
         options.LoginPath = "/auth"; // TODO: redirect doesnt fully work with htmx!
         options.LogoutPath = "/auth/logout";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.SecurePolicy = cookieSecurePolicy;
     });
 builder.Services.AddSerilog();
 builder.Services.AddHttpContextAccessor();
@@ -63,7 +82,40 @@ builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-CSRF-TOKEN";
     options.SuppressXFrameOptionsHeader = false;
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Cookie.SecurePolicy = cookieSecurePolicy;
 });
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy(
+        AuthRouter.SendPolicy,
+        ClientPartition(permitLimit: 5, window: TimeSpan.FromMinutes(15))
+    );
+
+    options.AddPolicy(
+        AuthRouter.VerifyPolicy,
+        ClientPartition(permitLimit: 10, window: TimeSpan.FromMinutes(15))
+    );
+});
+
+static Func<HttpContext, RateLimitPartition<string>> ClientPartition(
+    int permitLimit,
+    TimeSpan window
+) =>
+    httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "anon",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = permitLimit,
+                Window = window,
+                QueueLimit = 0,
+            }
+        );
 var app = builder.Build();
 
 app.UseAuthentication();
@@ -71,6 +123,7 @@ app.UseAuthorization();
 app.UseAntiforgery();
 app.UseStaticFiles();
 app.UseSession();
+app.UseRateLimiter();
 app.UseSerilogRequestLogging();
 RootRouter.Map(app);
 HtmxErrorMiddleware.Use(app);

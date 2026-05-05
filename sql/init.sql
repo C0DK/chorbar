@@ -19,3 +19,9 @@ CREATE TABLE signin_otp (
   code TEXT NOT NULL,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
 );
+
+CREATE TABLE data_protection_key (
+  friendly_name TEXT                     PRIMARY KEY,
+  xml           TEXT                     NOT NULL,
+  created       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
+);
