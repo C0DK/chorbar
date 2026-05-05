@@ -25,6 +25,19 @@
 
 }
 
+.call-to-action {
+  margin: var(--space-xl);
+  margin-bottom: 20dvh;
+  padding: var(--space-lg) var(--space-xl);
+
+  font-size: 1.375rem;
+
+  @media (max-width: 600px),
+  (max-height: 600px) {
+    font-size: 1.2rem;
+  }
+}
+
 #new-chore {
   display: flex;
   justify-content: center;

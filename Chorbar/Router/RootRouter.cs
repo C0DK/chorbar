@@ -1,3 +1,6 @@
+using Chorbar.Templates;
+using Chorbar.Utils;
+
 namespace Chorbar.Routes;
 
 public static class RootRouter
@@ -12,7 +15,7 @@ public static class RootRouter
                 CancellationToken cancellationToken
             ) =>
             {
-                return Results.Redirect("/household/");
+                return new PageResult(new LandingPage());
             }
         );
         HouseholdRouter.Map(app.MapGroup("/household/"));
