@@ -19,6 +19,24 @@ public class HtmxErrorMiddleware(RequestDelegate next, ILogger logger)
                 $"/auth/?returnUrl={Uri.EscapeDataString(returnUrl)}"
             ).ExecuteAsync(context);
         }
+        catch (HouseholdNotFound)
+        {
+            await new PageResult(
+                new UnhandledErrorPage(
+                    message: "Household not found",
+                    "Either it doesnt exist or you don't have access to it. sorry"
+                )
+            ).ExecuteAsync(context);
+        }
+        catch (NotMemberOfHouseholdException)
+        {
+            await new PageResult(
+                new UnhandledErrorPage(
+                    message: "Household not found",
+                    "Either it doesnt exist or you don't have access to it. sorry"
+                )
+            ).ExecuteAsync(context);
+        }
         catch (Exception exception)
         {
             if (context.RequestAborted.IsCancellationRequested)
