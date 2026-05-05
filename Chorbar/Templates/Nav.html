@@ -1,4 +1,4 @@
-<nav id="nav"{% if oob %} hx-swap-oob="true"{% end %}>
+<nav id="nav" data-state="{{state}}"{% if oob %} hx-swap-oob="true"{% end %}>
   {% if inHousehold %}
   <a class="btn small outline" href="/household/" hx-boost="true" hx-history="true" hx-swap="innerHTML"
     hx-target="#modal">

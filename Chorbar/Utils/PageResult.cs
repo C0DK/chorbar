@@ -23,52 +23,60 @@ public class PageResult(string content, string? title = null) : IResult
             .RequestServices.GetRequiredService<IAntiforgery>()
             .GetAndStoreTokens(context);
         var pageTitle = title is null ? "Chor.bar" : $"Chor.bar | {title}";
-        string householdName = "";
-        var authed =
+        var email =
             context.User.Identity?.IsAuthenticated is true
-            && context.User.GetEmailOrNull() is not null;
+                ? context.User.GetEmailOrNull()?.Value
+                : null;
+        string? routeHouseholdId = null;
         if (
-            authed
-            && context.Request.RouteValues.TryGetValue("householdId", out var householdId)
-            && householdId is not null
+            context.Request.RouteValues.TryGetValue("householdId", out var hh)
+            && hh is not null
         )
-        {
-            // TODO: move to optional service registration?
-            var household = await context
-                .RequestServices.GetRequiredService<HouseholdStore>()
-                .Read(HouseholdId.Parse(householdId!.ToString()!), context.RequestAborted);
-            householdName = household.Name;
-        }
-        var inHousehold = !string.IsNullOrWhiteSpace(householdName);
+            routeHouseholdId = hh.ToString();
+        var navState = email is null && routeHouseholdId is null
+            ? ""
+            : $"{email}|{routeHouseholdId}";
 
-        if (!headers.ContainsKey("HX-Request")) // this also includes boosted
+        var isHtmx = headers.ContainsKey("HX-Request");
+        var navChanged = !isHtmx || headers["X-Nav-State"].ToString() != navState;
+
+        string nav = "";
+        if (navChanged)
+        {
+            string householdName = "";
+            if (email is not null && routeHouseholdId is not null)
+            {
+                var household = await context
+                    .RequestServices.GetRequiredService<HouseholdStore>()
+                    .Read(HouseholdId.Parse(routeHouseholdId), context.RequestAborted);
+                householdName = household.Name;
+            }
+            nav = new Nav(
+                inHousehold: !string.IsNullOrWhiteSpace(householdName),
+                householdName: householdName,
+                authed: email is not null,
+                oob: isHtmx,
+                state: navState
+            );
+        }
+
+        if (!isHtmx) // this also includes boosted
             await response.WriteAsync(
                 new Layout(
                     title: pageTitle,
                     content: content,
                     csrfToken: tokenSet.RequestToken!,
-                    nav: new Nav(
-                        inHousehold: inHousehold,
-                        householdName: householdName,
-                        authed: authed,
-                        oob: false
-                    )
+                    nav: nav
                 )
             );
         else
         {
             response.Headers["HX-Retarget"] = "main";
             response.Headers["HX-Reswap"] = "innerHTML transition:true";
-            var oobNav = new Nav(
-                inHousehold: inHousehold,
-                householdName: householdName,
-                authed: authed,
-                oob: true
-            );
             await response.WriteAsync(
                 @$"
 <title>{pageTitle}</title>
-{oobNav}
+{nav}
 {content.Trim()}
             "
             );

@@ -16,7 +16,8 @@
   <title>{{title}}</title>
 </head>
 
-<body hx-ext="sse" hx-headers='{"X-CSRF-TOKEN": "{{csrfToken}}"}'>
+<body hx-ext="sse" hx-headers='{"X-CSRF-TOKEN": "{{csrfToken}}"}'
+  hx-on::config-request="event.detail.headers['X-Nav-State'] = document.getElementById('nav')?.dataset.state ?? ''">
 
   {{nav}}
   <main>
