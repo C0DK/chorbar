@@ -9,7 +9,7 @@ public record RemoveMember(Email User) : HouseholdEventPayload
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) => household.Members.Contains(User);
+    public override bool IsValid(Household household) => household.Members.Contains(User) && household.Creator != User;
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>
         household with

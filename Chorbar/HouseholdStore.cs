@@ -81,11 +81,11 @@ public class HouseholdStore
         CancellationToken cancellationToken
     )
     {
+        var identity = _identityProvider.GetIdentity();
         await using var transaction = await _connection.BeginTransactionAsync(cancellationToken);
         foreach (var payload in payloads)
         {
             var entity = await Read(id, cancellationToken);
-            var identity = _identityProvider.GetIdentity();
             if (!entity.Members.Contains(identity))
                 throw new NotMemberOfHouseholdException(id, identity);
             if (!payload.IsValid(entity))
