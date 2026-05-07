@@ -2,9 +2,14 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="shortcut icon" href="data:," />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description"
+    content="Chor.bar helps households agree on how often chores should get done, track who did what, and share the mental load. Open source, privacy-friendly, no nagging required.">
+
+  <link rel="canonical" href="https://chor.bar/">
+
   <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
     integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
     crossorigin="anonymous"></script>
@@ -14,6 +19,20 @@
   <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
   <link rel="stylesheet" href="/static/style.css">
   <title>{{title}}</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chor.bar/">
+  <meta property="og:title" content="Chor.bar — Shared household chore tracking, without the nagging">
+  <meta property="og:description"
+    content="Agree on how often chores should get done, tick them off, and share the mental load. Open source and privacy-friendly.">
+
+  <meta property="og:site_name" content="Chor.bar">
+  <meta property="og:locale" content="en">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Chor.bar — Shared household chore tracking">
+  <meta name="twitter:description"
+    content="Agree on how often chores should get done, tick them off, and share the mental load. Open source.">
 </head>
 
 <body hx-ext="sse" hx-headers='{"X-CSRF-TOKEN": "{{csrfToken}}"}'>
