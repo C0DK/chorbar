@@ -3,6 +3,7 @@
 @import url("reset.css");
 @import url("modal.css");
 
+
 .inputWithButton {
   display: flex;
   justify-content: center;
@@ -26,8 +27,7 @@
 }
 
 .call-to-action {
-  margin: var(--space-xl);
-  margin-bottom: 20dvh;
+  margin: var(--space-md);
   padding: var(--space-lg) var(--space-xl);
 
   font-size: 1.375rem;
@@ -304,4 +304,43 @@ li {
   font-size: 1rem;
   text-align: center;
   text-transform: uppercase;
+}
+
+#landing-page {
+  margin-top: var(--space-xl);
+  max-width: 60rem;
+
+  /* color: var(--color-primary); */
+  font-size: 1.01rem;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  gap: var(--space-md);
+
+  .pain-points {
+    color: var(--color-primary);
+    font-weight: 600;
+
+
+    align-self: flex-start;
+
+    li {
+      line-height: 2;
+
+      @media (max-width: 600px),
+      (max-height: 600px) {
+        line-height: 1.5;
+      }
+
+      list-style: none;
+    }
+  }
+
 }
