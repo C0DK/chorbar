@@ -23,7 +23,10 @@ public static class AuthRouter
                 if (context.User.Identity?.IsAuthenticated is true)
                     return new HxRedirectResult(returnUrl ?? "/");
 
-                return new PageResult(new LoginForm(email: null, error: null), "Please Sign In");
+                return new PageResult(
+                    new LoginForm(email: null, error: null, returnUrl: returnUrl),
+                    "Please Sign In"
+                );
             }
         );
         app.MapPost(
@@ -33,12 +36,17 @@ public static class AuthRouter
                     NpgsqlConnection connection,
                     CancellationToken cancellationToken,
                     IMailSender mailer,
-                    ILogger logger,
-                    string? returnUrl = null
+                    ILogger logger
                 ) =>
                 {
-                    if (!Email.TryParse(request.Form.GetString("email"), out var email))
-                        return RenderLoginForm(email: email, error: "Email is not valid!");
+                    var form = request.Form;
+                    var returnUrl = form.GetString("returnUrl");
+                    if (!Email.TryParse(form.GetString("email"), out var email))
+                        return RenderLoginForm(
+                            email: email,
+                            error: "Email is not valid!",
+                            returnUrl: returnUrl
+                        );
 
                     var code = RandomNumberGenerator.GetInt32(100_000, 1_000_000);
                     await mailer.SendAuthToken(email, code, cancellationToken);
@@ -59,7 +67,7 @@ public static class AuthRouter
                         cancellationToken
                     );
 
-                    return RenderCodeForm(email);
+                    return RenderCodeForm(email, returnUrl: returnUrl);
                 }
             )
             .RequireRateLimiting(SendPolicy);
@@ -69,17 +77,25 @@ public static class AuthRouter
                 async (
                     HttpContext context,
                     NpgsqlDataSource db,
-                    CancellationToken cancellationToken,
-                    string? returnUrl = null
+                    CancellationToken cancellationToken
                 ) =>
                 {
                     var form = context.Request.Form;
+                    var returnUrl = form.GetString("returnUrl");
                     if (!Email.TryParse(form.GetString("email"), out var email))
-                        return RenderLoginForm(email: email, error: "Email is not valid!");
+                        return RenderLoginForm(
+                            email: email,
+                            error: "Email is not valid!",
+                            returnUrl: returnUrl
+                        );
                     var persist = form.GetCheckbox("persist");
                     if (form.GetString("code") is not { Length: > 0 } code)
-                        return RenderCodeForm(email, persist, error: "Invalid code!");
-
+                        return RenderCodeForm(
+                            email,
+                            persist,
+                            error: "Invalid code!",
+                            returnUrl: returnUrl
+                        );
                     // TODO: handle never Remember Me and stuff
                     await using var connection = await db.OpenConnectionAsync(cancellationToken);
 
@@ -102,10 +118,14 @@ public static class AuthRouter
                     if (matches is not { Length: > 0 })
                         return RenderCodeForm(email, persist, "Invalid code!");
                     if (DateTimeOffset.UtcNow.Subtract(matches.Single()) > TimeSpan.FromMinutes(10))
-                        return RenderLoginForm(email: email, error: "Code expired");
+                        return RenderLoginForm(
+                            email: email,
+                            error: "Code expired",
+                            returnUrl: returnUrl
+                        );
 
                     await SignIn(context, email, persist);
-                    return new HxRedirectResult(returnUrl ?? "/");
+                    return new HxRedirectResult(returnUrl ?? "/household/");
                 }
             )
             .RequireRateLimiting(VerifyPolicy);
@@ -114,6 +134,7 @@ public static class AuthRouter
             (HttpContext context, string? returnUrl = null) =>
             {
                 context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                context.ClearHousehold();
                 return Results.Redirect(returnUrl ?? "/");
             }
         // should we check if authed? will it fail if not?
@@ -142,9 +163,19 @@ public static class AuthRouter
         );
     }
 
-    private static IResult RenderCodeForm(Email email, bool persist = false, string error = "") =>
-        new PartialResult(new OtpCodeField(email: email, error: error, persist: persist));
+    private static IResult RenderCodeForm(
+        Email email,
+        bool persist = false,
+        string? returnUrl = null,
+        string error = ""
+    ) =>
+        new PartialResult(
+            new OtpCodeField(email: email, error: error, persist: persist, returnUrl: returnUrl)
+        );
 
-    private static IResult RenderLoginForm(Email? email, string error = "") =>
-        new PartialResult(new LoginForm(email: email?.Value, error: error));
+    private static IResult RenderLoginForm(
+        Email? email,
+        string error = "",
+        string? returnUrl = null
+    ) => new PartialResult(new LoginForm(email: email?.Value, error: error, returnUrl: returnUrl));
 }

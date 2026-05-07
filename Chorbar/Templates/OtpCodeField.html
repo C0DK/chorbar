@@ -7,6 +7,7 @@
       inputmode="numeric" maxlength="6" pattern="\d{6}">
     <button type="submit">Sign In</button>
   </div>
+  <input type="hidden" name="returnUrl" value="{{returnUrl?}}">
   <input type="hidden" id="email" name="email" value="{{email}}">
   <label>
     <input type="checkbox" value="persist" name="persist" {% if persist %}checked{% end %}>Remember
@@ -18,6 +19,6 @@
 
   <p>
     Not {{email}}?
-    <a href="/auth" hx-boost="true">Sign into another account</a>
+    <a href="" hx-boost="true">Sign into another account</a>
   </p>
 </form>
