@@ -242,6 +242,36 @@ public static class HouseholdRouter
             }
         );
         app.MapPost(
+            "/chore/rename",
+            async Task<IResult> (
+                HttpContext context,
+                HouseholdStore store,
+                HouseholdId householdId,
+                [FromForm] string oldLabel,
+                [FromForm] string newLabel,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                if (string.IsNullOrWhiteSpace(newLabel) || newLabel == oldLabel)
+                {
+                    var current = await store.Read(householdId, cancellationToken);
+                    var chore = current.Chores.GetValueOrDefault(oldLabel);
+                    if (chore is null)
+                        return Results.NotFound();
+                    return new PartialResult(ChoreInfo(oldLabel, chore));
+                }
+
+                var household = await store.Write(
+                    householdId,
+                    new RenameChore(oldLabel, newLabel),
+                    cancellationToken
+                );
+
+                var renamed = household.Chores[newLabel];
+                return new PartialResult(ChoreInfo(newLabel, renamed));
+            }
+        );
+        app.MapPost(
             "/chore/remove",
             async Task<IResult> (
                 HttpContext context,

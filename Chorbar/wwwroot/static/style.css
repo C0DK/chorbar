@@ -132,6 +132,40 @@
 
 
   .chore {
+    .chore-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+
+      h2 {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .rename-form {
+        display: none;
+        flex: 1;
+        gap: var(--space-xs);
+        align-items: center;
+
+        input[type="text"] {
+          flex: 1;
+          min-width: 0;
+        }
+      }
+    }
+
+    &.editing .chore-title {
+      h2,
+      .edit-label {
+        display: none;
+      }
+
+      .rename-form {
+        display: flex;
+      }
+    }
+
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);

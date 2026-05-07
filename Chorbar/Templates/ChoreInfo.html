@@ -1,8 +1,27 @@
 <article class="chore details">
-  <h2 hx-get="chore/" hx-vals='{"label":"{{label}}" }' hx-target="closest .chore" hx-swap="outerHTML"
-    hx-target="#chore-info">
-    {{label}}
-  </h2>
+  <header class="chore-title">
+    <h2 hx-get="chore/" hx-vals='{"label":"{{label}}" }' hx-target="closest .chore" hx-swap="outerHTML"
+      hx-target="#chore-info">
+      {{label}}
+    </h2>
+    <button type="button" class="small icon edit-label" title="Rename" aria-label="Rename"
+      _="on click
+         add .editing to closest <article/>
+         set input to (closest <article/>).querySelector('.rename-form input[name=newLabel]')
+         call input.focus()
+         call input.select()">
+      ✏️
+    </button>
+    <form class="rename-form" hx-post="chore/rename" hx-target="closest .chore" hx-swap="outerHTML">
+      <input type="hidden" name="oldLabel" Value="{{label}}" />
+      <input type="text" name="newLabel" Value="{{label}}" required
+        _="on keydown[key is 'Escape']
+           remove .editing from closest <article/>" />
+      <button type="submit" class="small icon" title="Save" aria-label="Save">✓</button>
+      <button type="button" class="small icon" title="Cancel" aria-label="Cancel"
+        _="on click remove .editing from closest <article/>">✕</button>
+    </form>
+  </header>
   {% if hasGoal %}
   <p class="goal">
     Every {{ goalNumerator? }} {{ goalUnit? }}
