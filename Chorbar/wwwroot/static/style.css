@@ -142,15 +142,42 @@
         min-width: 0;
       }
 
+      .edit-label {
+        cursor: pointer;
+        font-size: 1rem;
+        line-height: 1;
+        opacity: 0.6;
+        user-select: none;
+
+        &:hover,
+        &:focus {
+          opacity: 1;
+          outline: none;
+        }
+      }
+
       .rename-form {
         display: none;
         flex: 1;
-        gap: var(--space-xs);
-        align-items: center;
 
-        input[type="text"] {
-          flex: 1;
-          min-width: 0;
+        fieldset {
+          display: flex;
+
+          input[type="text"] {
+            flex: 1;
+            min-width: 0;
+          }
+
+          :not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left-width: 0;
+          }
+
+          :not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
         }
       }
     }
@@ -162,7 +189,7 @@
       }
 
       .rename-form {
-        display: flex;
+        display: block;
       }
     }
 
