@@ -166,6 +166,7 @@
           input[type="text"] {
             flex: 1;
             min-width: 0;
+            padding: var(--space-xs) var(--space-sm);
           }
 
           :not(:first-child) {
