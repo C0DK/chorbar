@@ -21,4 +21,15 @@
     <input required type="email" id="email" name="email" placeholder="friend@chor.bar">
     <button type="submit">Invite</button>
   </form>
+
+  <div class="ical-section">
+    <h3>Calendar Subscription</h3>
+    {% if hasIcalToken %}
+    <p>Subscribe to upcoming chore deadlines:</p>
+    <p><a href="{{icalUrl?}}" class="ical-link">iCal Link</a> <small>(copy into your calendar app)</small></p>
+    {% end %}
+    <form hx-post="ical/generate">
+      <button type="submit">{{generateLabel}}</button>
+    </form>
+  </div>
 </div>

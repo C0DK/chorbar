@@ -182,6 +182,39 @@ ORDER BY household_id, timestamp
 
     public async ValueTask<Household> Read(HouseholdId id, CancellationToken cancellationToken)
     {
+        var household = await ReadEvents(id, cancellationToken);
+
+        // TODO: precheck to save resources?
+        var identity = _identityProvider.GetIdentity();
+        if (!household.Members.Contains(identity))
+            throw new NotMemberOfHouseholdException(id, identity);
+        return household;
+    }
+
+    public async ValueTask<Household?> ReadForIcal(
+        HouseholdId id,
+        string token,
+        CancellationToken cancellationToken
+    )
+    {
+        Household household;
+        try
+        {
+            household = await ReadEvents(id, cancellationToken);
+        }
+        catch (HouseholdNotFound)
+        {
+            return null;
+        }
+
+        return household.IcalToken == token ? household : null;
+    }
+
+    private async ValueTask<Household> ReadEvents(
+        HouseholdId id,
+        CancellationToken cancellationToken
+    )
+    {
         using var command = new NpgsqlCommand(
             //language=sql
             """
@@ -222,10 +255,6 @@ ORDER BY household_id, timestamp
             household = enumerator.Current.Apply(household);
         }
 
-        // TODO: precheck to save resources?
-        var identity = _identityProvider.GetIdentity();
-        if (!household.Members.Contains(identity))
-            throw new NotMemberOfHouseholdException(id, identity);
         return household;
     }
 
