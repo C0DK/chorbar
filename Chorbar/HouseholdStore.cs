@@ -240,6 +240,7 @@ ORDER BY household_id, timestamp
             Creator: genesisEvent.CreatedBy,
             Members: [genesisEvent.CreatedBy],
             Chores: [],
+            ShoppingListItems: [],
             History: [genesisEvent]
         );
     }

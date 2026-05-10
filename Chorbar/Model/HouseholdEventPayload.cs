@@ -13,6 +13,10 @@ namespace Chorbar.Model;
 [JsonDerivedType(typeof(DoChore), DoChore.Kind)]
 [JsonDerivedType(typeof(UndoChore), UndoChore.Kind)]
 [JsonDerivedType(typeof(SetGoal), SetGoal.Kind)]
+[JsonDerivedType(typeof(AddToShoppingList), AddToShoppingList.Kind)]
+[JsonDerivedType(typeof(CheckOffShoppingListItem),CheckOffShoppingListItem.Kind)]
+[JsonDerivedType(typeof(UnCheckOffShoppingListItem),UnCheckOffShoppingListItem.Kind)]
+[JsonDerivedType(typeof(RenameShoppingListItem), RenameShoppingListItem.Kind)]
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "Kind")]
 public abstract record HouseholdEventPayload
 {

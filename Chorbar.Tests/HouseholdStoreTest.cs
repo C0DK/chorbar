@@ -48,6 +48,7 @@ public class HouseholdStoreTest
                     _userA,
                     [_userA],
                     [],
+                    [],
                     [new HouseholdEvent(id, 1, t(0), new CreateNewHousehold(name), _userA)]
                 )
             )
@@ -65,12 +66,10 @@ public class HouseholdStoreTest
             Assert.That(household.Chores.Keys, Is.EquivalentTo(["Sleep"]));
             Assert.That(
                 household.History,
-                Is.EquivalentTo(
-                    [
-                        .. _householdAInitialEvents,
-                        new HouseholdEvent(_householdAId, 3, t(0), new AddChore("Sleep"), _userA),
-                    ]
-                )
+                Is.EquivalentTo([
+                    .. _householdAInitialEvents,
+                    new HouseholdEvent(_householdAId, 3, t(0), new AddChore("Sleep"), _userA),
+                ])
             );
         });
     }
@@ -528,11 +527,16 @@ public class HouseholdStoreTest
             household,
             Is.EqualTo(
                 new Household(
-                    id,
-                    name,
-                    _userA,
-                    [_userA, _userB],
-                    ImmutableDictionary<string, Chore>.Empty.Add("blah", new Chore(t(2), [], null)),
+                    Id: id,
+                    Name: name,
+                    Creator: _userA,
+                    Members: [_userA, _userB],
+                    Chores: ImmutableDictionary<string, Chore>.Empty.Add(
+                        "blah",
+                        new Chore(t(2), [], null)
+                    ),
+                    ShoppingListItems: [],
+                    History:
                     [
                         new HouseholdEvent(id, 1, t(0), new CreateNewHousehold(name), _userA),
                         new HouseholdEvent(id, 2, t(1), new AddMember(_userB), _userA),
