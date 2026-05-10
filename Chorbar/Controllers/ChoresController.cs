@@ -5,11 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Chorbar.Controllers;
 
-[Route("household/{householdId:int}/chore")]
+[Route("household/{householdId:int}/chore/")]
 public class ChoresController(HouseholdStore store) : Controller
 {
     [HttpGet("")]
-    [HttpGet("/household/{householdId:int}/chore/")]
     public async Task<IResult> Card(
         HouseholdId householdId,
         [FromQuery] string label,

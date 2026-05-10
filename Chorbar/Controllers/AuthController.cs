@@ -11,14 +11,13 @@ using Npgsql;
 
 namespace Chorbar.Controllers;
 
-[Route("auth")]
+[Route("auth/")]
 public class AuthController : Controller
 {
     public const string SendPolicy = "auth-send";
     public const string VerifyPolicy = "auth-verify";
 
     [HttpGet("")]
-    [HttpGet("/auth/")]
     public IResult Index([FromQuery] string? returnUrl = null)
     {
         if (HttpContext.User.Identity?.IsAuthenticated is true)
@@ -31,7 +30,6 @@ public class AuthController : Controller
     }
 
     [HttpPost("")]
-    [HttpPost("/auth/")]
     [EnableRateLimiting(SendPolicy)]
     public async Task<IResult> Send(
         [FromServices] NpgsqlConnection connection,

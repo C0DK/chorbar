@@ -43,7 +43,7 @@ builder
         options.ExpireTimeSpan = TimeSpan.FromDays(14);
         options.SlidingExpiration = true;
         options.AccessDeniedPath = "/forbidden/";
-        options.LoginPath = "/auth"; // TODO: redirect doesnt fully work with htmx!
+        options.LoginPath = "/auth/"; // TODO: redirect doesnt fully work with htmx!
         options.LogoutPath = "/auth/logout";
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;

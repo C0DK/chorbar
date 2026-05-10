@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Chorbar.Controllers;
 
+[Route("household/")]
 public class HouseholdsController(HouseholdStore store) : Controller
 {
-    [HttpGet("/household")]
-    [HttpGet("/household/")]
+    [HttpGet("")]
     public async Task<IResult> List(CancellationToken cancellationToken)
     {
         var households = await store.List(cancellationToken).ToArrayAsync();
@@ -28,10 +28,10 @@ public class HouseholdsController(HouseholdStore store) : Controller
         return new PageResult(selector);
     }
 
-    [HttpGet("/household/new")]
+    [HttpGet("new")]
     public IResult NewForm() => new PageResult(new NewHousehold());
 
-    [HttpPost("/household/new")]
+    [HttpPost("new")]
     public async Task<IResult> Create(
         [FromForm] string name,
         CancellationToken cancellationToken
@@ -44,8 +44,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
         return new HxRedirectResult($"/household/{id.Value}/");
     }
 
-    [HttpGet("/household/{householdId:int}")]
-    [HttpGet("/household/{householdId:int}/")]
+    [HttpGet("{householdId:int}/")]
     public async Task<IResult> View(HouseholdId householdId, CancellationToken cancellationToken)
     {
         var household = await store.Read(householdId, cancellationToken);
@@ -63,7 +62,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
         );
     }
 
-    [HttpGet("/household/{householdId:int}/edit")]
+    [HttpGet("{householdId:int}/edit")]
     public async Task<IResult> EditForm(
         HouseholdId householdId,
         CancellationToken cancellationToken
@@ -73,7 +72,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
         return new PageResult(ViewHelpers.EditPage(household), household.Name);
     }
 
-    [HttpPost("/household/{householdId:int}/edit")]
+    [HttpPost("{householdId:int}/edit")]
     public async Task<IResult> Edit(
         HouseholdId householdId,
         [FromForm] string name,
@@ -88,7 +87,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
         return new PageResult(ViewHelpers.EditPage(household), household.Name);
     }
 
-    [HttpPost("/household/{householdId:int}/invite")]
+    [HttpPost("{householdId:int}/invite")]
     public async Task<IResult> Invite(
         HouseholdId householdId,
         [FromForm] Email email,
@@ -103,7 +102,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
         return new PageResult(ViewHelpers.EditPage(household), household.Name);
     }
 
-    [HttpPost("/household/{householdId:int}/remove_member")]
+    [HttpPost("{householdId:int}/remove_member")]
     public async Task<IResult> RemoveMember(
         HouseholdId householdId,
         [FromForm] Email email,
