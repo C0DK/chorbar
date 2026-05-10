@@ -72,6 +72,32 @@ public class ChoresController(HouseholdStore store) : Controller
         return new PartialResult(ViewHelpers.ChoreCard(label, chore));
     }
 
+    [HttpPost("rename")]
+    public async Task<IResult> Rename(
+        HouseholdId householdId,
+        [FromForm] string oldLabel,
+        [FromForm] string newLabel,
+        CancellationToken cancellationToken
+    )
+    {
+        if (string.IsNullOrWhiteSpace(newLabel) || newLabel == oldLabel)
+        {
+            var current = await store.Read(householdId, cancellationToken);
+            var chore = current.Chores.GetValueOrDefault(oldLabel);
+            if (chore is null)
+                return Results.NotFound();
+            return new PartialResult(ViewHelpers.ChoreInfo(oldLabel, chore));
+        }
+
+        var household = await store.Write(
+            householdId,
+            new RenameChore(oldLabel, newLabel),
+            cancellationToken
+        );
+        var renamed = household.Chores[newLabel];
+        return new PartialResult(ViewHelpers.ChoreInfo(newLabel, renamed));
+    }
+
     [HttpPost("remove")]
     public async Task<IResult> Remove(
         HouseholdId householdId,
