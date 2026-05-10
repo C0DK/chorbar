@@ -159,6 +159,7 @@
       .rename-form {
         display: none;
         flex: 1;
+        padding-bottom: var(--space-sm);
 
         fieldset {
           display: flex;
@@ -184,6 +185,7 @@
     }
 
     &.editing .chore-title {
+
       h2,
       .edit-label {
         display: none;
