@@ -1,8 +1,8 @@
 global using ILogger = Serilog.ILogger;
 using System.Threading.RateLimiting;
 using Chorbar;
+using Chorbar.Controllers;
 using Chorbar.Model;
-using Chorbar.Routes;
 using Chorbar.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
@@ -43,12 +43,13 @@ builder
         options.ExpireTimeSpan = TimeSpan.FromDays(14);
         options.SlidingExpiration = true;
         options.AccessDeniedPath = "/forbidden/";
-        options.LoginPath = "/auth"; // TODO: redirect doesnt fully work with htmx!
+        options.LoginPath = "/auth/"; // TODO: redirect doesnt fully work with htmx!
         options.LogoutPath = "/auth/logout";
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
         options.Cookie.SecurePolicy = cookieSecurePolicy;
     });
+builder.Services.AddControllers();
 builder.Services.AddSerilog();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(Log.Logger);
@@ -92,12 +93,12 @@ builder.Services.AddRateLimiter(options =>
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
     options.AddPolicy(
-        AuthRouter.SendPolicy,
+        AuthController.SendPolicy,
         ClientPartition(permitLimit: 5, window: TimeSpan.FromMinutes(15))
     );
 
     options.AddPolicy(
-        AuthRouter.VerifyPolicy,
+        AuthController.VerifyPolicy,
         ClientPartition(permitLimit: 10, window: TimeSpan.FromMinutes(15))
     );
 });
@@ -125,7 +126,7 @@ app.UseStaticFiles();
 app.UseSession();
 app.UseRateLimiter();
 app.UseSerilogRequestLogging();
-RootRouter.Map(app);
+app.MapControllers();
 HtmxErrorMiddleware.Use(app);
 
 app.Run();

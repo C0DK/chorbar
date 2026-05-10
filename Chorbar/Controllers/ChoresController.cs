@@ -1,0 +1,132 @@
+using Chorbar.Model;
+using Chorbar.Templates;
+using Chorbar.Utils;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Chorbar.Controllers;
+
+[Authorize]
+[Route("household/{householdId:int}/chore/")]
+public class ChoresController(HouseholdStore store) : Controller
+{
+    [FromRoute]
+    public HouseholdId HouseholdId { get; set; }
+
+    private ValueTask<Household> Get(CancellationToken cancellationToken) =>
+        store.Read(HouseholdId, cancellationToken);
+
+    private ValueTask<Household> Write(
+        HouseholdEventPayload payload,
+        CancellationToken cancellationToken
+    ) => store.Write(HouseholdId, payload, cancellationToken);
+
+    [HttpGet("")]
+    public async Task<IResult> Card(
+        [FromQuery] string label,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Get(cancellationToken);
+        var chore = household.Chores.GetValueOrDefault(label);
+        if (chore is null)
+            return Results.NotFound();
+
+        return new PartialResult(ViewHelpers.ChoreCard(label, chore));
+    }
+
+    [HttpGet("details")]
+    public async Task<IResult> Details(
+        [FromQuery] string label,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Get(cancellationToken);
+        var chore = household.Chores.GetValueOrDefault(label);
+        if (chore is null)
+            return Results.NotFound();
+
+        return new PartialResult(ViewHelpers.ChoreInfo(label, chore));
+    }
+
+    [HttpPost("goal")]
+    public async Task<IResult> Goal(
+        [FromForm] string label,
+        [FromForm] DateUnit unit,
+        [FromForm] int numerator,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Write(new SetGoal(label, numerator, unit), cancellationToken);
+        var chore = household.Chores[label];
+        return new PartialResult(ViewHelpers.ChoreInfo(label, chore));
+    }
+
+    [HttpPost("add")]
+    public async Task<IResult> Add(
+        [FromForm] string label,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Write(new AddChore(label), cancellationToken);
+        var chore = household.Chores[label];
+        return new PartialResult(ViewHelpers.ChoreCard(label, chore));
+    }
+
+    [HttpPost("rename")]
+    public async Task<IResult> Rename(
+        [FromForm] string oldLabel,
+        [FromForm] string newLabel,
+        CancellationToken cancellationToken
+    )
+    {
+        if (string.IsNullOrWhiteSpace(newLabel) || newLabel == oldLabel)
+        {
+            var current = await Get(cancellationToken);
+            var chore = current.Chores.GetValueOrDefault(oldLabel);
+            if (chore is null)
+                return Results.NotFound();
+            return new PartialResult(ViewHelpers.ChoreInfo(oldLabel, chore));
+        }
+
+        var household = await Write(new RenameChore(oldLabel, newLabel), cancellationToken);
+        var renamed = household.Chores[newLabel];
+        return new PartialResult(ViewHelpers.ChoreInfo(newLabel, renamed));
+    }
+
+    [HttpPost("remove")]
+    public async Task<IResult> Remove(
+        [FromForm] string label,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Write(new RemoveChore(label), cancellationToken);
+        return new PageResult(
+            new HouseholdPage(chores: household.Chores.Select(ViewHelpers.ChoreCard)),
+            household.Name
+        );
+    }
+
+    [HttpPost("do")]
+    public async Task<IResult> Do(
+        [FromForm] string label,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Write(new DoChore(label), cancellationToken);
+        var chore = household.Chores[label];
+        return new PartialResult(ViewHelpers.ChoreInfo(label, chore));
+    }
+
+    [HttpPost("undo")]
+    public async Task<IResult> Undo(
+        [FromForm] string label,
+        [FromForm] DateTimeOffset timestamp,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Write(new UndoChore(label, timestamp), cancellationToken);
+        var chore = household.Chores[label];
+        return new PartialResult(ViewHelpers.ChoreInfo(label, chore));
+    }
+}
