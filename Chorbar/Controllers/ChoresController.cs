@@ -5,22 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chorbar.Controllers;
-
 [Authorize]
 [Route("household/{householdId:int}/chore/")]
-public class ChoresController(HouseholdStore store) : Controller
+public class ChoresController(HouseholdStore store) : SpecificHouseholdControllerBase(store)
 {
-    [FromRoute]
-    public HouseholdId HouseholdId { get; set; }
-
-    private ValueTask<Household> Get(CancellationToken cancellationToken) =>
-        store.Read(HouseholdId, cancellationToken);
-
-    private ValueTask<Household> Write(
-        HouseholdEventPayload payload,
-        CancellationToken cancellationToken
-    ) => store.Write(HouseholdId, payload, cancellationToken);
-
     [HttpGet("")]
     public async Task<IResult> Card(
         [FromQuery] string label,

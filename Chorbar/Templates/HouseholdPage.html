@@ -1,3 +1,6 @@
+<ol id="shopping-list" hx-trigger="revealed" hx-get="shopping_list">
+  Loading..
+</ol>
 <form id="new-chore" hx-post="chore/add" hx-target="#chores" hx-swap="afterbegin"
   hx-on::after-request="if(event.detail.successful) this.reset()">
   <input required type="text" id="label" name="label" placeholder="I.e clean toilets" hx-trigger="keyup[key=='Enter']">

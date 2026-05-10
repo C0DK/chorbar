@@ -1,0 +1,10 @@
+<ol id="shopping-list">
+  {{..currentItems}}
+  <ol>
+    <form id="new-chore" hx-post="shopping_list/add" hx-target="#shopping-list">
+      <input required type="text" id="label" name="label" placeholder="I.e Milk" hx-trigger="keyup[key=='Enter']">
+      <button type="submit">Add</button>
+    </form>
+  </ol>
+  {{..checkedItems}}
+</ol>
