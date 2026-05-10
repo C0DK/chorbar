@@ -1,8 +1,27 @@
-<form id="new-chore" hx-post="chore/add" hx-target="#chores" hx-swap="afterbegin"
-  hx-on::after-request="if(event.detail.successful) this.reset()">
-  <input required type="text" id="label" name="label" placeholder="I.e clean toilets" hx-trigger="keyup[key=='Enter']">
-  <button type="submit">Create</button>
-</form>
-<div id="chores">
-  {{..chores}}
+{% if shoppingListEnabled %}
+<div id="household-page">
+  <details open>
+    <summary>
+      Shopping List
+    </summary>
+    <ol id="shopping-list" hx-trigger="revealed" hx-get="shopping_list">
+    </ol>
+  </details>
+  <details open>
+    <summary>
+      Chores
+    </summary>
+    {% end %}
+    <form id="new-chore" hx-post="chore/add" hx-target="#chores" hx-swap="afterbegin"
+      hx-on::after-request="if(event.detail.successful) this.reset()">
+      <input required type="text" id="label" name="label" placeholder="I.e clean toilets"
+        hx-trigger="keyup[key=='Enter']">
+      <button type="submit">Create</button>
+    </form>
+    <div id="chores">
+      {{..chores}}
+    </div>
+    {% if shoppingListEnabled %}
+  </details>
 </div>
+{% end %}

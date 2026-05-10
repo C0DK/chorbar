@@ -21,7 +21,9 @@ public class PageResult(string content, string? title = null) : IResult
         var tokenSet = context
             .RequestServices.GetRequiredService<IAntiforgery>()
             .GetAndStoreTokens(context);
-        var pageTitle = title is null ? "Chor.bar — Shared household chore tracking, without the nagging" : $"Chor.bar | {title}";
+        var pageTitle = title is null
+            ? "Chor.bar — Shared household chore tracking, without the nagging"
+            : $"Chor.bar | {title}";
         var householdName = context.GetHouseholdName();
         var authed =
             context.User.Identity?.IsAuthenticated is true

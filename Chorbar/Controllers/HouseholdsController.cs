@@ -34,10 +34,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
     public IResult NewForm() => new PageResult(new NewHousehold());
 
     [HttpPost("new")]
-    public async Task<IResult> Create(
-        [FromForm] string name,
-        CancellationToken cancellationToken
-    )
+    public async Task<IResult> Create([FromForm] string name, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(name))
             return new PageResult(new NewHousehold());
@@ -53,6 +50,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
         HttpContext.UpdateHousehold(household);
         return new PageResult(
             new HouseholdPage(
+                shoppingListEnabled: household.ShoppingListEnabled,
                 chores: household
                     .Chores.OrderBy(c =>
                         c.Value.Deadline()
@@ -62,6 +60,20 @@ public class HouseholdsController(HouseholdStore store) : Controller
             ),
             household.Name
         );
+    }
+
+    [HttpPost("{householdId:int}/enable_shopping_list")]
+    public async Task<IResult> SetShowShoppingList(
+        HouseholdId householdId,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await store.Write(
+            householdId,
+            new EnableShoppingList(Request.Form.GetCheckbox("enabled")),
+            cancellationToken
+        );
+        return new PageResult(ViewHelpers.EditPage(household), household.Name);
     }
 
     [HttpGet("{householdId:int}/edit")]
@@ -96,11 +108,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
         CancellationToken cancellationToken
     )
     {
-        var household = await store.Write(
-            householdId,
-            new AddMember(email),
-            cancellationToken
-        );
+        var household = await store.Write(householdId, new AddMember(email), cancellationToken);
         return new PageResult(ViewHelpers.EditPage(household), household.Name);
     }
 
@@ -111,11 +119,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
         CancellationToken cancellationToken
     )
     {
-        var household = await store.Write(
-            householdId,
-            new RemoveMember(email),
-            cancellationToken
-        );
+        var household = await store.Write(householdId, new RemoveMember(email), cancellationToken);
         return new PageResult(ViewHelpers.EditPage(household), household.Name);
     }
 }

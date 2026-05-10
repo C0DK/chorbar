@@ -8,9 +8,21 @@ public record Household(
     Email Creator,
     ImmutableHashSet<Email> Members,
     ImmutableDictionary<string, Chore> Chores,
-    ImmutableArray<HouseholdEvent> History
+    ImmutableArray<ShoppingListItem> ShoppingListItems,
+    ImmutableArray<HouseholdEvent> History,
+    int ShoppingListNextId = 1,
+    bool ShoppingListEnabled = false
 )
 {
+    public ImmutableArray<ShoppingListItem> ShoppingList =>
+        ShoppingListItems.Where(item => item.Checked is null).ToImmutableArray();
+
+    public ImmutableArray<ShoppingListItem> RecentlyCheckedItems() =>
+        RecentlyCheckedItems(TimeProvider.System);
+
+    public ImmutableArray<ShoppingListItem> RecentlyCheckedItems(TimeProvider timeProvider) =>
+        ShoppingListItems.Where(item => item.CheckedOffRecently(timeProvider)).ToImmutableArray();
+
     public virtual bool Equals(Household? other) =>
         other is not null
         && Id == other.Id
