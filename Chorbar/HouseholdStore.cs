@@ -167,6 +167,7 @@ ORDER BY household_id, timestamp
             {
                 if (
                     household is not null
+                    && !household.IsDeleted
                     && household.Members.Contains(_identityProvider.GetIdentity())
                 )
                     yield return household;
@@ -176,7 +177,7 @@ ORDER BY household_id, timestamp
             else
                 household = enumerator.Current.Apply(household);
         }
-        if (household is not null && household.Members.Contains(_identityProvider.GetIdentity()))
+        if (household is not null && !household.IsDeleted && household.Members.Contains(_identityProvider.GetIdentity()))
             yield return household;
     }
 
@@ -254,6 +255,9 @@ ORDER BY household_id, timestamp
             cancellationToken.ThrowIfCancellationRequested();
             household = enumerator.Current.Apply(household);
         }
+
+        if (household.IsDeleted)
+            throw new HouseholdNotFound(id);
 
         return household;
     }

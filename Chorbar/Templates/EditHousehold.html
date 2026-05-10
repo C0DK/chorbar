@@ -39,4 +39,8 @@
     </form>
   </div>
   <a href="export.json" download>Download household data (JSON)</a>
+
+  <form hx-post="delete" hx-confirm="Are you sure you want to delete this household? This cannot be undone.">
+    <button type="submit">Delete household</button>
+  </form>
 </div>
