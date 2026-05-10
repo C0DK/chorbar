@@ -119,7 +119,11 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
         CancellationToken cancellationToken
     )
     {
+        var currentUser = identityProvider.GetIdentity();
+        if (email == currentUser)
+            throw new InvalidOperationException("You cannot remove yourself from the household.");
+
         var household = await store.Write(householdId, new RemoveMember(email), cancellationToken);
-        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity()), household.Name);
+        return new PageResult(ViewHelpers.EditPage(household, currentUser), household.Name);
     }
 }
