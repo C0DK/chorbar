@@ -4,6 +4,84 @@
 @import url("modal.css");
 
 
+#household-page {
+  min-height: 80dvh;
+  min-width: 80dvw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-xl);
+
+  @media (max-width: 600px),
+  (max-height: 600px) {
+    grid-template-columns: 1fr;
+  }
+
+  details {
+    summary::-webkit-details-marker {
+      cursor: pointer;
+    }
+
+
+    summary {
+      cursor: pointer;
+      color: var(--color-primary);
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: var(--space-sm);
+      font-size: 1.75rem;
+
+      @media (max-width: 600px),
+      (max-height: 600px) {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+#shopping-list,
+#chores {
+  max-height: 80dvh;
+  overflow-y: auto;
+
+}
+
+#shopping-list {
+  li {
+    list-style: none;
+
+    &:not(.checked) {
+      label {
+        color: var(--color-primary);
+      }
+    }
+
+    &.checked {
+      input[type="checkbox"]:checked {
+        background: var(--color-muted);
+        border-color: var(--color-muted);
+      }
+
+      label {
+        color: var(--color-muted);
+      }
+    }
+
+    label {
+      gap: var(--space-lg);
+
+      line-height: 2;
+      font-size: 1.125rem;
+
+      @media (max-width: 600px),
+      (max-height: 600px) {
+        line-height: 1.5;
+        font-size: 1.1rem;
+      }
+    }
+
+  }
+}
+
 .inputWithButton {
   display: flex;
   justify-content: center;

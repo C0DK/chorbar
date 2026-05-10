@@ -8,6 +8,7 @@ internal static class ViewHelpers
     public static EditHousehold EditPage(Household household) =>
         new EditHousehold(
             name: household.Name,
+            shoppingListEnabled: household.ShoppingListEnabled,
             members: household.Members.Select(m => new HouseholdMemberEntity(email: m.ToString()))
         );
 

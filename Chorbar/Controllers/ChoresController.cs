@@ -5,15 +5,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chorbar.Controllers;
+
 [Authorize]
 [Route("household/{householdId:int}/chore/")]
 public class ChoresController(HouseholdStore store) : SpecificHouseholdControllerBase(store)
 {
     [HttpGet("")]
-    public async Task<IResult> Card(
-        [FromQuery] string label,
-        CancellationToken cancellationToken
-    )
+    public async Task<IResult> Card([FromQuery] string label, CancellationToken cancellationToken)
     {
         var household = await Get(cancellationToken);
         var chore = household.Chores.GetValueOrDefault(label);
@@ -51,10 +49,7 @@ public class ChoresController(HouseholdStore store) : SpecificHouseholdControlle
     }
 
     [HttpPost("add")]
-    public async Task<IResult> Add(
-        [FromForm] string label,
-        CancellationToken cancellationToken
-    )
+    public async Task<IResult> Add([FromForm] string label, CancellationToken cancellationToken)
     {
         var household = await Write(new AddChore(label), cancellationToken);
         var chore = household.Chores[label];
@@ -83,23 +78,20 @@ public class ChoresController(HouseholdStore store) : SpecificHouseholdControlle
     }
 
     [HttpPost("remove")]
-    public async Task<IResult> Remove(
-        [FromForm] string label,
-        CancellationToken cancellationToken
-    )
+    public async Task<IResult> Remove([FromForm] string label, CancellationToken cancellationToken)
     {
         var household = await Write(new RemoveChore(label), cancellationToken);
         return new PageResult(
-            new HouseholdPage(chores: household.Chores.Select(ViewHelpers.ChoreCard)),
+            new HouseholdPage(
+                shoppingListEnabled: household.ShoppingListEnabled,
+                chores: household.Chores.Select(ViewHelpers.ChoreCard)
+            ),
             household.Name
         );
     }
 
     [HttpPost("do")]
-    public async Task<IResult> Do(
-        [FromForm] string label,
-        CancellationToken cancellationToken
-    )
+    public async Task<IResult> Do([FromForm] string label, CancellationToken cancellationToken)
     {
         var household = await Write(new DoChore(label), cancellationToken);
         var chore = household.Chores[label];

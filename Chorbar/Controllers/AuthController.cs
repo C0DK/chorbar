@@ -102,11 +102,7 @@ public class AuthController : Controller
         if (matches is not { Length: > 0 })
             return RenderCodeForm(email, persist, "Invalid code!");
         if (DateTimeOffset.UtcNow.Subtract(matches.Single()) > TimeSpan.FromMinutes(10))
-            return RenderLoginForm(
-                email: email,
-                error: "Code expired",
-                returnUrl: returnUrl
-            );
+            return RenderLoginForm(email: email, error: "Code expired", returnUrl: returnUrl);
 
         await SignIn(HttpContext, email, persist);
         return new HxRedirectResult(returnUrl ?? "/household/");

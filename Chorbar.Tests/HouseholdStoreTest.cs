@@ -66,10 +66,12 @@ public class HouseholdStoreTest
             Assert.That(household.Chores.Keys, Is.EquivalentTo(["Sleep"]));
             Assert.That(
                 household.History,
-                Is.EquivalentTo([
-                    .. _householdAInitialEvents,
-                    new HouseholdEvent(_householdAId, 3, t(0), new AddChore("Sleep"), _userA),
-                ])
+                Is.EquivalentTo(
+                    [
+                        .. _householdAInitialEvents,
+                        new HouseholdEvent(_householdAId, 3, t(0), new AddChore("Sleep"), _userA),
+                    ]
+                )
             );
         });
     }

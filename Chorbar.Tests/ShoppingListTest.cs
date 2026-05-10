@@ -69,6 +69,7 @@ public class ShoppingListTest
             Is.EquivalentTo<ShoppingListItem>([new(1, label, t(2)), new(2, label, null)])
         );
     }
+
     [Test, CancelAfter(10_000)]
     public async Task CheckOffTwiceDoesntUpdateTime(CancellationToken cancellationToken)
     {
@@ -77,17 +78,12 @@ public class ShoppingListTest
         const string label = "Milk";
         var householdPre = await store.Write(
             _householdId,
-            [
-                new AddToShoppingList(label),
-                new CheckOffShoppingListItem(1),
-            ],
+            [new AddToShoppingList(label), new CheckOffShoppingListItem(1)],
             cancellationToken
         );
         var householdAfter = await store.Write(
             _householdId,
-            [
-                new CheckOffShoppingListItem(1),
-            ],
+            [new CheckOffShoppingListItem(1)],
             cancellationToken
         );
         Assert.That(

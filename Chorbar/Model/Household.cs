@@ -10,7 +10,8 @@ public record Household(
     ImmutableDictionary<string, Chore> Chores,
     ImmutableArray<ShoppingListItem> ShoppingListItems,
     ImmutableArray<HouseholdEvent> History,
-    int ShoppingListNextId = 1
+    int ShoppingListNextId = 1,
+    bool ShoppingListEnabled = false
 )
 {
     public ImmutableArray<ShoppingListItem> ShoppingList =>

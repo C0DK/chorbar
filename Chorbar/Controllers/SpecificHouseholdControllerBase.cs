@@ -19,5 +19,4 @@ public abstract class SpecificHouseholdControllerBase(HouseholdStore store) : Co
         HouseholdEventPayload payload,
         CancellationToken cancellationToken
     ) => _store.Write(HouseholdId, payload, cancellationToken);
-
 }

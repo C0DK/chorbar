@@ -8,8 +8,7 @@ namespace Chorbar.Controllers;
 
 [Authorize]
 [Route("household/{householdId:int}/shopping_list/")]
-public class ShoppingListController(HouseholdStore store)
-    : SpecificHouseholdControllerBase(store)
+public class ShoppingListController(HouseholdStore store) : SpecificHouseholdControllerBase(store)
 {
     [HttpGet("")]
     public async Task<IResult> List(CancellationToken cancellationToken) =>
@@ -20,10 +19,8 @@ public class ShoppingListController(HouseholdStore store)
         Render(await Write(new AddToShoppingList(label), cancellationToken));
 
     [HttpPost("{itemId:int}/checked")]
-    public async Task<IResult> Check(
-        int itemId,
-        CancellationToken cancellationToken
-    ) => Render(
+    public async Task<IResult> Check(int itemId, CancellationToken cancellationToken) =>
+        Render(
             await Write(
                 Request.Form.GetCheckbox("isChecked")
                     ? new CheckOffShoppingListItem(itemId)

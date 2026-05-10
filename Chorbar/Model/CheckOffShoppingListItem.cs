@@ -18,7 +18,12 @@ public record CheckOffShoppingListItem(int ItemId) : HouseholdEventPayload
         {
             ShoppingListItems = household
                 .ShoppingListItems.Select(item =>
-                    item.Id == ItemId  && item.Checked is null ? item with { Checked = timestamp } : item
+                    item.Id == ItemId && item.Checked is null
+                        ? item with
+                        {
+                            Checked = timestamp,
+                        }
+                        : item
                 )
                 .ToImmutableArray(),
         };

@@ -5,6 +5,11 @@
     <button type="submit">Update</button>
   </form>
 
+  <label>
+    <input type="checkbox" hx-post="enable_shopping_list" hx-trigger="change" name="enabled" hx-target="#edit-household"
+      {% if shoppingListEnabled %}checked{% end %}>
+    Enable shopping list
+  </label>
   <div class="members">
     <h3>Members</h3>
     <ul>
