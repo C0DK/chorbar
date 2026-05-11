@@ -549,6 +549,69 @@ public class HouseholdStoreTest
         );
     }
 
+    // --- DeleteHousehold ---
+
+    [Test, CancelAfter(10_000)]
+    public async Task DeleteHouseholdMarksItAsDeleted(CancellationToken cancellationToken)
+    {
+        var store = GetStore(_userA);
+        await store.Write(_householdAId, new DeleteHousehold(), cancellationToken);
+
+        Assert.ThrowsAsync<HouseholdNotFound>(async () =>
+            await store.Read(_householdAId, cancellationToken)
+        );
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task DeleteHouseholdIsExcludedFromList(CancellationToken cancellationToken)
+    {
+        var store = GetStore(_userA);
+        await store.Write(_householdAId, new DeleteHousehold(), cancellationToken);
+
+        var ids = await store.List(cancellationToken).Select(h => h.Id).ToArrayAsync();
+        Assert.That(ids, Does.Not.Contain(_householdAId));
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task DeleteHouseholdIsExcludedFromListForAllMembers(CancellationToken cancellationToken)
+    {
+        await GetStore(_userA).Write(_householdAId, new DeleteHousehold(), cancellationToken);
+
+        var ids = await GetStore(_userB).List(cancellationToken).Select(h => h.Id).ToArrayAsync();
+        Assert.That(ids, Does.Not.Contain(_householdAId));
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task DeleteAlreadyDeletedHouseholdThrows(CancellationToken cancellationToken)
+    {
+        var store = GetStore(_userA);
+        await store.Write(_householdAId, new DeleteHousehold(), cancellationToken);
+
+        Assert.ThrowsAsync<HouseholdNotFound>(async () =>
+            await store.Write(_householdAId, new DeleteHousehold(), cancellationToken)
+        );
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task NonMemberCannotDeleteHousehold(CancellationToken cancellationToken)
+    {
+        var id = await GetStore(_userA).New("to-delete", cancellationToken);
+
+        Assert.ThrowsAsync<NotMemberOfHouseholdException>(async () =>
+            await GetStore(_userB).Write(id, new DeleteHousehold(), cancellationToken)
+        );
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task DeleteOnlyAffectsTargetHousehold(CancellationToken cancellationToken)
+    {
+        var store = GetStore(_userA);
+        await store.Write(_householdAId, new DeleteHousehold(), cancellationToken);
+
+        var household = await store.Read(_householdBId, cancellationToken);
+        Assert.That(household.Id, Is.EqualTo(_householdBId));
+    }
+
     private static TimeSpan _timeStep = TimeSpan.FromMinutes(1);
 
     private DateTimeOffset t(int i) =>

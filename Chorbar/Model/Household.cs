@@ -12,7 +12,8 @@ public record Household(
     ImmutableArray<HouseholdEvent> History,
     int ShoppingListNextId = 1,
     bool ShoppingListEnabled = false,
-    string? IcalToken = null
+    string? IcalToken = null,
+    bool IsDeleted = false
 )
 {
     public ImmutableArray<ShoppingListItem> ShoppingList =>

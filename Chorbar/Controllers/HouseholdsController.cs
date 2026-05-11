@@ -205,5 +205,12 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
         );
     }
 
+    [HttpPost("{householdId:int}/delete")]
+    public async Task<IResult> Delete(HouseholdId householdId, CancellationToken cancellationToken)
+    {
+        await store.Write(householdId, new DeleteHousehold(), cancellationToken);
+        return new HxRedirectResult("/household/");
+    }
+
     private string BaseUrl() => $"{Request.Scheme}://{Request.Host}";
 }
