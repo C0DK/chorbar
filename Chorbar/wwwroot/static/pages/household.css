@@ -37,9 +37,6 @@
   max-height: 80dvh;
   overflow-y: auto;
 
-}
-
-#shopping-list {
   li {
     list-style: none;
 
@@ -228,7 +225,6 @@
     }
 
     footer {
-      /* TODO make margin top work with goal form or or put goal form in footer.*/
       margin-top: auto;
       flex-direction: row-reverse;
       width: 100%;
@@ -279,10 +275,8 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
-  box-shadow: var(--shadow-sm);
   margin: 2rem;
   gap: 1rem;
-  margin: 2rem;
 
   display: none;
 
