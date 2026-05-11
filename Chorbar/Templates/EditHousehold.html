@@ -16,6 +16,7 @@
       {{..members}}
     </ul>
   </div>
+
   <form hx-post="invite">
     <label for="name">Email: </label>
     <input required type="email" id="email" name="email" placeholder="friend@chor.bar">
@@ -32,4 +33,5 @@
       <button type="submit">{{generateLabel}}</button>
     </form>
   </div>
+  <a href="export.json" download>Download household data (JSON)</a>
 </div>
