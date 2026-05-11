@@ -22,5 +22,21 @@
     <input required type="email" id="email" name="email" placeholder="friend@chor.bar">
     <button type="submit">Invite</button>
   </form>
+
+  <div class="ical-section">
+    <h4>Calendar integration / Ical link:</h4>
+    <form hx-post="ical/generate">
+      {% if hasIcalToken %}
+      <code>{{icalUrl?}}</code>
+      {% end %}
+      <button type="submit">
+        {% if hasIcalToken %}
+        Regenerate ical link
+        {% else %}
+        Generate ical link
+        {% end %}
+      </button>
+    </form>
+  </div>
   <a href="export.json" download>Download household data (JSON)</a>
 </div>

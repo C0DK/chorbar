@@ -5,14 +5,22 @@ namespace Chorbar.Controllers;
 
 internal static class ViewHelpers
 {
-    public static EditHousehold EditPage(Household household, Email currentUser) =>
+    public static EditHousehold EditPage(
+        Household household,
+        Email currentUser,
+        string? baseUrl = null
+    ) =>
         new EditHousehold(
             name: household.Name,
             shoppingListEnabled: household.ShoppingListEnabled,
             members: household.Members.Select(m => new HouseholdMemberEntity(
                 email: m.ToString(),
                 removable: m != household.Creator && m != currentUser
-            ))
+            )),
+            hasIcalToken: household.IcalToken is not null,
+            icalUrl: household.IcalToken is not null && baseUrl is not null
+                ? $"{baseUrl}/ical/{household.Id.Value}/{household.IcalToken}"
+                : null
         );
 
     public static ChoreCard ChoreCard(KeyValuePair<string, Chore> chore) =>

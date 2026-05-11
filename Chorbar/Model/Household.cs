@@ -11,7 +11,8 @@ public record Household(
     ImmutableArray<ShoppingListItem> ShoppingListItems,
     ImmutableArray<HouseholdEvent> History,
     int ShoppingListNextId = 1,
-    bool ShoppingListEnabled = false
+    bool ShoppingListEnabled = false,
+    string? IcalToken = null
 )
 {
     public ImmutableArray<ShoppingListItem> ShoppingList =>
@@ -30,6 +31,7 @@ public record Household(
         && Members.SetEquals(other.Members)
         && Chores.Count == other.Chores.Count
         && Chores.All(kv => other.Chores.TryGetValue(kv.Key, out var v) && kv.Value == v)
+        && IcalToken == other.IcalToken
         && History.SequenceEqual(other.History);
 
     public override int GetHashCode() => Id.GetHashCode();
