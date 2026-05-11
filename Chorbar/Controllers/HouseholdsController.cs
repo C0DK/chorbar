@@ -8,7 +8,7 @@ namespace Chorbar.Controllers;
 
 [Authorize]
 [Route("household/")]
-public class HouseholdsController(HouseholdStore store) : Controller
+public class HouseholdsController(HouseholdStore store, IIdentityProvider identityProvider) : Controller
 {
     [HttpGet("")]
     public async Task<IResult> List(CancellationToken cancellationToken)
@@ -73,7 +73,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
             new EnableShoppingList(Request.Form.GetCheckbox("enabled")),
             cancellationToken
         );
-        return new PageResult(ViewHelpers.EditPage(household), household.Name);
+        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity()), household.Name);
     }
 
     [HttpGet("{householdId:int}/edit")]
@@ -83,7 +83,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
     )
     {
         var household = await store.Read(householdId, cancellationToken);
-        return new PageResult(ViewHelpers.EditPage(household), household.Name);
+        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity()), household.Name);
     }
 
     [HttpPost("{householdId:int}/edit")]
@@ -95,10 +95,10 @@ public class HouseholdsController(HouseholdStore store) : Controller
     {
         var household = await store.Read(householdId, cancellationToken);
         if (string.IsNullOrEmpty(name))
-            return new PageResult(ViewHelpers.EditPage(household), household.Name);
+            return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity()), household.Name);
 
         household = await store.Write(householdId, new Rename(name), cancellationToken);
-        return new PageResult(ViewHelpers.EditPage(household), household.Name);
+        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity()), household.Name);
     }
 
     [HttpPost("{householdId:int}/invite")]
@@ -109,7 +109,7 @@ public class HouseholdsController(HouseholdStore store) : Controller
     )
     {
         var household = await store.Write(householdId, new AddMember(email), cancellationToken);
-        return new PageResult(ViewHelpers.EditPage(household), household.Name);
+        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity()), household.Name);
     }
 
     [HttpPost("{householdId:int}/remove_member")]
@@ -119,7 +119,11 @@ public class HouseholdsController(HouseholdStore store) : Controller
         CancellationToken cancellationToken
     )
     {
+        var currentUser = identityProvider.GetIdentity();
+        if (email == currentUser)
+            throw new InvalidOperationException("You cannot remove yourself from the household.");
+
         var household = await store.Write(householdId, new RemoveMember(email), cancellationToken);
-        return new PageResult(ViewHelpers.EditPage(household), household.Name);
+        return new PageResult(ViewHelpers.EditPage(household, currentUser), household.Name);
     }
 }

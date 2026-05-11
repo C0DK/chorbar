@@ -5,11 +5,14 @@ namespace Chorbar.Controllers;
 
 internal static class ViewHelpers
 {
-    public static EditHousehold EditPage(Household household) =>
+    public static EditHousehold EditPage(Household household, Email currentUser) =>
         new EditHousehold(
             name: household.Name,
             shoppingListEnabled: household.ShoppingListEnabled,
-            members: household.Members.Select(m => new HouseholdMemberEntity(email: m.ToString()))
+            members: household.Members.Select(m => new HouseholdMemberEntity(
+                email: m.ToString(),
+                removable: m != household.Creator && m != currentUser
+            ))
         );
 
     public static ChoreCard ChoreCard(KeyValuePair<string, Chore> chore) =>
