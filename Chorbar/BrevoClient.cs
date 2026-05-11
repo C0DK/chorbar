@@ -1,3 +1,4 @@
+using Chorbar.Templates;
 using Chorbar.Model;
 
 namespace Chorbar;
@@ -8,21 +9,8 @@ public class BrevoClient(HttpClient client, string apiKey, ILogger logger) : IMa
     {
         return Send(
             email,
-            "Login code",
-            $"""
-            Hi!
-
-            You requested a login code to Chor.bar. Please input this number where you requested it:
-
-               {code}
-
-            It's only valid for a few minutes.
-
-            Dont share it with any other person, and don't input it any other place than the official chor.bar page
-
-            Kind regards,
-            the Chor.bar team
-            """,
+            "Your Chor.bar login code",
+            new AuthEmail(code.ToString("D6")),
             cancellationToken
         );
     }
@@ -37,7 +25,7 @@ public class BrevoClient(HttpClient client, string apiKey, ILogger logger) : IMa
         var request = new HttpRequestMessage(HttpMethod.Post, "https://api.brevo.com/v3/smtp/email")
         {
             Content = JsonContent.Create(
-                new TextPayload(Sender, To: [new Identity(email, Name: null)], subject, htmlContent)
+                new HtmlPayload(Sender, To: [new Identity(email, Name: null)], subject, htmlContent)
             ),
         };
 
@@ -61,6 +49,4 @@ public class BrevoClient(HttpClient client, string apiKey, ILogger logger) : IMa
     private record Identity(string Email, string? Name);
 
     private record HtmlPayload(Identity Sender, Identity[] To, string Subject, string HtmlContent);
-
-    private record TextPayload(Identity Sender, Identity[] To, string Subject, string TextContent);
 }
