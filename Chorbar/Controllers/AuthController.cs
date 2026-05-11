@@ -99,7 +99,7 @@ public class AuthController : Controller
                     reader.GetFieldValueAsync<DateTime>(0, cancellationToken),
                 cancellationToken
             )
-            .ToArrayAsync();
+            .ToArrayAsync(cancellationToken);
         if (matches is not { Length: > 0 })
             return RenderCodeForm(email, persist, "Invalid code!");
         if (DateTimeOffset.UtcNow.Subtract(matches.Single()) > TimeSpan.FromMinutes(10))
@@ -117,8 +117,8 @@ public class AuthController : Controller
         return Results.Redirect(returnUrl ?? "/");
     }
 
-    public static async ValueTask SignIn(HttpContext context, Email email, bool persist) =>
-        await SignIn(context, persist, [new Claim(ClaimTypes.Email, email.Value)]);
+    public static ValueTask SignIn(HttpContext context, Email email, bool persist) =>
+        SignIn(context, persist, [new Claim(ClaimTypes.Email, email.Value)]);
 
     private static async ValueTask SignIn(
         HttpContext context,

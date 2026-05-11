@@ -12,7 +12,7 @@ public record UndoChore(string Label, DateTimeOffset timestamp) : HouseholdEvent
     public override bool IsValid(Household household) =>
         household.Chores.ContainsKey(Label) && household.Chores[Label].History.Contains(timestamp);
 
-    public override Household Apply(Household household, DateTimeOffset eventTime)
+    public override Household Apply(Household household, DateTimeOffset timestamp)
     {
         var chore = household.Chores[Label];
         return household with
@@ -21,7 +21,7 @@ public record UndoChore(string Label, DateTimeOffset timestamp) : HouseholdEvent
                 Label,
                 chore with
                 {
-                    History = chore.History.Remove(timestamp),
+                    History = chore.History.Remove(this.timestamp),
                 }
             ),
         };

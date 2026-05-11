@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -36,21 +37,15 @@ public readonly record struct Email(string Value)
 
     static bool IsValidEmail(string email)
     {
-        var trimmedEmail = email.Trim();
-
-        if (trimmedEmail.EndsWith("."))
-        {
-            return false; // suggested by @TK-421
-        }
-        try
-        {
-            var addr = new System.Net.Mail.MailAddress(email);
-            return addr.Address == trimmedEmail;
-        }
-        catch
-        {
+        if (string.IsNullOrWhiteSpace(email))
             return false;
-        }
+        if (!new EmailAddressAttribute().IsValid(email))
+            return false;
+        var at = email.LastIndexOf('@');
+        var domain = email[(at + 1)..];
+        return domain.Contains('.', StringComparison.Ordinal)
+            && !domain.EndsWith('.')
+            && !domain.StartsWith('.');
     }
 
     public class DefaultJsonConverter : JsonConverter<Email>
@@ -76,9 +71,6 @@ public readonly record struct Email(string Value)
             Utf8JsonWriter writer,
             Email value,
             JsonSerializerOptions options
-        )
-        {
-            writer.WriteStringValue(value.Value);
-        }
+        ) => writer.WriteStringValue(value.Value);
     }
 }

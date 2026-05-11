@@ -32,7 +32,7 @@ public static class IcalBuilder
             sb.AppendLine($"DTEND;VALUE=DATE:{FormatDate(deadline.Value.AddDays(1))}");
             sb.AppendLine($"SUMMARY:{EscapeText(label)}");
             sb.AppendLine(
-                $"DESCRIPTION:Due every {chore.Goal!.Numerator} {chore.Goal.Unit.ToString().ToLower()}(s) - household: {EscapeText(household.Name)}"
+                $"DESCRIPTION:Due every {chore.Goal!.Numerator} {chore.Goal.Unit.ToString().ToLowerInvariant()}(s) - household: {EscapeText(household.Name)}"
             );
             sb.AppendLine("END:VEVENT");
         }
@@ -47,5 +47,8 @@ public static class IcalBuilder
     private static string FormatDate(DateTimeOffset dt) => dt.UtcDateTime.ToString("yyyyMMdd");
 
     private static string EscapeText(string text) =>
-        text.Replace("\\", "\\\\").Replace(";", "\\;").Replace(",", "\\,").Replace("\n", "\\n");
+        text.Replace("\\", "\\\\", StringComparison.InvariantCultureIgnoreCase)
+            .Replace(";", "\\;", StringComparison.InvariantCultureIgnoreCase)
+            .Replace(",", "\\,", StringComparison.InvariantCultureIgnoreCase)
+            .Replace("\n", "\\n", StringComparison.InvariantCultureIgnoreCase);
 }

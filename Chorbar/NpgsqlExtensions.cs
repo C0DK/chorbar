@@ -27,7 +27,7 @@ public static class NpgsqlExtensions
         [EnumeratorCancellation] CancellationToken cancellationToken
     )
     {
-        await using var reader = await command.ExecuteReaderAsync();
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         while (await reader.ReadAsync(cancellationToken))
         {
             yield return await selector(reader, cancellationToken);
@@ -84,7 +84,7 @@ public static class NpgsqlExtensions
         await using var command = connection.CreateCommand(sql, bind);
         if (commandTimeout is not null)
             command.CommandTimeout = commandTimeout.Value;
-        await command.ExecuteNonQueryAsync();
+        await command.ExecuteNonQueryAsync(cancellationToken);
     }
 
     public static ValueTask ExecuteAsync(

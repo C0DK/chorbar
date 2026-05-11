@@ -2,9 +2,9 @@ namespace Chorbar.Utils;
 
 public class PartialResult(string content, Dictionary<string, string>? headers = null) : IResult
 {
-    public async Task ExecuteAsync(HttpContext context)
+    public Task ExecuteAsync(HttpContext httpContext)
     {
-        var response = context.Response;
+        var response = httpContext.Response;
 
         response.Headers.Append("Cache-Control", "no-cache");
         response.Headers.Append("Vary", "HX-Request, HX-Trigger-Name");
@@ -15,6 +15,6 @@ public class PartialResult(string content, Dictionary<string, string>? headers =
         response.StatusCode = StatusCodes.Status200OK;
         response.ContentType = "text/html";
 
-        await response.WriteAsync(content);
+        return response.WriteAsync(content);
     }
 }

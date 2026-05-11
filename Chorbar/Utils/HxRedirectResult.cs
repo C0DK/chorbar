@@ -2,15 +2,15 @@ namespace Chorbar.Utils;
 
 public class HxRedirectResult(string route) : IResult
 {
-    public async Task ExecuteAsync(HttpContext context)
+    public async Task ExecuteAsync(HttpContext httpContext)
     {
-        var headers = context.Request.Headers;
+        var headers = httpContext.Request.Headers;
         if (!headers.ContainsKey("HX-Request"))
-            await Results.Redirect(route).ExecuteAsync(context);
+            await Results.Redirect(route).ExecuteAsync(httpContext);
         else
         {
-            context.Response.Headers["Hx-Redirect"] = route;
-            context.Response.StatusCode = StatusCodes.Status200OK;
+            httpContext.Response.Headers["Hx-Redirect"] = route;
+            httpContext.Response.StatusCode = StatusCodes.Status200OK;
         }
     }
 }

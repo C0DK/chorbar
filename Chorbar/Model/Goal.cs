@@ -9,6 +9,6 @@ public record Goal(int Numerator, DateUnit Unit)
             DateUnit.Week => lastDone.AddDays(Numerator * 7),
             DateUnit.Month => lastDone.AddMonths(Numerator),
             DateUnit.Year => lastDone.AddYears(Numerator),
-            _ => throw new ArgumentOutOfRangeException(),
+            _ => throw new NotImplementedException($"Cannot handle Unit '{Unit}'"),
         };
 }

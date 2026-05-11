@@ -3,6 +3,8 @@ using Serilog.Events;
 using Serilog.Formatting.Compact;
 using Serilog.Sinks.SystemConsole.Themes;
 
+namespace Chorbar;
+
 public static class Logging
 {
     public static LoggerConfiguration CreateConfiguration()

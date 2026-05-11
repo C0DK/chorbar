@@ -1,5 +1,7 @@
 using Serilog.Events;
 
+namespace Chorbar;
+
 public static class EnvironmentVariable
 {
     public static bool? GetBool(string key) =>
@@ -11,7 +13,7 @@ public static class EnvironmentVariable
     {
         var value = Environment.GetEnvironmentVariable(name);
         if (string.IsNullOrEmpty(value))
-            throw new NullReferenceException($"Environment variable {name} was not set");
+            throw new InvalidOperationException($"Environment variable {name} was not set");
 
         return value;
     }

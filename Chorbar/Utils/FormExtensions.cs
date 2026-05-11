@@ -13,7 +13,7 @@ public static class FormExtensions
     public static bool GetCheckbox(this IFormCollection form, string key)
     {
         if (form.TryGetValue(key, out var value))
-            return value.Any();
+            return value.Count > 0;
 
         return false;
     }

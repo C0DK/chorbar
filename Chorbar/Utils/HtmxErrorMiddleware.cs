@@ -37,7 +37,9 @@ public class HtmxErrorMiddleware(RequestDelegate next, ILogger logger)
                 )
             ).ExecuteAsync(context);
         }
+#pragma warning disable CA1031
         catch (Exception exception)
+#pragma warning restore CA1031
         {
             if (context.RequestAborted.IsCancellationRequested)
                 return;
