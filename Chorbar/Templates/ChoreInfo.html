@@ -73,5 +73,13 @@
       <input type="hidden" Value="{{label}}" name="label" />
       <button type="submit" class="small">I did it!</button>
     </form>
+
+    <form hx-post="chore/do_past" hx-target="closest .chore" hx-swap="outerHTML">
+      <input type="hidden" Value="{{label}}" name="label" />
+      <fieldset>
+        <input type="date" name="date" required max="{{today}}" />
+        <button type="submit" class="small">I did it on...</button>
+      </fieldset>
+    </form>
   </footer>
 </article>

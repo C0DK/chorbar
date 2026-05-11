@@ -52,7 +52,8 @@ internal static class ViewHelpers
             hasGoal: chore.Goal is not null,
             deadline: TimeUntil(chore.Deadline()),
             goalNumerator: chore.Goal?.Numerator,
-            goalUnit: chore?.Goal?.Unit.ToString()
+            goalUnit: chore?.Goal?.Unit.ToString(),
+            today: DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")
         );
 
     public static string TimeAgo(DateTimeOffset? timestamp)

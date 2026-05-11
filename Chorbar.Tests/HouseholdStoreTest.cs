@@ -614,6 +614,96 @@ public class HouseholdStoreTest
         Assert.That(household.Id, Is.EqualTo(_householdBId));
     }
 
+    // --- AddPastChoreCompletion ---
+
+    [Test, CancelAfter(10_000)]
+    public async Task AddPastChoreCompletionAddsCorrectTimestamp(
+        CancellationToken cancellationToken
+    )
+    {
+        var store = GetStore();
+        var pastDate = new DateOnly(2024, 1, 1);
+        await store.Write(
+            _householdAId,
+            [new AddChore("Sleep"), new AddPastChoreCompletion("Sleep", pastDate)],
+            cancellationToken
+        );
+        var household = await store.Read(_householdAId, cancellationToken);
+        var expectedTimestamp = new DateTimeOffset(pastDate, TimeOnly.MinValue, TimeSpan.Zero);
+        Assert.That(
+            household.Chores["Sleep"].History,
+            Is.EquivalentTo(new[] { expectedTimestamp })
+        );
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task AddPastChoreCompletionOnNonExistingChoreThrows(
+        CancellationToken cancellationToken
+    )
+    {
+        var store = GetStore();
+        Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await store.Write(
+                _householdAId,
+                new AddPastChoreCompletion("Ghost", new DateOnly(2024, 1, 1)),
+                cancellationToken
+            )
+        );
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task AddPastChoreCompletionWithFutureDateThrows(
+        CancellationToken cancellationToken
+    )
+    {
+        var store = GetStore();
+        await store.Write(_householdAId, new AddChore("Sleep"), cancellationToken);
+        var futureDate = DateOnly.FromDateTime(_timeProvider.GetUtcNow().UtcDateTime.AddDays(1));
+        Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await store.Write(
+                _householdAId,
+                new AddPastChoreCompletion("Sleep", futureDate),
+                cancellationToken
+            )
+        );
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task AddPastChoreCompletionWithTodayDateSucceeds(
+        CancellationToken cancellationToken
+    )
+    {
+        var store = GetStore();
+        await store.Write(_householdAId, new AddChore("Sleep"), cancellationToken);
+        var today = DateOnly.FromDateTime(_timeProvider.GetUtcNow().UtcDateTime);
+        var household = await store.Write(
+            _householdAId,
+            new AddPastChoreCompletion("Sleep", today),
+            cancellationToken
+        );
+        Assert.That(household.Chores["Sleep"].History, Has.Length.EqualTo(1));
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task AddPastChoreCompletionCoexistsWithRegularCompletions(
+        CancellationToken cancellationToken
+    )
+    {
+        var store = GetStore();
+        var pastDate = new DateOnly(2024, 1, 1);
+        await store.Write(
+            _householdAId,
+            [
+                new AddChore("Sleep"),
+                new DoChore("Sleep"),
+                new AddPastChoreCompletion("Sleep", pastDate),
+            ],
+            cancellationToken
+        );
+        var household = await store.Read(_householdAId, cancellationToken);
+        Assert.That(household.Chores["Sleep"].History, Has.Length.EqualTo(2));
+    }
+
     private static TimeSpan _timeStep = TimeSpan.FromMinutes(1);
 
     private DateTimeOffset t(int i) =>

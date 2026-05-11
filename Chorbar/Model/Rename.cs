@@ -9,7 +9,8 @@ public record Rename(string NewName) : HouseholdEventPayload
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) => !string.IsNullOrWhiteSpace(NewName);
+    public override bool IsValid(Household household, DateTimeOffset now) =>
+        !string.IsNullOrWhiteSpace(NewName);
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>
         household with

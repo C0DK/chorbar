@@ -10,7 +10,7 @@ public record RenameShoppingListItem(int ItemId, string newLabel) : HouseholdEve
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) =>
+    public override bool IsValid(Household household, DateTimeOffset now) =>
         !string.IsNullOrWhiteSpace(newLabel)
         && household.ShoppingListItems.Any(item => item.Id == ItemId);
 

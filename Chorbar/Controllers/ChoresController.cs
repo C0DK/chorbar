@@ -109,4 +109,16 @@ public class ChoresController(HouseholdStore store) : SpecificHouseholdControlle
         var chore = household.Chores[label];
         return new PartialResult(ViewHelpers.ChoreInfo(label, chore));
     }
+
+    [HttpPost("do_past")]
+    public async Task<IResult> DoPast(
+        [FromForm] string label,
+        [FromForm] DateOnly date,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Write(new AddPastChoreCompletion(label, date), cancellationToken);
+        var chore = household.Chores[label];
+        return new PartialResult(ViewHelpers.ChoreInfo(label, chore));
+    }
 }
