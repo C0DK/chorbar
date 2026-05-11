@@ -1,0 +1,9 @@
+.AuthCode {
+  /* TODO: figure out how we get around important.. */
+  font-family: monospace !important;
+  letter-spacing: 0.5rem;
+  font-weight: bolder !important;
+  font-size: 1rem;
+  text-align: center;
+  text-transform: uppercase;
+}

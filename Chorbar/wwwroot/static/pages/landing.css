@@ -1,0 +1,38 @@
+#landing-page {
+  margin-top: var(--space-xl);
+  max-width: 60rem;
+
+  /* color: var(--color-primary); */
+  font-size: 1.01rem;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  gap: var(--space-md);
+
+  .pain-points {
+    color: var(--color-primary);
+    font-weight: 600;
+
+
+    align-self: flex-start;
+
+    li {
+      line-height: 2;
+
+      @media (max-width: 600px),
+      (max-height: 600px) {
+        line-height: 1.5;
+      }
+
+      list-style: none;
+    }
+  }
+
+}

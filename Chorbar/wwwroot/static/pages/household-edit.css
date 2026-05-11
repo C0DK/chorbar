@@ -1,0 +1,65 @@
+#edit-household {
+  gap: var(--space-lg);
+  display: grid;
+
+  .ical-section {
+    form {
+      display: flex;
+
+      code {
+        display: block;
+        background-color: var(--color-surface);
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+        overflow: hidden;
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
+        border-radius: var(--radius-lg);
+        padding: var(--space-sm);
+
+        flex: 1;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &:has(code) {
+        button {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+          border-left-width: 0;
+        }
+      }
+    }
+
+  }
+
+
+  >form {
+    display: flex;
+    flex-wrap: wrap;
+
+    label {
+      width: 100%;
+
+    }
+
+    button {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left-width: 0;
+      width: 30%;
+    }
+
+    input {
+      flex: 1;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+  }
+
+  ol,
+  ul {
+    list-style: inside;
+  }
+}
