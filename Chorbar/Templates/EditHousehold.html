@@ -24,13 +24,18 @@
   </form>
 
   <div class="ical-section">
-    <h3>Calendar Subscription</h3>
-    {% if hasIcalToken %}
-    <p>Subscribe to upcoming chore deadlines:</p>
-    <p><a href="{{icalUrl?}}" class="ical-link">iCal Link</a> <small>(copy into your calendar app)</small></p>
-    {% end %}
+    <h4>Calendar integration / Ical link:</h4>
     <form hx-post="ical/generate">
-      <button type="submit">{{generateLabel}}</button>
+      {% if hasIcalToken %}
+      <code>{{icalUrl?}}</code>
+      {% end %}
+      <button type="submit">
+        {% if hasIcalToken %}
+        Regenerate ical link
+        {% else %}
+        Generate ical link
+        {% end %}
+      </button>
     </form>
   </div>
   <a href="export.json" download>Download household data (JSON)</a>

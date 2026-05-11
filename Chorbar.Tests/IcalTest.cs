@@ -26,7 +26,8 @@ public class IcalTest
     [TearDown]
     public async Task TearDown() => await _conn.DisposeAsync();
 
-    HouseholdStore GetStore() => new HouseholdStore(_conn, new StaticIdentityProvider(_userA), _timeProvider);
+    HouseholdStore GetStore() =>
+        new HouseholdStore(_conn, new StaticIdentityProvider(_userA), _timeProvider);
 
     [Test, CancelAfter(10_000)]
     public async Task GenerateIcalTokenIsStoredInHousehold(CancellationToken ct)

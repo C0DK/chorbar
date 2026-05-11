@@ -10,7 +10,8 @@ namespace Chorbar.Controllers;
 
 [Authorize]
 [Route("household/")]
-public class HouseholdsController(HouseholdStore store, IIdentityProvider identityProvider) : Controller
+public class HouseholdsController(HouseholdStore store, IIdentityProvider identityProvider)
+    : Controller
 {
     [HttpGet("")]
     public async Task<IResult> List(CancellationToken cancellationToken)
@@ -75,7 +76,10 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
             new EnableShoppingList(Request.Form.GetCheckbox("enabled")),
             cancellationToken
         );
-        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()), household.Name);
+        return new PageResult(
+            ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()),
+            household.Name
+        );
     }
 
     [HttpGet("{householdId:int}/edit")]
@@ -85,7 +89,10 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
     )
     {
         var household = await store.Read(householdId, cancellationToken);
-        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()), household.Name);
+        return new PageResult(
+            ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()),
+            household.Name
+        );
     }
 
     [HttpPost("{householdId:int}/edit")]
@@ -97,10 +104,16 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
     {
         var household = await store.Read(householdId, cancellationToken);
         if (string.IsNullOrEmpty(name))
-            return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()), household.Name);
+            return new PageResult(
+                ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()),
+                household.Name
+            );
 
         household = await store.Write(householdId, new Rename(name), cancellationToken);
-        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()), household.Name);
+        return new PageResult(
+            ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()),
+            household.Name
+        );
     }
 
     [HttpGet("{householdId:int}/export.json")]
@@ -116,8 +129,8 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
             name = household.Name,
             creator = household.Creator.Value,
             members = household.Members.Select(m => m.Value).OrderBy(m => m).ToArray(),
-            chores = household.Chores
-                .OrderBy(kv => kv.Key)
+            chores = household
+                .Chores.OrderBy(kv => kv.Key)
                 .Select(kv => new
                 {
                     name = kv.Key,
@@ -150,7 +163,10 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
     )
     {
         var household = await store.Write(householdId, new AddMember(email), cancellationToken);
-        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()), household.Name);
+        return new PageResult(
+            ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()),
+            household.Name
+        );
     }
 
     [HttpPost("{householdId:int}/remove_member")]
@@ -165,7 +181,10 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
             throw new InvalidOperationException("You cannot remove yourself from the household.");
 
         var household = await store.Write(householdId, new RemoveMember(email), cancellationToken);
-        return new PageResult(ViewHelpers.EditPage(household, currentUser, BaseUrl()), household.Name);
+        return new PageResult(
+            ViewHelpers.EditPage(household, currentUser, BaseUrl()),
+            household.Name
+        );
     }
 
     [HttpPost("{householdId:int}/ical/generate")]
@@ -180,7 +199,10 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
             new GenerateIcalToken(token),
             cancellationToken
         );
-        return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()), household.Name);
+        return new PageResult(
+            ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()),
+            household.Name
+        );
     }
 
     private string BaseUrl() => $"{Request.Scheme}://{Request.Host}";

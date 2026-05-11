@@ -20,8 +20,7 @@ internal static class ViewHelpers
             hasIcalToken: household.IcalToken is not null,
             icalUrl: household.IcalToken is not null && baseUrl is not null
                 ? $"{baseUrl}/ical/{household.Id.Value}/{household.IcalToken}"
-                : null,
-            generateLabel: household.IcalToken is null ? "Generate iCal Link" : "Regenerate iCal Link"
+                : null
         );
 
     public static ChoreCard ChoreCard(KeyValuePair<string, Chore> chore) =>

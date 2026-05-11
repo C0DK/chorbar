@@ -12,5 +12,8 @@ public record GenerateIcalToken(string Token) : HouseholdEventPayload
     public override bool IsValid(Household household) => true;
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>
-        household with { IcalToken = Token };
+        household with
+        {
+            IcalToken = Token,
+        };
 }
