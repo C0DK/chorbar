@@ -94,8 +94,9 @@ public class AuthController : Controller
         );
         cmd.Parameters.AddWithValue(email.Value);
         cmd.Parameters.AddWithValue(code);
-        var matches = await cmd.ReadAllAsync(
-                reader => reader.GetFieldValue<DateTime>(0),
+        var matches = await cmd.ReadAllAsync<DateTime>(
+                (reader, cancellationToken) =>
+                    reader.GetFieldValueAsync<DateTime>(0, cancellationToken),
                 cancellationToken
             )
             .ToArrayAsync();

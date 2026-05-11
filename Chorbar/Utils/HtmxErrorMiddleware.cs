@@ -19,7 +19,7 @@ public class HtmxErrorMiddleware(RequestDelegate next, ILogger logger)
                 $"/auth/?returnUrl={Uri.EscapeDataString(returnUrl)}"
             ).ExecuteAsync(context);
         }
-        catch (HouseholdNotFound)
+        catch (HouseholdNotFoundException)
         {
             await new PageResult(
                 new UnhandledErrorPage(

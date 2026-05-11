@@ -1,5 +1,5 @@
-using Chorbar.Templates;
 using Chorbar.Model;
+using Chorbar.Templates;
 
 namespace Chorbar;
 
