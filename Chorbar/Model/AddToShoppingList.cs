@@ -9,7 +9,8 @@ public record AddToShoppingList(string Label) : HouseholdEventPayload
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) => !string.IsNullOrWhiteSpace(Label);
+    public override bool IsValid(Household household, DateTimeOffset now) =>
+        !String.IsNullOrWhiteSpace(Label);
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>
         household with

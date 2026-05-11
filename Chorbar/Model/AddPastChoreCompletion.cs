@@ -2,28 +2,31 @@ using System.Text.Json.Serialization;
 
 namespace Chorbar.Model;
 
-public record SetGoal(string Chore, int Numerator, DateUnit Unit) : HouseholdEventPayload
+public record AddPastChoreCompletion(string Label, DateOnly Date) : HouseholdEventPayload
 {
     [JsonIgnore]
-    public const string Kind = "set_goal";
+    public const string Kind = "add_past_chore_completion";
 
     public override string EventKind => Kind;
 
     public override bool IsValid(Household household, DateTimeOffset now) =>
-        household.Chores.ContainsKey(Chore);
+        household.Chores.ContainsKey(Label) && MidnightOnDate <= now;
 
     public override Household Apply(Household household, DateTimeOffset timestamp)
     {
-        var chore = household.Chores[Chore];
+        var chore = household.Chores[Label];
         return household with
         {
             Chores = household.Chores.SetItem(
-                Chore,
+                Label,
                 chore with
                 {
-                    Goal = new Goal(Numerator, Unit),
+                    History = chore.History.Add(MidnightOnDate),
                 }
             ),
         };
     }
+
+    private DateTimeOffset MidnightOnDate =>
+        new DateTimeOffset(Date, TimeOnly.MinValue, TimeSpan.Zero);
 }

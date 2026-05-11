@@ -9,7 +9,7 @@ public record UndoChore(string Label, DateTimeOffset timestamp) : HouseholdEvent
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) =>
+    public override bool IsValid(Household household, DateTimeOffset now) =>
         household.Chores.ContainsKey(Label) && household.Chores[Label].History.Contains(timestamp);
 
     public override Household Apply(Household household, DateTimeOffset timestamp)

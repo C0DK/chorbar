@@ -10,7 +10,7 @@ public record CheckOffShoppingListItem(int ItemId) : HouseholdEventPayload
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) =>
+    public override bool IsValid(Household household, DateTimeOffset now) =>
         household.ShoppingListItems.Any(item => item.Id == ItemId);
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>

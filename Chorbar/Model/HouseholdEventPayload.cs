@@ -11,6 +11,7 @@ namespace Chorbar.Model;
 [JsonDerivedType(typeof(RemoveChore), RemoveChore.Kind)]
 [JsonDerivedType(typeof(RenameChore), RenameChore.Kind)]
 [JsonDerivedType(typeof(DoChore), DoChore.Kind)]
+[JsonDerivedType(typeof(AddPastChoreCompletion), AddPastChoreCompletion.Kind)]
 [JsonDerivedType(typeof(UndoChore), UndoChore.Kind)]
 [JsonDerivedType(typeof(SetGoal), SetGoal.Kind)]
 [JsonDerivedType(typeof(AddToShoppingList), AddToShoppingList.Kind)]
@@ -26,7 +27,7 @@ public abstract record HouseholdEventPayload
     [JsonIgnore]
     public abstract string EventKind { get; }
 
-    public abstract bool IsValid(Household household);
+    public abstract bool IsValid(Household household, DateTimeOffset now);
 
     public abstract Household Apply(Household household, DateTimeOffset timestamp);
 

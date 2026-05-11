@@ -111,7 +111,7 @@ public class HouseholdStore
         var entity = await Read(id, cancellationToken);
         if (!entity.Members.Contains(identity))
             throw new NotMemberOfHouseholdException(id, identity);
-        if (!payload.IsValid(entity))
+        if (!payload.IsValid(entity, _timeProvider.GetUtcNow()))
             throw new InvalidOperationException("Event not valid!");
         await _connection.ExecuteAsync(
             //language=sql
