@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Chorbar.Model;
 using Chorbar.Templates;
 using Chorbar.Utils;
@@ -99,6 +101,45 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
 
         household = await store.Write(householdId, new Rename(name), cancellationToken);
         return new PageResult(ViewHelpers.EditPage(household, identityProvider.GetIdentity()), household.Name);
+    }
+
+    [HttpGet("{householdId:int}/export.json")]
+    public async Task<IResult> ExportJson(
+        HouseholdId householdId,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await store.Read(householdId, cancellationToken);
+        var export = new
+        {
+            id = household.Id.Value,
+            name = household.Name,
+            creator = household.Creator.Value,
+            members = household.Members.Select(m => m.Value).OrderBy(m => m).ToArray(),
+            chores = household.Chores
+                .OrderBy(kv => kv.Key)
+                .Select(kv => new
+                {
+                    name = kv.Key,
+                    created = kv.Value.Created,
+                    completions = kv.Value.History.OrderBy(t => t).ToArray(),
+                    goal = kv.Value.Goal is { } g
+                        ? new { every = g.Numerator, unit = g.Unit.ToString().ToLowerInvariant() }
+                        : (object?)null,
+                })
+                .ToArray(),
+            exportedAt = DateTimeOffset.UtcNow,
+        };
+
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        };
+        var json = JsonSerializer.Serialize(export, options);
+        var filename = $"household-{household.Name.ToLowerInvariant().Replace(' ', '-')}.json";
+        Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{filename}\"");
+        return Results.Text(json, "application/json");
     }
 
     [HttpPost("{householdId:int}/invite")]
