@@ -5,10 +5,10 @@ namespace Chorbar.Utils;
 
 public class PageResult(string content, string? title = null) : IResult
 {
-    public async Task ExecuteAsync(HttpContext context)
+    public async Task ExecuteAsync(HttpContext httpContext)
     {
-        var response = context.Response;
-        var headers = context.Request.Headers;
+        var response = httpContext.Response;
+        var headers = httpContext.Request.Headers;
         // caching and htmx is dumb
         if (headers.ContainsKey("HX-Request"))
         {
@@ -18,21 +18,21 @@ public class PageResult(string content, string? title = null) : IResult
         response.Headers.Append("Vary", "HX-Request, HX-Trigger-Name");
         response.StatusCode = StatusCodes.Status200OK;
         response.ContentType = "text/html";
-        var tokenSet = context
+        var tokenSet = httpContext
             .RequestServices.GetRequiredService<IAntiforgery>()
-            .GetAndStoreTokens(context);
+            .GetAndStoreTokens(httpContext);
         var pageTitle = title is null
             ? "Chor.bar — Shared household chore tracking, without the nagging"
             : $"Chor.bar | {title}";
-        var householdName = context.GetHouseholdName();
+        var householdName = httpContext.GetHouseholdName();
         var authed =
-            context.User.Identity?.IsAuthenticated is true
-            && context.User.GetEmailOrNull() is not null;
+            httpContext.User.Identity?.IsAuthenticated is true
+            && httpContext.User.GetEmailOrNull() is not null;
 
         // TODO: only if changed
         var nav = new Nav(
             inHousehold: !string.IsNullOrWhiteSpace(householdName),
-            householdName: context.GetHouseholdName(),
+            householdName: httpContext.GetHouseholdName(),
             authed: authed
         );
         if (!headers.ContainsKey("HX-Request")) // this also includes boosted

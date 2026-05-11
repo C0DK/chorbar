@@ -20,32 +20,25 @@ public record Chore(
         $"Chore {{ Created = {Created}, History = [{string.Join(", ", History)}], Goal = {Goal} }}";
 
     // TODO: set "do we achieve match goal"
-    public List<TimeSpan> Intervals()
+    public IEnumerable<TimeSpan> Intervals()
     {
         var sorted = History.Append(Created).OrderBy(t => t).ToList();
         if (sorted.Count < 2)
             return [];
 
-        return sorted.Zip(sorted.Skip(1), (a, b) => b - a).OrderBy(t => t).ToList();
+        return sorted.Zip(sorted.Skip(1), (a, b) => b - a).OrderBy(t => t);
     }
 
     public TimeSpan Frequency()
     {
-        var intervals = Intervals();
-        if (intervals.Count == 0)
+        var intervals = Intervals().ToArray();
+        if (intervals.Length == 0)
             return TimeSpan.Zero;
 
-        return intervals[intervals.Count / 2];
+        return intervals[intervals.Length / 2];
     }
 
-    public DateTimeOffset? Deadline() => Goal?.Deadline(History.Any() ? History.Last() : Created);
+    public DateTimeOffset? Deadline() => Goal?.Deadline(History.IsEmpty ? Created : History.Last());
 
-    public TimeSpan WorstFrequency()
-    {
-        var intervals = Intervals();
-        if (intervals.Count == 0)
-            return TimeSpan.Zero;
-
-        return intervals.Last();
-    }
+    public TimeSpan WorstFrequency() => Intervals().LastOrDefault(TimeSpan.Zero);
 }

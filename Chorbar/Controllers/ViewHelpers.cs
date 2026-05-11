@@ -29,8 +29,8 @@ internal static class ViewHelpers
     public static ChoreCard ChoreCard(string label, Chore chore) =>
         new ChoreCard(
             label: label,
-            count: chore.History.Count(),
-            hasDone: chore.History.Count() > 0,
+            count: chore.History.Length,
+            hasDone: chore.History.Length > 0,
             timeAgo: TimeAgo(chore.History.LastOrDefault()),
             hasGoal: chore.Goal is not null,
             deadline: TimeUntil(chore.Deadline()),
@@ -46,8 +46,8 @@ internal static class ViewHelpers
                 timestamp: timestamp.ToString("O"),
                 label: label
             )),
-            count: chore.History.Count(),
-            hasDone: chore.History.Count() > 0,
+            count: chore.History.Length,
+            hasDone: chore.History.Length > 0,
             timeAgo: TimeAgo(chore.History.LastOrDefault()),
             hasGoal: chore.Goal is not null,
             deadline: TimeUntil(chore.Deadline()),

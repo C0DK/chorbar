@@ -22,10 +22,18 @@ public class BrevoClient(HttpClient client, string apiKey, ILogger logger) : IMa
         CancellationToken cancellationToken
     )
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, "https://api.brevo.com/v3/smtp/email")
+        using var request = new HttpRequestMessage(
+            HttpMethod.Post,
+            "https://api.brevo.com/v3/smtp/email"
+        )
         {
             Content = JsonContent.Create(
-                new HtmlPayload(Sender, To: [new Identity(email, Name: null)], subject, htmlContent)
+                new HtmlPayload(
+                    _sender,
+                    To: [new Identity(email, Name: null)],
+                    subject,
+                    htmlContent
+                )
             ),
         };
 
@@ -44,9 +52,14 @@ public class BrevoClient(HttpClient client, string apiKey, ILogger logger) : IMa
         response.EnsureSuccessStatusCode();
     }
 
-    private static Identity Sender = new("no-reply@chor.bar", "Chor.bar");
+    private static readonly Identity _sender = new("no-reply@chor.bar", "Chor.bar");
 
-    private record Identity(string Email, string? Name);
+    private sealed record Identity(string Email, string? Name);
 
-    private record HtmlPayload(Identity Sender, Identity[] To, string Subject, string HtmlContent);
+    private sealed record HtmlPayload(
+        Identity Sender,
+        Identity[] To,
+        string Subject,
+        string HtmlContent
+    );
 }

@@ -159,7 +159,7 @@ ORDER BY household_id, timestamp
         );
         command.Parameters.AddWithValue(_identityProvider.GetIdentity().Value);
         await using var enumerator = command
-            .ReadAllAsync<HouseholdEvent>(
+            .ReadAllAsync(
                 async (reader, ct) =>
                     new HouseholdEvent(
                         HouseholdId: new HouseholdId(await reader.GetFieldValueAsync<int>(0, ct)),

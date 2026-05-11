@@ -2,7 +2,7 @@ namespace Chorbar.Model;
 
 public interface IMailSender
 {
-    public ValueTask SendAuthToken(Email email, int code, CancellationToken cancellation);
+    public ValueTask SendAuthToken(Email email, int code, CancellationToken cancellationToken);
 }
 
 public class LogMailer(ILogger logger) : IMailSender
