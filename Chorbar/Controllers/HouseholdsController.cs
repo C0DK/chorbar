@@ -209,7 +209,7 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
     [HttpPost("{householdId:int}/delete")]
     public async Task<IResult> Delete(HouseholdId householdId, CancellationToken cancellationToken)
     {
-        await store.Write(householdId, new DeleteHousehold(), cancellationToken);
+        await store.Delete(householdId, cancellationToken);
         return new HxRedirectResult("/household/");
     }
 
