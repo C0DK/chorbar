@@ -9,6 +9,7 @@ public record Household(
     ImmutableHashSet<Email> Members,
     ImmutableDictionary<string, Chore> Chores,
     ImmutableArray<ShoppingListItem> ShoppingListItems,
+    ImmutableArray<string> ShoppingListCategories,
     ImmutableArray<HouseholdEvent> History,
     int ShoppingListNextId = 1,
     bool ShoppingListEnabled = false,
@@ -16,8 +17,19 @@ public record Household(
     bool IsDeleted = false
 )
 {
-    public ImmutableArray<ShoppingListItem> ShoppingList =>
-        ShoppingListItems.Where(item => item.Checked is null).ToImmutableArray();
+    public ImmutableArray<(string? Category, ImmutableArray<ShoppingListItem> Items)> ShoppingList
+    {
+        get
+        {
+            var items = ShoppingListItems.Where(item => item.Checked is null);
+            return ShoppingListCategories
+                .Append(null)
+                .Select(category =>
+                    (category, items.Where(item => item.Category == category).ToImmutableArray())
+                )
+                .ToImmutableArray();
+        }
+    }
 
     public ImmutableArray<ShoppingListItem> RecentlyCheckedItems() =>
         RecentlyCheckedItems(TimeProvider.System);
