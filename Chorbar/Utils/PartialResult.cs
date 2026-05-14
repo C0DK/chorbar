@@ -1,6 +1,10 @@
 namespace Chorbar.Utils;
 
-public class PartialResult(string content, Dictionary<string, string>? headers = null) : IResult
+public class PartialResult(
+    string content,
+    Dictionary<string, string>? headers = null,
+    bool closeModal = false
+) : IResult
 {
     public Task ExecuteAsync(HttpContext httpContext)
     {
@@ -14,6 +18,8 @@ public class PartialResult(string content, Dictionary<string, string>? headers =
         }
         response.StatusCode = StatusCodes.Status200OK;
         response.ContentType = "text/html";
+        if (closeModal)
+            response.WriteAsync("<div id='modal' hx-swap-oob='outerHTML'></div>");
 
         return response.WriteAsync(content);
     }

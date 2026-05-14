@@ -1,0 +1,33 @@
+<li class="category {% unless hasLabel %}no-sort{% end %}">
+  <input type='hidden' name='category' value='{{label?}}'>
+  <form hx-post="shopping_list/set-category" hx-target="#shopping-list" hx-trigger="add, update">
+    <details open>
+      <summary>
+        {% if hasLabel %}
+        {{label?}}
+        <form hx-get="shopping_list/edit-category" hx-target="#modal">
+          <input type='hidden' name='label' value='{{label?}}'>
+          <button type="submit" class="edit" tabindex="0" title="Edit" aria-label="Edit">
+            ✏️</button>
+        </form>
+        {% else %}
+        Misc
+        {% end %}
+      </summary>
+      <input type='hidden' name='category' value='{{label?}}'>
+      <ol class="sortable" data-sortable-group="shopping-list">
+        {{..openItems}}
+        <li>
+          <form class="new-item" hx-post="shopping_list/add" hx-target="#shopping-list">
+            <button type="submit">+</button>
+            <input type='hidden' name='category' value='{{label?}}'>
+            <input required type="text" name="label" placeholder="Add item" hx-trigger="keyup[key=='Enter']">
+          </form>
+        </li>
+      </ol>
+      <ol>
+        {{..checkedItems}}
+      </ol>
+    </details>
+  </form>
+</li>

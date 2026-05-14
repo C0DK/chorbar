@@ -1,10 +1,12 @@
-<ol id="shopping-list">
-  {{..currentItems}}
-  <ol>
-    <form id="new-chore" hx-post="shopping_list/add" hx-target="#shopping-list">
-      <input required type="text" id="label" name="label" placeholder="I.e Milk" hx-trigger="keyup[key=='Enter']">
-      <button type="submit">Add</button>
-    </form>
-  </ol>
-  {{..checkedItems}}
-</ol>
+<div id="shopping-list">
+  <form hx-post="shopping_list/sort-categories" hx-target="#shopping-list" hx-trigger="update">
+    <ol class="sortable">
+      {{..categories}}
+    </ol>
+  </form>
+
+  <form class="inputWithButton small" hx-post="shopping_list/add-category" hx-target="#shopping-list">
+    <input required type="text" id="label" name="label" placeholder="Create category" hx-trigger="keyup[key=='Enter']">
+    <button type="submit">Create</button>
+  </form>
+</div>

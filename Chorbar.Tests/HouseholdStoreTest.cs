@@ -49,6 +49,7 @@ public class HouseholdStoreTest
                     [_userA],
                     [],
                     [],
+                    [],
                     [new HouseholdEvent(id, 1, t(0), new CreateNewHousehold(name), _userA)]
                 )
             )
@@ -538,6 +539,7 @@ public class HouseholdStoreTest
                         new Chore(t(2), [], null)
                     ),
                     ShoppingListItems: [],
+                    ShoppingListCategories: [],
                     History:
                     [
                         new HouseholdEvent(id, 1, t(0), new CreateNewHousehold(name), _userA),

@@ -1,0 +1,18 @@
+<h2> Edit Category </h2>
+
+<section class="content">
+  <label for="newLabel">Rename Category</label>
+  <form hx-post="shopping_list/rename-category" class="inputWithButton" hx-target="#shopping-list">
+    <input type="hidden" name="label" value="{{label}}">
+    <input required type="text" id="newLabel" name="newLabel" value="{{label}}" placeholder="Category Name"
+      hx-trigger="keyup[key=='Enter']">
+    <button type="submit">
+      Save</button>
+  </form>
+
+  <form hx-post="shopping_list/delete-category" hx-target="#shopping-list"
+    hx-confirm="Are you sure you want to delete '{{label}}'?">
+    <input type="hidden" Value="{{label}}" name="label" />
+    <button type="submit" class="danger">Delete</button>
+  </form>
+</section>
