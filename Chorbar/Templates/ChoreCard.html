@@ -1,21 +1,15 @@
 <article class="chore">
-  <h2 hx-get="chore/details" hx-vals='{"label":"{{label}}" }' hx-target="closest .chore" hx-swap="outerHTML"
+  <h3 hx-get="chore/details" hx-vals='{"label":"{{label}}" }' hx-target="#modal" hx-swap="outerHTML"
     hx-target="#chore-info">
     {{label}}
-  </h2>
-  {% if hasGoal %}
-  <p class="goal">
-    Every {{ goalNumerator? }} {{ goalUnit? }}
-    - Due {{deadline?}}
-  </p>
-  {% end %}
-  {% if hasDone %}
-  <p>You've done it {{count}} times - last {{timeAgo}}</p>
-  {% end %}
+  </h3>
   <footer>
-    <form hx-post="chore/do" hx-target="closest .chore" hx-swap="outerHTML">
+    <div class="badges">
+      {{..badges}}
+    </div>
+    <form class="do small" hx-post="chore/do" hx-target="closest .chore" hx-swap="outerHTML">
       <input type="hidden" id="label" Value="{{label}}" name="label">
-      <button type="submit" class="small">I did it!</button>
+      <button type="submit">✓</button>
     </form>
   </footer>
 </article>

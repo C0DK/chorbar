@@ -1,5 +1,6 @@
 using Chorbar.Model;
 using Chorbar.Templates;
+using Strongbars.Abstractions;
 
 namespace Chorbar.Controllers;
 
@@ -27,16 +28,27 @@ internal static class ViewHelpers
         ChoreCard(chore.Key, chore.Value);
 
     public static ChoreCard ChoreCard(string label, Chore chore) =>
-        new ChoreCard(
-            label: label,
-            count: chore.History.Length,
-            hasDone: chore.History.Length > 0,
-            timeAgo: TimeAgo(chore.History.LastOrDefault()),
-            hasGoal: chore.Goal is not null,
-            deadline: TimeUntil(chore.Deadline()),
-            goalNumerator: chore.Goal?.Numerator,
-            goalUnit: chore?.Goal?.Unit.ToString()
-        );
+        new ChoreCard(label: label, badges: ChoreBadges(chore));
+
+    private static IEnumerable<TemplateArgument> ChoreBadges(Chore chore)
+    {
+        if (chore.History.Length > 0)
+            yield return new ChoreBadge(
+                content: $"x{chore.History.Length}",
+                additionalClasses: Array.Empty<string>()
+            );
+        if (chore.Goal is not null)
+        {
+            yield return new ChoreBadge(
+                content: $"📅 {TimeUntil(chore.Deadline())}",
+                additionalClasses: (chore.Deadline() - DateTimeOffset.UtcNow)
+                < TimeSpan.FromHours(30)
+                    ? ["danger"]
+                    : Array.Empty<string>()
+            );
+        }
+
+    }
 
     public static ChoreInfo ChoreInfo(string label, Chore chore) =>
         new ChoreInfo(
