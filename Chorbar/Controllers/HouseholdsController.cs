@@ -16,7 +16,7 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
     [HttpGet("")]
     public async Task<IResult> List(CancellationToken cancellationToken)
     {
-        var households = await store.List(cancellationToken).ToArrayAsync();
+        var households = await store.List(cancellationToken).ToArrayAsync(cancellationToken);
         var selector = new HouseholdSelector(
             households: households.Select(h => new HouseholdSelectorOption(
                 id: h.Id.ToString() ?? "id",
@@ -57,7 +57,7 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
                 chores: household
                     .Chores.OrderBy(c =>
                         c.Value.Deadline()
-                        ?? (c.Value.History.Any() ? c.Value.History.Last() : c.Value.Created)
+                        ?? (c.Value.History.IsEmpty ? c.Value.Created : c.Value.History.Last())
                     )
                     .Select(ViewHelpers.ChoreCard)
             ),
@@ -144,16 +144,17 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
             exportedAt = DateTimeOffset.UtcNow,
         };
 
-        var options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        };
-        var json = JsonSerializer.Serialize(export, options);
+        var json = JsonSerializer.Serialize(export, exportOptions);
         var filename = $"household-{household.Name.ToLowerInvariant().Replace(' ', '-')}.json";
         Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{filename}\"");
         return Results.Text(json, "application/json");
     }
+
+    private JsonSerializerOptions exportOptions = new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    };
 
     [HttpPost("{householdId:int}/invite")]
     public async Task<IResult> Invite(
@@ -208,7 +209,7 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
     [HttpPost("{householdId:int}/delete")]
     public async Task<IResult> Delete(HouseholdId householdId, CancellationToken cancellationToken)
     {
-        await store.Write(householdId, new DeleteHousehold(), cancellationToken);
+        await store.Delete(householdId, cancellationToken);
         return new HxRedirectResult("/household/");
     }
 

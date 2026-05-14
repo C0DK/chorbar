@@ -9,11 +9,20 @@ public class ClaimsBasedIdentityProvider(IHttpContextAccessor httpContextAccesso
     {
         // TODO: not like this right?
         var user = httpContextAccessor.HttpContext?.User;
-        if (user is not null && user?.Identity?.IsAuthenticated is true)
+        if (user?.Identity?.IsAuthenticated is true)
             return user.GetEmail();
 
         throw new LoginRequiredException();
     }
 }
 
-public class LoginRequiredException() : Exception();
+public class LoginRequiredException : Exception
+{
+    public LoginRequiredException() { }
+
+    public LoginRequiredException(string message)
+        : base(message) { }
+
+    public LoginRequiredException(string message, Exception innerException)
+        : base(message, innerException) { }
+}

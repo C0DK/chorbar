@@ -372,6 +372,21 @@ fieldset {
   margin: 0;
 }
 
+details {
+  summary,
+  summary::-webkit-details-marker {
+    cursor: pointer;
+  }
+
+  summary:hover {
+    text-decoration-color: var(--color-secondary);
+
+    * {
+      text-decoration-color: var(--color-secondary);
+    }
+  }
+}
+
 li {
   list-style: none;
 

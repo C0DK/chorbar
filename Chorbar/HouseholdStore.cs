@@ -60,13 +60,20 @@ public class HouseholdStore
             if (!await reader.ReadAsync(cancellationToken))
                 throw new InvalidOperationException();
 
-            id = new HouseholdId(reader.GetFieldValue<int>(0));
+            id = new HouseholdId(await reader.GetFieldValueAsync<int>(0, cancellationToken));
         }
         var updatedEntity = await Read(id, cancellationToken);
 
-        await transaction.CommitAsync();
+        await transaction.CommitAsync(cancellationToken);
 
         return updatedEntity.Id;
+    }
+
+    public async ValueTask Delete(HouseholdId id, CancellationToken cancellationToken)
+    {
+        await using var transaction = await _connection.BeginTransactionAsync(cancellationToken);
+        await WriteEvent(id, new DeleteHousehold(), cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
     }
 
     public ValueTask<Household> Write(
@@ -85,41 +92,44 @@ public class HouseholdStore
         await using var transaction = await _connection.BeginTransactionAsync(cancellationToken);
         foreach (var payload in payloads)
         {
-            var entity = await Read(id, cancellationToken);
-            if (!entity.Members.Contains(identity))
-                throw new NotMemberOfHouseholdException(id, identity);
-            if (!payload.IsValid(entity))
-                throw new InvalidOperationException("Event not valid!");
-            await using (
-                var command = new NpgsqlCommand(
-                    //language=sql
-                    """
-                    INSERT INTO
-                      household_event(household_id, version, timestamp, created_by, payload)
-                    VALUES($1, $2, $3, $4, $5)
-                    """,
-                    _connection,
-                    transaction
-                )
-            )
-            {
-                command.Parameters.AddWithValue(id.Value);
-                command.Parameters.AddWithValue((entity.History.LastOrDefault()?.Version ?? 0) + 1);
-                command.Parameters.AddWithValue(
-                    NpgsqlDbType.TimestampTz,
-                    _timeProvider.GetUtcNow()
-                );
-                command.Parameters.AddWithValue(identity.Value);
-                command.Parameters.AddWithValue(NpgsqlDbType.Jsonb, payload.Serialize());
-
-                await command.ExecuteNonQueryAsync(cancellationToken);
-            }
+            await WriteEvent(id, payload, cancellationToken);
         }
         var updatedEntity = await Read(id, cancellationToken);
 
-        await transaction.CommitAsync();
+        await transaction.CommitAsync(cancellationToken);
 
         return updatedEntity;
+    }
+
+    private async ValueTask WriteEvent(
+        HouseholdId id,
+        HouseholdEventPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        var identity = _identityProvider.GetIdentity();
+        var entity = await Read(id, cancellationToken);
+        if (!entity.Members.Contains(identity))
+            throw new NotMemberOfHouseholdException(id, identity);
+        if (!payload.IsValid(entity))
+            throw new InvalidOperationException("Event not valid!");
+        await _connection.ExecuteAsync(
+            //language=sql
+            """
+            INSERT INTO
+              household_event(household_id, version, timestamp, created_by, payload)
+            VALUES($1, $2, $3, $4, $5)
+            """,
+            p =>
+            {
+                p.AddWithValue(id.Value);
+                p.AddWithValue((entity.History.LastOrDefault()?.Version ?? 0) + 1);
+                p.AddWithValue(NpgsqlDbType.TimestampTz, _timeProvider.GetUtcNow());
+                p.AddWithValue(identity.Value);
+                p.AddWithValue(NpgsqlDbType.Jsonb, payload.Serialize());
+            },
+            cancellationToken
+        );
     }
 
     public async IAsyncEnumerable<Household> List(
@@ -150,16 +160,19 @@ ORDER BY household_id, timestamp
         command.Parameters.AddWithValue(_identityProvider.GetIdentity().Value);
         await using var enumerator = command
             .ReadAllAsync(
-                reader => new HouseholdEvent(
-                    HouseholdId: new HouseholdId(reader.GetFieldValue<int>(0)),
-                    Version: reader.GetFieldValue<int>(1),
-                    Timestamp: reader.GetFieldValue<DateTimeOffset>(2),
-                    Payload: HouseholdEventPayload.Deserialize(reader.GetFieldValue<string>(4)),
-                    CreatedBy: new Email(reader.GetFieldValue<string>(3))
-                ),
+                async (reader, ct) =>
+                    new HouseholdEvent(
+                        HouseholdId: new HouseholdId(await reader.GetFieldValueAsync<int>(0, ct)),
+                        Version: await reader.GetFieldValueAsync<int>(1, ct),
+                        Timestamp: await reader.GetFieldValueAsync<DateTimeOffset>(2, ct),
+                        Payload: HouseholdEventPayload.Deserialize(
+                            await reader.GetFieldValueAsync<string>(4, ct)
+                        ),
+                        CreatedBy: new Email(await reader.GetFieldValueAsync<string>(3, ct))
+                    ),
                 cancellationToken
             )
-            .GetAsyncEnumerator();
+            .GetAsyncEnumerator(cancellationToken);
         Household? household = null;
         while (await enumerator.MoveNextAsync())
         {
@@ -177,7 +190,11 @@ ORDER BY household_id, timestamp
             else
                 household = enumerator.Current.Apply(household);
         }
-        if (household is not null && !household.IsDeleted && household.Members.Contains(_identityProvider.GetIdentity()))
+        if (
+            household is not null
+            && !household.IsDeleted
+            && household.Members.Contains(_identityProvider.GetIdentity())
+        )
             yield return household;
     }
 
@@ -203,7 +220,7 @@ ORDER BY household_id, timestamp
         {
             household = await ReadEvents(id, cancellationToken);
         }
-        catch (HouseholdNotFound)
+        catch (HouseholdNotFoundException)
         {
             return null;
         }
@@ -234,19 +251,22 @@ ORDER BY household_id, timestamp
         command.Parameters.AddWithValue(id.Value);
         await using var enumerator = command
             .ReadAllAsync(
-                reader => new HouseholdEvent(
-                    HouseholdId: new HouseholdId(reader.GetFieldValue<int>(0)),
-                    Version: reader.GetFieldValue<int>(1),
-                    Timestamp: reader.GetFieldValue<DateTimeOffset>(2),
-                    Payload: HouseholdEventPayload.Deserialize(reader.GetFieldValue<string>(4)),
-                    CreatedBy: new Email(reader.GetFieldValue<string>(3))
-                ),
+                async (reader, ct) =>
+                    new HouseholdEvent(
+                        HouseholdId: new HouseholdId(await reader.GetFieldValueAsync<int>(0, ct)),
+                        Version: await reader.GetFieldValueAsync<int>(1, ct),
+                        Timestamp: await reader.GetFieldValueAsync<DateTimeOffset>(2, ct),
+                        Payload: HouseholdEventPayload.Deserialize(
+                            await reader.GetFieldValueAsync<string>(4, ct)
+                        ),
+                        CreatedBy: new Email(await reader.GetFieldValueAsync<string>(3, ct))
+                    ),
                 cancellationToken
             )
-            .GetAsyncEnumerator();
+            .GetAsyncEnumerator(cancellationToken);
 
         if (!await enumerator.MoveNextAsync())
-            throw new HouseholdNotFound(id);
+            throw new HouseholdNotFoundException(id);
 
         var household = Create(enumerator.Current);
 
@@ -257,7 +277,7 @@ ORDER BY household_id, timestamp
         }
 
         if (household.IsDeleted)
-            throw new HouseholdNotFound(id);
+            throw new HouseholdNotFoundException(id);
 
         return household;
     }
@@ -274,10 +294,22 @@ ORDER BY household_id, timestamp
             Members: [genesisEvent.CreatedBy],
             Chores: [],
             ShoppingListItems: [],
+            ShoppingListCategories: [],
             History: [genesisEvent]
         );
     }
 }
 
-public class HouseholdNotFound(HouseholdId id)
-    : Exception($"Household with id #{id} could not be found");
+public class HouseholdNotFoundException : Exception
+{
+    public HouseholdNotFoundException() { }
+
+    public HouseholdNotFoundException(string message)
+        : base(message) { }
+
+    public HouseholdNotFoundException(string message, Exception innerException)
+        : base(message, innerException) { }
+
+    public HouseholdNotFoundException(HouseholdId id)
+        : base($"Household with id #{id} could not be found") { }
+}

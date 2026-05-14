@@ -17,9 +17,15 @@ namespace Chorbar.Model;
 [JsonDerivedType(typeof(CheckOffShoppingListItem), CheckOffShoppingListItem.Kind)]
 [JsonDerivedType(typeof(UnCheckOffShoppingListItem), UnCheckOffShoppingListItem.Kind)]
 [JsonDerivedType(typeof(RenameShoppingListItem), RenameShoppingListItem.Kind)]
+[JsonDerivedType(typeof(AddShoppingListCategory), AddShoppingListCategory.Kind)]
+[JsonDerivedType(typeof(SetShoppingListItemCategory), SetShoppingListItemCategory.Kind)]
 [JsonDerivedType(typeof(EnableShoppingList), EnableShoppingList.Kind)]
 [JsonDerivedType(typeof(GenerateIcalToken), GenerateIcalToken.Kind)]
 [JsonDerivedType(typeof(DeleteHousehold), DeleteHousehold.Kind)]
+[JsonDerivedType(typeof(SortCategories), SortCategories.Kind)]
+[JsonDerivedType(typeof(DeleteShoppingListCategory), DeleteShoppingListCategory.Kind)]
+[JsonDerivedType(typeof(RenameShoppingListCategory), RenameShoppingListCategory.Kind)]
+[JsonDerivedType(typeof(SetShoppingListCategoryItems), SetShoppingListCategoryItems.Kind)]
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "Kind")]
 public abstract record HouseholdEventPayload
 {

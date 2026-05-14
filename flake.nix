@@ -7,7 +7,7 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      lib = pkgs.lib;
+      inherit (pkgs) lib;
 
       # MS .NET 10 SDK as a base layer. Building dotnet from source via
       # nixpkgs needs ~80 GB of disk, so we pull MS's official image and
@@ -25,7 +25,7 @@
         src = ./.;
         filter = path: _:
           let base = baseNameOf (toString path); in
-          !(builtins.elem base [ "bin" "obj" ".git" "result" ]);
+          ! lib.elem base [ "bin" "obj" ".git" "result" ];
       };
 
       # Stable per-source-content marker. Different source = different store

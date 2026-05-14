@@ -12,5 +12,8 @@ public record DeleteHousehold : HouseholdEventPayload
     public override bool IsValid(Household household) => !household.IsDeleted;
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>
-        household with { IsDeleted = true };
+        household with
+        {
+            IsDeleted = true,
+        };
 }

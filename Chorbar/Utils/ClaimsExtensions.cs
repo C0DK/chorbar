@@ -16,5 +16,6 @@ public static class ClaimsExtensions
     }
 
     public static Email GetEmail(this ClaimsPrincipal principal) =>
-        principal.GetEmailOrNull() ?? throw new NullReferenceException();
+        principal.GetEmailOrNull()
+        ?? throw new InvalidOperationException("Authenticated user has no email claim.");
 }

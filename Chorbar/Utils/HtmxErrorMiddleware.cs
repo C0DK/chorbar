@@ -19,7 +19,7 @@ public class HtmxErrorMiddleware(RequestDelegate next, ILogger logger)
                 $"/auth/?returnUrl={Uri.EscapeDataString(returnUrl)}"
             ).ExecuteAsync(context);
         }
-        catch (HouseholdNotFound)
+        catch (HouseholdNotFoundException)
         {
             await new PageResult(
                 new UnhandledErrorPage(
@@ -37,7 +37,9 @@ public class HtmxErrorMiddleware(RequestDelegate next, ILogger logger)
                 )
             ).ExecuteAsync(context);
         }
+#pragma warning disable CA1031
         catch (Exception exception)
+#pragma warning restore CA1031
         {
             if (context.RequestAborted.IsCancellationRequested)
                 return;

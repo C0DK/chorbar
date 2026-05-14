@@ -11,26 +11,26 @@ public static class NpgsqlExtensions
 
     public static ValueTask<T> FirstAsync<T>(
         this NpgsqlCommand command,
-        Func<DbDataReader, T> selector,
+        Func<DbDataReader, CancellationToken, Task<T>> selector,
         CancellationToken cancellationToken
     ) => command.ReadAllAsync(selector, cancellationToken).FirstAsync(cancellationToken);
 
     public static ValueTask<T?> FirstOrDefaultAsync<T>(
         this NpgsqlCommand command,
-        Func<DbDataReader, T> selector,
+        Func<DbDataReader, CancellationToken, Task<T>> selector,
         CancellationToken cancellationToken
     ) => command.ReadAllAsync(selector, cancellationToken).FirstOrDefaultAsync(cancellationToken);
 
     public static async IAsyncEnumerable<T> ReadAllAsync<T>(
         this NpgsqlCommand command,
-        Func<DbDataReader, T> selector,
+        Func<DbDataReader, CancellationToken, Task<T>> selector,
         [EnumeratorCancellation] CancellationToken cancellationToken
     )
     {
-        await using var reader = await command.ExecuteReaderAsync();
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         while (await reader.ReadAsync(cancellationToken))
         {
-            yield return selector(reader);
+            yield return await selector(reader, cancellationToken);
         }
     }
 
@@ -84,7 +84,7 @@ public static class NpgsqlExtensions
         await using var command = connection.CreateCommand(sql, bind);
         if (commandTimeout is not null)
             command.CommandTimeout = commandTimeout.Value;
-        await command.ExecuteNonQueryAsync();
+        await command.ExecuteNonQueryAsync(cancellationToken);
     }
 
     public static ValueTask ExecuteAsync(

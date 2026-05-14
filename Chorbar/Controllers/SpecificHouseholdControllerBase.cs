@@ -19,4 +19,9 @@ public abstract class SpecificHouseholdControllerBase(HouseholdStore store) : Co
         HouseholdEventPayload payload,
         CancellationToken cancellationToken
     ) => _store.Write(HouseholdId, payload, cancellationToken);
+
+    protected ValueTask<Household> Write(
+        IEnumerable<HouseholdEventPayload> payloads,
+        CancellationToken cancellationToken
+    ) => _store.Write(HouseholdId, payloads, cancellationToken);
 }

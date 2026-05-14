@@ -18,10 +18,16 @@
   &:empty {
     display: none;
   }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
 }
 
 /* Disable interaction behind popover */
-body:has(:popover-open) > :not([popover]) {
+body:has(:popover-open)> :not([popover]) {
   pointer-events: none;
 }
 

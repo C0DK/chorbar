@@ -16,7 +16,42 @@
   <script src="https://cdn.jsdelivr.net/npm/htmx-ext-sse@2.2.4"
     integrity="sha384-A986SAtodyH8eg8x8irJnYUk7i9inVQqYigD6qZ9evobksGNIXfeFvDwLSHcp31N"
     crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"
+    integrity="sha256-v0JBvHP+9/EcWaKDpp/oBRzdMcbY/1orm6IZ54Mfz3Y=" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
+  <script>
+    htmx.onLoad(function (content) {
+      var sortables = content.querySelectorAll(".sortable");
+      for (var i = 0; i < sortables.length; i++) {
+        var sortable = sortables[i];
+        var group = sortable.dataset.sortableGroup;
+        var sortableInstance = new Sortable(sortable, {
+          animation: 150,
+          //ghostClass: 'blue-background-class',
+          group: group,
+          // Make the `.htmx-indicator` unsortable
+          filter: ".htmx-indicator, .no-sort",
+          onMove: function (evt) {
+            return (evt.related.className.indexOf('htmx-indicator') === -1) && (evt.related.className.indexOf('no-sort') === -1);
+          },
+
+          // Disable sorting on the `end` event
+          onAdd: function (evt) {
+            this.option("disabled", true);
+          },
+          onChange: function (evt) {
+            this.option("disabled", true);
+          }
+        });
+
+        // Re-enable sorting on the `htmx:afterSwap` event
+        sortable.addEventListener("htmx:afterSwap", function () {
+          sortableInstance.option("disabled", false);
+        });
+      }
+    })
+  </script>
+
   <link rel="stylesheet" href="/static/style.css">
   <title>{{title}}</title>
 
