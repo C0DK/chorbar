@@ -6,6 +6,11 @@
   padding: var(--space-lg);
   margin: auto;
 
+  @media (max-width: 600px),
+  (max-height: 600px) {
+    width: 95dvw;
+  }
+
   h2 {
     margin-bottom: var(--space-lg);
   }
@@ -25,13 +30,6 @@
     gap: var(--space-md);
   }
 }
-
-/* Disable interaction behind popover */
-body:has(:popover-open)> :not([popover]) {
-  pointer-events: none;
-}
-
-/* Re-enable inside the popover itself */
-[popover] {
-  pointer-events: auto;
+[inert], [inert] * {
+  pointer-events: none !important;
 }

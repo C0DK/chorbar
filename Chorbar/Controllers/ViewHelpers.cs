@@ -1,5 +1,7 @@
+using System.Text.RegularExpressions;
 using Chorbar.Model;
 using Chorbar.Templates;
+using Strongbars.Abstractions;
 
 namespace Chorbar.Controllers;
 
@@ -24,33 +26,76 @@ internal static class ViewHelpers
         );
 
     public static ChoreCard ChoreCard(KeyValuePair<string, Chore> chore) =>
-        ChoreCard(chore.Key, chore.Value);
+        ChoreCard(chore.Key, chore.Value, false);
 
-    public static ChoreCard ChoreCard(string label, Chore chore) =>
+    public static ChoreCard ChoreCard(
+        string label,
+        Chore chore,
+        bool oob = false,
+        string? oobSwapId = null
+    ) =>
         new ChoreCard(
+            htmlId: ChoreHtmlId(label),
+            order: Convert
+                .ToInt32(
+                    (
+                        (chore.Deadline() ?? (DateTimeOffset.UtcNow.AddDays(3)))
+                        - DateTimeOffset.UtcNow
+                    ).TotalMinutes
+                )
+                .ToString(),
             label: label,
-            count: chore.History.Length,
-            hasDone: chore.History.Length > 0,
-            timeAgo: TimeAgo(chore.History.LastOrDefault()),
-            hasGoal: chore.Goal is not null,
-            deadline: TimeUntil(chore.Deadline()),
-            goalNumerator: chore.Goal?.Numerator,
-            goalUnit: chore?.Goal?.Unit.ToString()
+            badges: ChoreBadges(chore),
+            oobSwap: oob,
+            oobSwapId: oobSwapId
         );
 
-    public static ChoreInfo ChoreInfo(string label, Chore chore) =>
-        new ChoreInfo(
+    public static string ChoreHtmlId(string label) => $"chore_{GenerateSlug(label)}";
+
+    public static string GenerateSlug(string phrase)
+    {
+        string str = phrase.ToLowerInvariant();
+        // invalid chars
+        str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+        // convert multiple spaces into one space
+        str = Regex.Replace(str, @"\s+", " ").Trim();
+        // cut and trim
+        str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
+        str = Regex.Replace(str, @"\s", "-"); // hyphens
+        return str;
+    }
+
+    private static IEnumerable<TemplateArgument> ChoreBadges(Chore chore)
+    {
+        if (chore.History.Length > 0)
+            yield return new ChoreBadge(
+                content: $"x{chore.History.Length}",
+                additionalClasses: Array.Empty<string>()
+            );
+        if (chore.Goal is not null)
+        {
+            yield return new ChoreBadge(
+                content: $"📅 {TimeUntil(chore.Deadline())}",
+                additionalClasses: (chore.Deadline() - DateTimeOffset.UtcNow)
+                < TimeSpan.FromHours(30)
+                    ? ["danger"]
+                    : Array.Empty<string>()
+            );
+        }
+    }
+
+    public static EditChore EditChore(string label, Chore chore) =>
+        new EditChore(
+            htmlId: ChoreHtmlId(label),
             label: label,
+            renameForm: new EditChoreRenameForm(label: label),
             actions: chore.History.Select(timestamp => new ChoreActivity(
                 timeAgo: TimeAgo(timestamp),
                 timestamp: timestamp.ToString("O"),
                 label: label
             )),
-            count: chore.History.Length,
-            hasDone: chore.History.Length > 0,
-            timeAgo: TimeAgo(chore.History.LastOrDefault()),
-            hasGoal: chore.Goal is not null,
-            deadline: TimeUntil(chore.Deadline()),
+            // badges are annoying to update for the form..
+            //badges: ChoreBadges(chore),
             goalNumerator: chore.Goal?.Numerator,
             goalUnit: chore?.Goal?.Unit.ToString()
         );

@@ -1,5 +1,5 @@
 <li class="chore-activity">
-  <form hx-post="chore/undo" hx-target="closest .chore" hx-swap="outerHTML"
+  <form hx-post="chore/undo" hx-target="#modal" hx-swap="outerHTML"
     hx-confirm="Are you sure you want to undo the {{timeAgo}} activity?">
     <input type="hidden" Value="{{label}}" name="label" />
     <input type="hidden" Value="{{timestamp}}" name="timestamp" />

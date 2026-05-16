@@ -1,0 +1,41 @@
+<article id="chore-editor">
+  <h2> Edit Chore</h2>
+  {{renameForm}}
+  <ol class="activities">
+    {{..actions}}
+  </ol>
+
+  <form class="goal-form small" hx-post="chore/goal" hx-target="#{{htmlId}}" hx-swap="outerHTML">
+    <input type="hidden" Value="{{label}}" name="label" />
+    <h3>I want to do it every...</h3>
+    <fieldset>
+      <input type="number" required min="1" Value="{{goalNumerator?}}" name="numerator" _="on load or input
+       set plural to my.valueAsNumber > 1
+       for opt in <select[name='unit'] option/>
+         set base to (opt.value.charAt(0).toUpperCase() + opt.value.slice(1))
+         if plural
+           set opt.textContent to base + 's'
+         else
+           set opt.textContent to base
+         end
+       end" />
+      <select required name="unit" _="on load
+        if '{{goalUnit?}}' is not ''
+          set my.value to '{{goalUnit?}}'
+        end">
+        <option value="Day">Day</option>
+        <option value="Week">Week</option>
+        <option value="Month">Month</option>
+        <option value="Year">Year</option>
+      </select>
+
+      <button type="submit" class="small">Set</button>
+
+    </fieldset>
+  </form>
+  <form hx-post="chore/remove" hx-target="#{{htmlId}}" hx-swap="outerHTML"
+    hx-confirm="Are you sure you want to delete '{{label}}'?">
+    <input type="hidden" Value="{{label}}" name="label" />
+    <button type="submit" class="small danger">Delete</button>
+  </form>
+</article>
