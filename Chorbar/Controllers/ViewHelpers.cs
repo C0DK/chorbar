@@ -94,7 +94,8 @@ internal static class ViewHelpers
                 timestamp: timestamp.ToString("O"),
                 label: label
             )),
-            badges: ChoreBadges(chore),
+            // badges are annoying to update for the form..
+            //badges: ChoreBadges(chore),
             goalNumerator: chore.Goal?.Numerator,
             goalUnit: chore?.Goal?.Unit.ToString()
         );

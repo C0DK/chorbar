@@ -30,13 +30,6 @@
     gap: var(--space-md);
   }
 }
-
-/* Disable interaction behind popover */
-body:has(:popover-open)> :not([popover]) {
-  pointer-events: none;
-}
-
-/* Re-enable inside the popover itself */
-[popover] {
-  pointer-events: auto;
+[inert], [inert] * {
+  pointer-events: none !important;
 }
