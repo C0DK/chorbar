@@ -46,6 +46,7 @@ public class PageResult(string content, string? title = null) : IResult
             );
         else
         {
+            response.Headers["HX-Trigger"] = "closeModal";
             response.Headers["HX-Retarget"] = "body";
             response.Headers["HX-Reswap"] = "innerHTML transition:true";
             // make this less codey ugly
@@ -56,7 +57,6 @@ public class PageResult(string content, string? title = null) : IResult
                 <main>
                     {content.Trim()}
                 </main>
-                <div id="modal"></div>
                 <footer>
                     Chorbar - A very unfinished product
                 </footer>

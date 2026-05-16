@@ -1,3 +1,25 @@
+.badges {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+
+}
+
+.badge {
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--color-muted);
+  font-weight: 700;
+  font-size: var(--font-size-xs);
+
+  &.danger {
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    border-style: dashed;
+  }
+}
+
 #new-chore {
   display: flex;
   justify-content: center;
@@ -55,12 +77,6 @@
       justify-content: space-between;
       gap: var(--space-md);
 
-      .badges {
-        display: flex;
-        gap: var(--space-sm);
-        overflow-x: auto;
-
-      }
 
       .do {
 
@@ -82,86 +98,13 @@
       }
     }
 
-    .badge {
-      border: 1px solid var(--color-muted);
-      border-radius: var(--radius-lg);
-      padding: var(--space-xs) var(--space-sm);
-      color: var(--color-muted);
-      font-weight: 700;
-      font-size: var(--font-size-xs);
 
-      &.danger {
-        border: 1px solid var(--color-primary);
-        color: var(--color-primary);
-        border-style: dashed;
-      }
+    h3,
+    h4 {
+      flex: 1;
+      min-width: 0;
     }
 
-    .chore-title {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--space-sm);
-
-      h2,
-      h3,
-      h4 {
-        flex: 1;
-        min-width: 0;
-      }
-
-      .edit-label {
-        cursor: pointer;
-        font-size: 1rem;
-        line-height: 1;
-        opacity: 0.6;
-        user-select: none;
-
-        &:hover,
-        &:focus {
-          opacity: 1;
-          outline: none;
-        }
-      }
-
-      .rename-form {
-        display: none;
-        flex: 1;
-        padding-bottom: var(--space-sm);
-
-        fieldset {
-          display: flex;
-
-          input[type="text"] {
-            flex: 1;
-            min-width: 0;
-            padding: var(--space-xs) var(--space-sm);
-          }
-
-          :not(:first-child) {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            border-left-width: 0;
-          }
-
-          :not(:last-child) {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-          }
-        }
-      }
-    }
-
-    &.editing .chore-title {
-
-      h2,
-      .edit-label {
-        display: none;
-      }
-
-      .rename-form {
-        display: block;
-      }
-    }
 
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -177,76 +120,15 @@
 
     height: var(--chore-height);
 
-    &:not(.details) {
-
-      h2,
-      h3 {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-
-    p.goal {
-      font-style: italic;
-      align-self: flex-end;
-      margin-top: calc(var(--space-sm) * -1);
-      color: var(--color-primary);
-      margin-bottom: var(--space-sm);
-    }
-
-    ol {
-      max-height: var(--chore-height);
-      overflow-y: auto;
-      list-style: inside;
-    }
-
-    &.details {
-      grid-row: span 2;
-      height: calc(var(--chore-height) * 2 + var(--space-lg));
-    }
-
-    .goal-form {
-      align-self: flex-end;
-      margin-bottom: var(--space-sm);
-      width: 100%;
-
-      fieldset {
-        display: flex;
-
-        :not(:first-child) {
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
-          border-left-width: 0;
-        }
-
-        :not(:last-child) {
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
-        }
-      }
+    h2,
+    h3 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
 
-#chore-info {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg);
-  margin: 2rem;
-  gap: 1rem;
-
-  display: none;
-
-  &:not(:empty) {
-    display: block;
-  }
-
-  ol {
-    list-style: inside;
-  }
-}
 
 .chore-activity {
   form {
@@ -259,6 +141,55 @@
       background: none;
       color: var(--color-primary);
       font-size: var(--font-size-xs);
+    }
+  }
+}
+
+#chore-editor {
+  gap: var(--space-lg);
+
+  h2,
+  h3 {
+    margin-bottom: 0;
+  }
+
+  display: flex;
+  flex-direction: column;
+
+
+  ol {
+    max-height: var(--chore-height);
+    overflow-y: auto;
+    list-style: inside;
+
+    li {
+      color: var(--color-secondary);
+    }
+  }
+
+  &.details {
+    grid-row: span 2;
+    height: calc(var(--chore-height) * 2 + var(--space-lg));
+  }
+
+  .goal-form {
+    align-self: flex-end;
+    margin-bottom: var(--space-sm);
+    width: 100%;
+
+    fieldset {
+      display: flex;
+
+      :not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left-width: 0;
+      }
+
+      :not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
     }
   }
 }

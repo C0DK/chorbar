@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Chorbar.Model;
 using Chorbar.Templates;
 using Strongbars.Abstractions;
@@ -25,10 +26,31 @@ internal static class ViewHelpers
         );
 
     public static ChoreCard ChoreCard(KeyValuePair<string, Chore> chore) =>
-        ChoreCard(chore.Key, chore.Value);
+        ChoreCard(chore.Key, chore.Value, false);
 
-    public static ChoreCard ChoreCard(string label, Chore chore) =>
-        new ChoreCard(label: label, badges: ChoreBadges(chore));
+    public static ChoreCard ChoreCard(string label, Chore chore, bool oob = false) =>
+        new ChoreCard(
+            htmlId: ChoreHtmlId(label),
+            label: label,
+            badges: ChoreBadges(chore),
+            oobSwap: oob
+        );
+
+    public static string ChoreHtmlId(string label) => 
+$"chore_{GenerateSlug(label)}";
+    public static string GenerateSlug(string phrase)
+    {
+        string str = phrase.ToLowerInvariant();
+        // invalid chars
+        str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+        // convert multiple spaces into one space
+        str = Regex.Replace(str, @"\s+", " ").Trim();
+        // cut and trim
+        str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
+        str = Regex.Replace(str, @"\s", "-"); // hyphens
+        return str;
+    }
+
 
     private static IEnumerable<TemplateArgument> ChoreBadges(Chore chore)
     {
@@ -47,22 +69,17 @@ internal static class ViewHelpers
                     : Array.Empty<string>()
             );
         }
-
     }
 
-    public static ChoreInfo ChoreInfo(string label, Chore chore) =>
-        new ChoreInfo(
+    public static EditChore EditChore(string label, Chore chore) =>
+        new EditChore(
             label: label,
             actions: chore.History.Select(timestamp => new ChoreActivity(
                 timeAgo: TimeAgo(timestamp),
                 timestamp: timestamp.ToString("O"),
                 label: label
             )),
-            count: chore.History.Length,
-            hasDone: chore.History.Length > 0,
-            timeAgo: TimeAgo(chore.History.LastOrDefault()),
-            hasGoal: chore.Goal is not null,
-            deadline: TimeUntil(chore.Deadline()),
+            badges: ChoreBadges(chore),
             goalNumerator: chore.Goal?.Numerator,
             goalUnit: chore?.Goal?.Unit.ToString()
         );

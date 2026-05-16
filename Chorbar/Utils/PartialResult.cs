@@ -19,7 +19,7 @@ public class PartialResult(
         response.StatusCode = StatusCodes.Status200OK;
         response.ContentType = "text/html";
         if (closeModal)
-            response.WriteAsync("<div id='modal' hx-swap-oob='outerHTML'></div>");
+            response.Headers["HX-Trigger"] = "closeModal";
 
         return response.WriteAsync(content);
     }

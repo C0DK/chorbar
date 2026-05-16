@@ -1,8 +1,7 @@
-<article class="chore">
-  <h3 hx-get="chore/details" hx-vals='{"label":"{{label}}" }' hx-target="#modal" hx-swap="outerHTML"
-    hx-target="#chore-info">
-    {{label}}
-  </h3>
+<article id="{{htmlId}}" {% if oobSwap %}hx-swap-oob="outerHTML" {%end%} class="chore" hx-get="chore/edit"
+  hx-vals='{"label":"{{label}}" }' hx-target="#modal" hx-swap="outerHTML"
+  hx-trigger="click[!event.target.closest('form')]">
+  <h3>{{label}}</h3>
   <footer>
     <div class="badges">
       {{..badges}}
