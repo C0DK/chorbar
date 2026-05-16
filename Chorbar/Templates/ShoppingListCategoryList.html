@@ -1,8 +1,8 @@
 <li class="category {% unless hasLabel %}no-sort{% end %}">
   <input type='hidden' name='category' value='{{label?}}'>
-  <form hx-post="shopping_list/set-category" hx-target="#shopping-list" hx-trigger="add, update">
+  <form hx-post="shopping_list/set-category" hx-target="#shopping-list" hx-trigger="add, update consume:true">
     <details open>
-      <summary>
+      <summary class="sortable-handle">
         {% if hasLabel %}
         {{label?}}
         <form hx-get="shopping_list/edit-category" hx-target="#modal">
@@ -18,14 +18,15 @@
       <ol class="sortable" data-sortable-group="shopping-list">
         {{..openItems}}
         <li class="no-sort">
-          <form class="new-item" hx-post="shopping_list/add" hx-target="#shopping-list">
+          <form class="new-item" hx-post="shopping_list/add" hx-target="closest li" hx-swap="beforebegin"
+            hx-on::after-request="if(event.detail.successful) this.reset()">
             <button type="submit">+</button>
             <input type='hidden' name='category' value='{{label?}}'>
             <input required type="text" name="label" placeholder="Add item" hx-trigger="keyup[key=='Enter']">
           </form>
         </li>
       </ol>
-      <ol>
+      <ol class="checked">
         {{..checkedItems}}
       </ol>
     </details>

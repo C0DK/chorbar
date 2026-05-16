@@ -1,8 +1,9 @@
 #household-page {
-  min-height: 80dvh;
+  min-height: 70dvh;
   min-width: 80dvw;
+  max-width: 99dvw;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 2fr;
   gap: var(--space-xl);
 
   @media (max-width: 1200px) {
@@ -12,6 +13,11 @@
   @media (max-width: 600px),
   (max-height: 600px) {
     grid-template-columns: 1fr;
+  }
+
+  >details {
+    min-width: 0;
+
   }
 
   details>summary {
@@ -35,8 +41,20 @@
   }
 }
 
+.sortable-handle {
+  cursor: move;
+  cursor: -webkit-grabbing;
+}
+
+.sortable-ghost {
+  opacity: 0.4;
+}
 
 #shopping-list {
+  ol .checked {
+    max-height: 5rem;
+    overflow-y: auto;
+  }
 
   @media (max-width: 600px),
   (max-height: 600px) {
@@ -44,7 +62,6 @@
     max-height: 80dvh;
   }
 
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -71,7 +88,9 @@
       min-height: 0;
 
       &:hover,
-      &:focus {
+
+
+      Grønt &:focus {
         border: none;
         box-shadow: none;
       }
@@ -171,7 +190,7 @@
 
     label {
       gap: var(--space-md);
-      line-height: 2;
+      line-height: 1.8;
       font-size: 1.125rem;
 
       @media (max-width: 600px),

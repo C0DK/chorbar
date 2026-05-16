@@ -33,6 +33,7 @@ main {
 
   view-transition-name: slide;
 
+  max-width: 99dvw;
 }
 
 nav {

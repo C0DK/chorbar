@@ -1,7 +1,7 @@
 <li {% if isChecked %}class="checked" {% end %}>
   <input type='hidden' name='itemId' value='{{id}}'>
   <form>
-    <label>
+    <label class="sortable-handle">
       <input type="checkbox" hx-post="shopping_list/{{id}}/checked" hx-target="#shopping-list" hx-trigger="change"
         name="isChecked" {% if isChecked %}checked{% end %}>
       {{Label}}
