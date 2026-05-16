@@ -27,19 +27,18 @@
         var group = sortable.dataset.sortableGroup;
         var sortableInstance = new Sortable(sortable, {
           animation: 150,
-          //ghostClass: 'blue-background-class',
           group: group,
           // Make the `.htmx-indicator` unsortable
           filter: ".htmx-indicator, .no-sort",
-          onMove: function (evt) {
-            return (evt.related.className.indexOf('htmx-indicator') === -1) && (evt.related.className.indexOf('no-sort') === -1);
-          },
+
+          preventOnFilter: false,
+          handle: ".sortable-handle",
 
           // Disable sorting on the `end` event
           onAdd: function (evt) {
             this.option("disabled", true);
           },
-          onChange: function (evt) {
+          onUpdate: function (evt) {
             this.option("disabled", true);
           }
         });
@@ -60,7 +59,7 @@
         });
       };
       if (open) apply();
-      else setTimeout(apply, 30); // sometimes the touch thing is too quick and wick click through.
+      else setTimeout(apply, 30); // sometimes the touch thing is too quick and will click through.
     }, true);
   </script>
 

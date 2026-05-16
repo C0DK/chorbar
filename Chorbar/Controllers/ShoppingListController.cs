@@ -20,7 +20,13 @@ public class ShoppingListController(HouseholdStore store) : SpecificHouseholdCon
         [FromForm] string label,
         [FromForm] string? category,
         CancellationToken cancellationToken
-    ) => Render(await Write(new AddToShoppingList(label, category), cancellationToken));
+    )
+    {
+        var household = await Write(new AddToShoppingList(label, category), cancellationToken);
+
+        var newItem = household.ShoppingListItems.Last();
+        return new PartialResult(Render(newItem));
+    }
 
     [HttpPost("add-category")]
     public async Task<IResult> AddCategory(
