@@ -1,19 +1,14 @@
 <article id="chore-editor">
-  <h2> Edit '{{label}}'</h2>
+  <h2> Edit Chore</h2>
   <div class="badges">
     {{..badges}}
   </div>
-  <form class="inputWithButton" hx-post="chore/rename" hx-target="#modal" hx-swap="outerHTML">
-    <input type="hidden" name="oldLabel" Value="{{label}}">
-    <input type="text" name="newLabel" Value="{{label}}" required _="on keydown[key is 'Escape']
-             remove .editing from closest <article/>">
-    <button type="submit" class="small" title="Save" aria-label="Save">Update</button>
-  </form>
+  {{renameForm}}
   <ol class="activities">
     {{..actions}}
   </ol>
 
-  <form class="goal-form small" hx-post="chore/goal" hx-target="#modal" hx-swap="outerHTML">
+  <form class="goal-form small" hx-post="chore/goal" hx-target="#{{htmlId}}" hx-swap="outerHTML">
     <input type="hidden" Value="{{label}}" name="label" />
     <h3>I want to do it every...</h3>
     <fieldset>
@@ -41,7 +36,8 @@
 
     </fieldset>
   </form>
-  <form hx-post="chore/remove" hx-target="body" hx-confirm="Are you sure you want to delete '{{label}}'?">
+  <form hx-post="chore/remove" hx-target="#{{htmlId}}" hx-swap="outerHTML"
+    hx-confirm="Are you sure you want to delete '{{label}}'?">
     <input type="hidden" Value="{{label}}" name="label" />
     <button type="submit" class="small danger">Delete</button>
   </form>

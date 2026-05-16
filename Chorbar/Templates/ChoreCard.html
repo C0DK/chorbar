@@ -1,5 +1,5 @@
-<article id="{{htmlId}}" {% if oobSwap %}hx-swap-oob="outerHTML" {%end%} class="chore" hx-get="chore/edit"
-  hx-vals='{"label":"{{label}}" }' hx-target="#modal" hx-swap="outerHTML"
+<article id="{{htmlId}}" style="order: {{order}}" {% if oobSwap %}hx-swap-oob="outerHTML:#{{oobSwapId?}}" {%end%}
+  class="chore" hx-get="chore/edit" hx-vals='{"label":"{{label}}" }' hx-target="#modal" hx-swap="outerHTML"
   hx-trigger="click[!event.target.closest('form')]">
   <h3>{{label}}</h3>
   <footer>

@@ -51,6 +51,14 @@
       }
     })
 
+    document.addEventListener("toggle", function (e) {
+      if (!(e.target instanceof HTMLElement) || !e.target.hasAttribute("popover")) return;
+      var open = e.newState === "open";
+      document.querySelectorAll("body > :not([popover])").forEach(function (el) {
+        console.log(el, open);
+        el.inert = open;
+      });
+    }, true);
   </script>
 
   <link rel="stylesheet" href="/static/style.css">

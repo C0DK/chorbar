@@ -28,16 +28,30 @@ internal static class ViewHelpers
     public static ChoreCard ChoreCard(KeyValuePair<string, Chore> chore) =>
         ChoreCard(chore.Key, chore.Value, false);
 
-    public static ChoreCard ChoreCard(string label, Chore chore, bool oob = false) =>
+    public static ChoreCard ChoreCard(
+        string label,
+        Chore chore,
+        bool oob = false,
+        string? oobSwapId = null
+    ) =>
         new ChoreCard(
             htmlId: ChoreHtmlId(label),
+            order: Convert
+                .ToInt32(
+                    (
+                        (chore.Deadline() ?? (DateTimeOffset.UtcNow.AddDays(3)))
+                        - DateTimeOffset.UtcNow
+                    ).TotalMinutes
+                )
+                .ToString(),
             label: label,
             badges: ChoreBadges(chore),
-            oobSwap: oob
+            oobSwap: oob,
+            oobSwapId: oobSwapId
         );
 
-    public static string ChoreHtmlId(string label) => 
-$"chore_{GenerateSlug(label)}";
+    public static string ChoreHtmlId(string label) => $"chore_{GenerateSlug(label)}";
+
     public static string GenerateSlug(string phrase)
     {
         string str = phrase.ToLowerInvariant();
@@ -50,7 +64,6 @@ $"chore_{GenerateSlug(label)}";
         str = Regex.Replace(str, @"\s", "-"); // hyphens
         return str;
     }
-
 
     private static IEnumerable<TemplateArgument> ChoreBadges(Chore chore)
     {
@@ -73,7 +86,9 @@ $"chore_{GenerateSlug(label)}";
 
     public static EditChore EditChore(string label, Chore chore) =>
         new EditChore(
+            htmlId: ChoreHtmlId(label),
             label: label,
+            renameForm: new EditChoreRenameForm(label: label),
             actions: chore.History.Select(timestamp => new ChoreActivity(
                 timeAgo: TimeAgo(timestamp),
                 timestamp: timestamp.ToString("O"),

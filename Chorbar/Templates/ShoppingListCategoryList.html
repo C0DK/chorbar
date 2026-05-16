@@ -17,7 +17,7 @@
       <input type='hidden' name='category' value='{{label?}}'>
       <ol class="sortable" data-sortable-group="shopping-list">
         {{..openItems}}
-        <li>
+        <li class="no-sort">
           <form class="new-item" hx-post="shopping_list/add" hx-target="#shopping-list">
             <button type="submit">+</button>
             <input type='hidden' name='category' value='{{label?}}'>

@@ -1,0 +1,6 @@
+<form class="inputWithButton" hx-post="chore/rename" hx-target="this" hx-swap="outerHTML">
+  <input type="hidden" name="oldLabel" Value="{{label}}">
+  <input type="text" name="newLabel" Value="{{label}}" required _="on keydown[key is 'Escape']
+             remove .editing from closest <article/>">
+  <button type="submit" class="small" title="Save" aria-label="Save">Update</button>
+</form>
