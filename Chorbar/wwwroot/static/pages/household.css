@@ -56,12 +56,6 @@
     overflow-y: auto;
   }
 
-  @media (max-width: 600px),
-  (max-height: 600px) {
-    /* TODO; maybe have but also for chore list*/
-    max-height: 80dvh;
-  }
-
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
