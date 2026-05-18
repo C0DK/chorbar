@@ -8,9 +8,17 @@ public sealed class StaticFileVersion
 
     public StaticFileVersion(IWebHostEnvironment env)
     {
-        var cssPath = Path.Combine(env.WebRootPath, "static", "style.css");
-        using var stream = File.OpenRead(cssPath);
-        var hashBytes = SHA256.HashData(stream);
-        Hash = Convert.ToHexString(hashBytes)[..12].ToLowerInvariant();
+        var cssFiles = Directory
+            .EnumerateFiles(env.WebRootPath, "*.css", SearchOption.AllDirectories)
+            .OrderBy(f => f);
+
+        using var hasher = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        foreach (var file in cssFiles)
+        {
+            var bytes = File.ReadAllBytes(file);
+            hasher.AppendData(bytes);
+        }
+
+        Hash = Convert.ToHexString(hasher.GetHashAndReset())[..12].ToLowerInvariant();
     }
 }
