@@ -67,19 +67,6 @@ internal static class ViewHelpers
 
     private static IEnumerable<TemplateArgument> ChoreBadges(Chore chore)
     {
-        if (chore.History.Length > 0)
-            yield return new ChoreBadge(
-                content: $"x{chore.History.Length}",
-                additionalClasses: Array.Empty<string>()
-            );
-
-        var streak = chore.Streak(DateTimeOffset.UtcNow);
-        if (streak >= 2)
-            yield return new ChoreBadge(
-                content: $"🔥 {streak}",
-                additionalClasses: Array.Empty<string>()
-            );
-
         if (chore.Goal is not null)
         {
             var deadline = chore.Deadline();
@@ -90,6 +77,19 @@ internal static class ViewHelpers
                     : Array.Empty<string>()
             );
         }
+
+        var streak = chore.Streak(DateTimeOffset.UtcNow);
+        if (streak >= 2)
+            yield return new ChoreBadge(
+                content: $"🔥 {streak}",
+                additionalClasses: Array.Empty<string>()
+            );
+
+        if (chore.History.Length > 0)
+            yield return new ChoreBadge(
+                content: $"x{chore.History.Length}",
+                additionalClasses: Array.Empty<string>()
+            );
     }
 
     public static string DeadlineText(DateTimeOffset? deadline)
