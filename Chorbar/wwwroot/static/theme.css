@@ -33,12 +33,21 @@
   --radius-lg: 10px;
 
   /* Typography */
-  --font-body: 'Literata', Georgia, serif;
+  --font-body: 'Inter', sans-serif;
+  --font-brand: 'Source Sans Pro', Georgia, serif;
   --font-size-base: 1rem;
   --font-size-sm: 0.875rem;
   --font-size-xs: 0.75rem;
   --line-height-base: 1.65;
 
+
+}
+
+.brand {
+  font-family: var(--font-brand);
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: -1px;
 
 }
 

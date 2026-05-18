@@ -1,0 +1,2245 @@
+-[ RECORD 1 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 365
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 15:03:56.109261+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 44, 33, 39, 38, 40, 41, 42, 43], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 2 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 364
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 15:03:48.261201+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "lort", "category": "Grønt", "EventKind": "add_to_shopping_list"}
+-[ RECORD 3 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 363
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 15:03:47.672317+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "æbler", "category": "Grønt", "EventKind": "add_to_shopping_list"}
+-[ RECORD 4 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 362
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 15:02:57.949965+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 40, "EventKind": "check_off_shopping_list"}
+-[ RECORD 5 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 361
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 15:02:57.570164+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 38, "EventKind": "check_off_shopping_list"}
+-[ RECORD 6 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 360
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 15:02:19.731041+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 33, 38, 40, 39, 41, 42, 43], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 7 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 359
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 15:02:13.240882+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 43, "EventKind": "check_off_shopping_list"}
+-[ RECORD 8 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 358
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 15:02:12.904414+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 42, "EventKind": "check_off_shopping_list"}
+-[ RECORD 9 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 357
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 15:02:12.646331+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 41, "EventKind": "check_off_shopping_list"}
+-[ RECORD 10 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 356
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:59:54.586866+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "a", "category": "Frost", "EventKind": "add_to_shopping_list"}
+-[ RECORD 11 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 355
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:59:53.504732+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "a", "category": "Frost", "EventKind": "add_to_shopping_list"}
+-[ RECORD 12 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 354
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:59:47.63957+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "as", "category": "Frost", "EventKind": "add_to_shopping_list"}
+-[ RECORD 13 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 353
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:59:46.637006+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "test", "category": "Frost", "EventKind": "add_to_shopping_list"}
+-[ RECORD 14 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 352
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:59:45.641616+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "test", "category": "Frost", "EventKind": "add_to_shopping_list"}
+-[ RECORD 15 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 351
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:59:38.292918+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 2, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 16 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 350
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:59:36.754898+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 2, "EventKind": "check_off_shopping_list"}
+-[ RECORD 17 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 349
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:56:35.16287+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "test", "category": "Frost", "EventKind": "add_to_shopping_list"}
+-[ RECORD 18 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 348
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:56:31.526519+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 33, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 19 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 347
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:56:29.893774+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 33, "EventKind": "check_off_shopping_list"}
+-[ RECORD 20 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 346
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:56:25.614543+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 31, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 21 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 345
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:56:23.906004+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 31, "EventKind": "check_off_shopping_list"}
+-[ RECORD 22 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 344
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:51:55.124003+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 32, 34], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 23 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 343
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:38.082879+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [32, 34], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 24 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 342
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:34.826229+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 32, 33, 2], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 25 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 341
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:33.773447+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 33, 2], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 26 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 340
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:32.636704+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [32, 2, 34], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 27 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 339
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:29.880703+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 34], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 28 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 338
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:27.186593+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 2, 32, 33], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 29 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 337
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:25.940772+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [33], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 30 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 336
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:23.165583+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [33, 34], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 31 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 335
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:17.770314+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 2, 33, 32], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 32 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 334
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:16.28638+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 2, 32, 33], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 33 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 333
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:12.558447+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [34, 33], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 34 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 332
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:48:07.119222+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [34], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 35 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 331
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:47:00.500995+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 2, 32, 34], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 36 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 330
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:46:58.101836+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 2, 34, 32], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 37 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 329
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:46:53.169414+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 38 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 328
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:46:46.270521+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [32], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 39 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 327
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:46:41.131407+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [33], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 40 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 326
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:46:38.043714+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 2, 32, 34], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 41 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 325
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:45:21.60488+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 32, 34, 2], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 42 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 324
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:45:19.05094+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 34, 32, 2], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 43 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 323
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:45:09.682813+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 32, 2, 34], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 44 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 322
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:44:22.806913+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 45 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 321
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:44:19.260715+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 32, 34, 2], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 46 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 320
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:44:15.567787+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 32, 2], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 47 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 319
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:44:10.562058+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [31, 30, 2, 32], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 48 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 318
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:41:27.761134+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 31, 30, 32], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 49 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 317
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:36:33.702125+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 31, 32, 30], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 50 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 316
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:34:39.094354+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 31, 30, 32], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 51 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 315
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:31:59.673348+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 52 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 314
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:31:32.277859+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 53 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 313
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:30:48.393409+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 54 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 312
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:30:42.454859+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 55 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 311
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:30:00.210186+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 56 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 310
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:29:48.540542+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 57 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 309
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:28:54.930788+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 58 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 308
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:28:44.003563+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 59 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 307
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:28:42.576932+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 30, 31, 32], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 60 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 306
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:28:10.073037+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "vask gulvet", "EventKind": "do_chore"}
+-[ RECORD 61 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 305
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 14:27:42.410975+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 30, 32], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 62 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 304
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:33:58.070442+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_chore", "NewLabel": "vask gulvet", "OldLabel": "test tingene", "EventKind": "rename_chore"}
+-[ RECORD 63 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 303
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:33:39.841418+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_chore", "NewLabel": "test tingene", "OldLabel": "test ting", "EventKind": "rename_chore"}
+-[ RECORD 64 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 302
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:31:59.223414+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_chore", "NewLabel": "test ting", "OldLabel": "tests", "EventKind": "rename_chore"}
+-[ RECORD 65 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 301
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:28:30.336317+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_chore", "NewLabel": "tests", "OldLabel": "test", "EventKind": "rename_chore"}
+-[ RECORD 66 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 300
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:27:15.003614+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_chore", "NewLabel": "test", "OldLabel": "testsst", "EventKind": "rename_chore"}
+-[ RECORD 67 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 299
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:19:50.401021+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_chore", "NewLabel": "testsst", "OldLabel": "testss", "EventKind": "rename_chore"}
+-[ RECORD 68 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 298
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:19:14.34769+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_chore", "NewLabel": "testss", "OldLabel": "test", "EventKind": "rename_chore"}
+-[ RECORD 69 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 297
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:18:57.853823+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 0, "Chore": "test", "EventKind": "set_goal", "Numerator": 1}
+-[ RECORD 70 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 296
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:11:53.822052+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 0, "Chore": "blah", "EventKind": "set_goal", "Numerator": 5}
+-[ RECORD 71 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 295
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:11:46.464799+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "blah", "EventKind": "add_chore"}
+-[ RECORD 72 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 294
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:11:45.418215+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "test", "EventKind": "add_chore"}
+-[ RECORD 73 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 293
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:11:43.281836+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "remove_chore", "Label": "Rengøre kaninbur", "EventKind": "remove_chore"}
+-[ RECORD 74 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 292
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:11:09.857767+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "remove_chore", "Label": "Vaske vinduer", "EventKind": "remove_chore"}
+-[ RECORD 75 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 291
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:10:45.311025+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "remove_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "remove_chore"}
+-[ RECORD 76 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 290
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 07:04:52.643054+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 77 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 289
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 06:54:57.605687+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "set_goal", "Numerator": 1}
+-[ RECORD 78 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 288
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-16 06:54:40.536899+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Rengøre ovne", "EventKind": "set_goal", "Numerator": 2}
+-[ RECORD 79 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 287
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:57:53.021945+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 3, "Chore": "Rengøre kaninbur", "EventKind": "set_goal", "Numerator": 2}
+-[ RECORD 80 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 286
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:54:12.46875+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "set_goal", "Numerator": 1}
+-[ RECORD 81 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 285
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:54:08.766696+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 0, "Chore": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "set_goal", "Numerator": 1}
+-[ RECORD 82 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 284
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:54:06.28207+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 2, "Chore": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "set_goal", "Numerator": 1}
+-[ RECORD 83 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 283
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:52:07.229433+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "undo_chore", "timestamp": "2026-05-05T10:29:15.168747+00:00"}
+-[ RECORD 84 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 282
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:52:05.091625+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "undo_chore", "timestamp": "2026-05-05T10:29:14.852951+00:00"}
+-[ RECORD 85 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 281
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:51:46.636518+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "undo_chore", "timestamp": "2026-05-05T10:29:14.401631+00:00"}
+-[ RECORD 86 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 280
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:51:44.083887+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "undo_chore", "timestamp": "2026-05-05T10:29:14.243691+00:00"}
+-[ RECORD 87 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 279
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:51:41.73244+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "undo_chore", "timestamp": "2026-05-05T10:29:14.684696+00:00"}
+-[ RECORD 88 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 278
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 08:51:08.990506+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "do_chore"}
+-[ RECORD 89 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 277
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:53:52.174598+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre ovne", "EventKind": "do_chore"}
+-[ RECORD 90 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 276
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:16:08.487982+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 91 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 275
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:16:05.654782+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 92 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 274
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:15:59.881489+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 93 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 273
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:15:56.976644+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 94 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 272
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:15:51.117343+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 95 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 271
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:15:06.893806+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 96 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 270
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:15:03.593472+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 97 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 269
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:14:57.205446+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 98 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 268
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:14:32.698511+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 99 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 267
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:14:26.354707+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 100 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 266
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:14:18.843819+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 101 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 265
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:14:14.445569+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 102 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 264
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:14:11.568891+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 103 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 263
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:14:05.903917+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 104 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 262
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:13:46.024153+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 105 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 261
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:13:42.551829+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 106 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 260
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:13:12.267631+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 107 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 259
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:13:09.432779+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 108 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 258
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:12:55.88665+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 109 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 257
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:12:49.483546+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 110 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 256
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:12:46.445305+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 111 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 255
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:12:44.483792+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 112 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 254
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:12:42.241435+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 113 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 253
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:12:39.7794+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 114 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 252
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:12:09.244828+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 115 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 251
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:11:57.237645+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 116 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 250
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:11:50.498013+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 117 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 249
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:08:22.727421+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 118 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 248
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:07:41.015116+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 119 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 247
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:07:39.035521+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Grønt", "Frost"]}
+-[ RECORD 120 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 246
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:07:20.545038+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 121 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 245
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:07:17.417547+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 122 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 244
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:07:15.686428+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 123 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 243
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:06:24.96743+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 124 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 242
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:04:41.750934+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [30, 2, 32], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 125 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 241
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:04:39.042046+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 126 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 240
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:04:35.136357+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 127 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 239
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:04:33.823302+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt"]}
+-[ RECORD 128 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 238
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:04:32.55662+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [32], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 129 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 237
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:04:01.64649+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_shopping_list_category", "Category": "Frostvarer", "EventKind": "rename_shopping_list_category", "NewCategory": "Frost"}
+-[ RECORD 130 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 236
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:03:57.819037+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_shopping_list_category", "Category": "Frost", "EventKind": "rename_shopping_list_category", "NewCategory": "Frostvarer"}
+-[ RECORD 131 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 235
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 06:00:24.540175+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "delete_shopping_list_category", "Category": "Slik", "EventKind": "delete_shopping_list_category"}
+-[ RECORD 132 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 234
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-14 05:58:13.450824+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "delete_shopping_list_category", "Category": "soda", "EventKind": "delete_shopping_list_category"}
+-[ RECORD 133 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 233
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:36:34.149855+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 35, "EventKind": "check_off_shopping_list"}
+-[ RECORD 134 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 232
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:36:33.399401+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 3, "EventKind": "check_off_shopping_list"}
+-[ RECORD 135 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 231
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:36:32.954216+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 1, "EventKind": "check_off_shopping_list"}
+-[ RECORD 136 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 230
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:36:32.050695+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 1, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 137 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 229
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:36:31.229515+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 35, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 138 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 228
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:36:30.632367+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 3, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 139 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 227
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:33:27.743366+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 37, "EventKind": "check_off_shopping_list"}
+-[ RECORD 140 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 226
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:33:27.567321+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 36, "EventKind": "check_off_shopping_list"}
+-[ RECORD 141 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 225
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:33:27.416852+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 1, "EventKind": "check_off_shopping_list"}
+-[ RECORD 142 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 224
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:33:26.64028+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 3, "EventKind": "check_off_shopping_list"}
+-[ RECORD 143 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 223
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:33:25.531082+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 35, "EventKind": "check_off_shopping_list"}
+-[ RECORD 144 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 222
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:33:22.556722+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "blas", "category": "Grønt", "EventKind": "add_to_shopping_list"}
+-[ RECORD 145 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 221
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:31:52.889335+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "test", "category": "Grønt", "EventKind": "add_to_shopping_list"}
+-[ RECORD 146 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 220
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:31:49.881306+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [35, 3, 1], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 147 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 219
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:31:49.871731+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["soda", "Grønt", "Frost", "Slik"]}
+-[ RECORD 148 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 218
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:31:20.532457+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "fifsk", "category": "Grønt", "EventKind": "add_to_shopping_list"}
+-[ RECORD 149 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 217
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:30:32.044839+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "fisk", "category": null, "EventKind": "add_to_shopping_list"}
+-[ RECORD 150 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 216
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 20:29:28.136649+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "æbler", "EventKind": "add_to_shopping_list"}
+-[ RECORD 151 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 215
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 19:02:50.724004+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_shopping_list_category", "Category": "Slik", "EventKind": "add_shopping_list_category"}
+-[ RECORD 152 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 214
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 19:02:47.164508+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [32, 30, 2, 4], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 153 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 213
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 19:02:45.665695+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [3, 1, 32], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 154 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 212
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 19:02:40.929281+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "Ketchup", "EventKind": "add_to_shopping_list"}
+-[ RECORD 155 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 211
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:50:32.269455+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 31, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 156 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 210
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:50:31.367851+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 31, "EventKind": "check_off_shopping_list"}
+-[ RECORD 157 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 209
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:48:06.585354+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 4, "EventKind": "check_off_shopping_list"}
+-[ RECORD 158 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 208
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:47:54.141875+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 2, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 159 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 207
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:47:53.178012+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 30, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 160 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 206
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:47:52.246405+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 4, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 161 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 205
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:47:51.524092+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 30, "EventKind": "check_off_shopping_list"}
+-[ RECORD 162 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 204
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:47:50.945437+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 4, "EventKind": "check_off_shopping_list"}
+-[ RECORD 163 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 203
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:47:46.9858+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 2, "EventKind": "check_off_shopping_list"}
+-[ RECORD 164 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 202
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:47:46.154675+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 2, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 165 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 201
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:46:51.219284+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [30, 4, 2], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 166 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 200
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:43:23.100608+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 4, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 167 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 199
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:43:10.89319+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 4, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 168 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 198
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:43:04.76785+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 4, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 169 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 197
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:43:03.884469+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 4, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 170 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 196
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:43:01.996358+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 2, "EventKind": "check_off_shopping_list"}
+-[ RECORD 171 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 195
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 18:06:19.517147+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "test", "EventKind": "add_to_shopping_list"}
+-[ RECORD 172 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 194
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 12:22:12.260028+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [3, 1], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 173 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 193
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 12:22:10.595954+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["soda", "Grønt", "Frost"]}
+-[ RECORD 174 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 192
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 11:28:42.815688+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 4, 30], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 175 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 191
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 11:28:00.867698+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 30], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 176 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 190
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 11:27:52.186234+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["soda", "Frost", "Grønt"]}
+-[ RECORD 177 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 189
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 11:26:55.849394+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [1, 4, 3, 2], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 178 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 188
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 11:25:51.689643+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["soda", "Frost", "Grønt"]}
+-[ RECORD 179 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 187
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 10:48:57.428788+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "soda", "Grønt"]}
+-[ RECORD 180 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 186
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 10:48:53.768629+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "sort_categories", "EventKind": "sort_categories", "Categories": ["Frost", "Grønt", "soda"]}
+-[ RECORD 181 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 185
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 10:00:10.869199+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [1, 3, 2], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 182 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 184
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 10:00:09.864018+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [30, 4], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 183 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 183
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 10:00:08.276686+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [30], "Category": "soda", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 184 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 182
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:59:22.680843+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "Æbler", "EventKind": "add_to_shopping_list"}
+-[ RECORD 185 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 181
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:58:49.540908+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_shopping_list_category", "Category": "soda", "EventKind": "add_shopping_list_category"}
+-[ RECORD 186 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 180
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:58:44.905683+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [1, 2, 3], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 187 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 179
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:57:28.421525+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [1, 2], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 188 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 178
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:55:56.872425+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 1], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 189 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 177
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:54:31.425039+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 1], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 190 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 176
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:54:16.878948+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 1], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 191 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 175
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:54:02.930345+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 1], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 192 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 174
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:53:32.160476+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 1], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 193 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 173
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:53:30.929993+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 1], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 194 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 172
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:53:28.106462+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 1], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 195 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 171
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:53:16.26657+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [1, 2], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 196 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 170
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:53:13.74513+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [2, 3], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 197 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 169
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:53:05.203521+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [1, 2], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 198 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 168
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:53:02.196768+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [3, 2], "Category": null, "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 199 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 167
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:50:07.008098+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [3, 4], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 200 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 166
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:47:08.542634+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [3], "Category": "Frost", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 201 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 165
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:47:06.494796+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_shopping_list_category", "Category": "Frost", "EventKind": "add_shopping_list_category"}
+-[ RECORD 202 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 164
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:47:00.150022+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_category_items", "ItemIds": [3, 1, 4], "Category": "Grønt", "EventKind": "set_shopping_list_category_items"}
+-[ RECORD 203 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 163
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:24:41.994642+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_item_category", "ItemId": 3, "Category": "Grønt", "EventKind": "set_shopping_list_item_category"}
+-[ RECORD 204 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 162
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:24:41.993618+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_item_category", "ItemId": 4, "Category": "Grønt", "EventKind": "set_shopping_list_item_category"}
+-[ RECORD 205 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 161
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:24:37.037497+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_shopping_list_item_category", "ItemId": 4, "Category": "Grønt", "EventKind": "set_shopping_list_item_category"}
+-[ RECORD 206 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 160
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:12:59.638792+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 1, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 207 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 159
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-13 09:12:58.325744+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 1, "EventKind": "check_off_shopping_list"}
+-[ RECORD 208 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 158
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-12 18:44:20.449064+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_shopping_list_category", "Category": "Grønt", "EventKind": "add_shopping_list_category"}
+-[ RECORD 209 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 3
+[38;2;0;255;95;01mversion[39;00m      | 2
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-11 21:44:16.177783+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "delete_household", "EventKind": "delete_household"}
+-[ RECORD 210 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 3
+[38;2;0;255;95;01mversion[39;00m      | 1
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-11 21:43:07.077057+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "create_household", "Name": "test", "EventKind": "create_household"}
+-[ RECORD 211 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 157
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-11 12:31:04.123368+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "generate_ical_token", "Token": "e9732b19c4304c67b4c8aee6d7ba9161", "EventKind": "generate_ical_token"}
+-[ RECORD 212 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 156
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:19:22.980684+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "enable_shopping_list", "enabled": true, "EventKind": "enable_shopping_list"}
+-[ RECORD 213 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 155
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:55.108723+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 5, "EventKind": "check_off_shopping_list"}
+-[ RECORD 214 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 154
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:54.714738+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 7, "EventKind": "check_off_shopping_list"}
+-[ RECORD 215 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 153
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:54.231099+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 6, "EventKind": "check_off_shopping_list"}
+-[ RECORD 216 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 152
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:53.595028+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 29, "EventKind": "check_off_shopping_list"}
+-[ RECORD 217 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 151
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:53.147735+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 28, "EventKind": "check_off_shopping_list"}
+-[ RECORD 218 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 150
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:52.997792+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 27, "EventKind": "check_off_shopping_list"}
+-[ RECORD 219 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 149
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:52.737992+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 26, "EventKind": "check_off_shopping_list"}
+-[ RECORD 220 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 148
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:52.582828+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 25, "EventKind": "check_off_shopping_list"}
+-[ RECORD 221 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 147
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:52.211952+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 24, "EventKind": "check_off_shopping_list"}
+-[ RECORD 222 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 146
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:52.051573+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 23, "EventKind": "check_off_shopping_list"}
+-[ RECORD 223 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 145
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:51.892856+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 22, "EventKind": "check_off_shopping_list"}
+-[ RECORD 224 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 144
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:51.773274+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 21, "EventKind": "check_off_shopping_list"}
+-[ RECORD 225 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 143
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:51.596877+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 20, "EventKind": "check_off_shopping_list"}
+-[ RECORD 226 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 142
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:51.441663+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 19, "EventKind": "check_off_shopping_list"}
+-[ RECORD 227 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 141
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:51.292016+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 18, "EventKind": "check_off_shopping_list"}
+-[ RECORD 228 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 140
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:51.144111+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 17, "EventKind": "check_off_shopping_list"}
+-[ RECORD 229 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 139
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:50.989584+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 16, "EventKind": "check_off_shopping_list"}
+-[ RECORD 230 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 138
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:50.841825+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 15, "EventKind": "check_off_shopping_list"}
+-[ RECORD 231 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 137
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:50.67641+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 14, "EventKind": "check_off_shopping_list"}
+-[ RECORD 232 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 136
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:50.53509+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 13, "EventKind": "check_off_shopping_list"}
+-[ RECORD 233 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 135
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:50.365761+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 12, "EventKind": "check_off_shopping_list"}
+-[ RECORD 234 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 134
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:50.231303+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 11, "EventKind": "check_off_shopping_list"}
+-[ RECORD 235 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 133
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:50.07571+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 10, "EventKind": "check_off_shopping_list"}
+-[ RECORD 236 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 132
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:49.598746+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 8, "EventKind": "check_off_shopping_list"}
+-[ RECORD 237 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 131
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:08:49.35357+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 9, "EventKind": "check_off_shopping_list"}
+-[ RECORD 238 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 130
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:38.027791+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asdasd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 239 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 129
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:37.266898+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 240 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 128
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:36.980172+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "sdasd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 241 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 127
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:36.4668+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "da", "EventKind": "add_to_shopping_list"}
+-[ RECORD 242 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 126
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:36.206486+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "sda", "EventKind": "add_to_shopping_list"}
+-[ RECORD 243 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 125
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:35.956854+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "sda", "EventKind": "add_to_shopping_list"}
+-[ RECORD 244 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 124
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:35.711105+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "sda", "EventKind": "add_to_shopping_list"}
+-[ RECORD 245 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 123
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:35.485651+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asda", "EventKind": "add_to_shopping_list"}
+-[ RECORD 246 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 122
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:35.224623+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 247 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 121
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:35.006474+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 248 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 120
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:34.761307+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 249 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 119
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:34.491502+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "das", "EventKind": "add_to_shopping_list"}
+-[ RECORD 250 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 118
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:34.236185+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "sdas", "EventKind": "add_to_shopping_list"}
+-[ RECORD 251 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 117
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:33.968641+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 252 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 116
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:33.666248+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "dasd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 253 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 115
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:33.392662+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asda", "EventKind": "add_to_shopping_list"}
+-[ RECORD 254 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 114
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:33.105836+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "sdasd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 255 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 113
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:32.763586+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asda", "EventKind": "add_to_shopping_list"}
+-[ RECORD 256 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 112
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:32.489935+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "asd", "EventKind": "add_to_shopping_list"}
+-[ RECORD 257 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 111
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:32.244852+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "a", "EventKind": "add_to_shopping_list"}
+-[ RECORD 258 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 110
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:32.075144+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "a", "EventKind": "add_to_shopping_list"}
+-[ RECORD 259 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 109
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:31.904449+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "a", "EventKind": "add_to_shopping_list"}
+-[ RECORD 260 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 108
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:31.746199+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "a", "EventKind": "add_to_shopping_list"}
+-[ RECORD 261 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 107
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:31.568455+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "a", "EventKind": "add_to_shopping_list"}
+-[ RECORD 262 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 106
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:06:31.372837+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "bla", "EventKind": "add_to_shopping_list"}
+-[ RECORD 263 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 105
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:05:23.703658+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "Smør", "EventKind": "add_to_shopping_list"}
+-[ RECORD 264 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 104
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:00:57.038329+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 2, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 265 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 103
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:00:56.436809+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 3, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 266 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 102
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:00:55.692861+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 2, "EventKind": "check_off_shopping_list"}
+-[ RECORD 267 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 101
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:00:55.019088+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 3, "EventKind": "check_off_shopping_list"}
+-[ RECORD 268 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 100
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 15:00:53.004962+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 2, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 269 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 99
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:58:06.954278+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 2, "EventKind": "check_off_shopping_list"}
+-[ RECORD 270 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 98
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:57:34.848453+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 2, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 271 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 97
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:57:33.877686+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 2, "EventKind": "check_off_shopping_list"}
+-[ RECORD 272 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 96
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:49:40.049498+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 1, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 273 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 95
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:49:38.863626+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 1, "EventKind": "check_off_shopping_list"}
+-[ RECORD 274 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 94
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:38:31.209841+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 3, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 275 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 93
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:38:30.746457+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 2, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 276 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 92
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:38:29.893248+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 2, "EventKind": "check_off_shopping_list"}
+-[ RECORD 277 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 91
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:38:29.078369+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 3, "EventKind": "check_off_shopping_list"}
+-[ RECORD 278 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 90
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:38:28.188458+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 3, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 279 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 89
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:38:27.535039+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 3, "EventKind": "check_off_shopping_list"}
+-[ RECORD 280 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 88
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:38:26.352099+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 3, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 281 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 87
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:38:05.132192+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "check_off_shopping_list", "ItemId": 3, "EventKind": "check_off_shopping_list"}
+-[ RECORD 282 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 86
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:35:09.637575+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 3, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 283 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 85
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:32:08.923987+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 3, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 284 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 84
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:30:47.188292+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 3, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 285 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 83
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:29:56.488851+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "un_check_off_shopping_list", "ItemId": 3, "EventKind": "un_check_off_shopping_list"}
+-[ RECORD 286 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 82
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:24:49.422098+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "lurpak (nette)", "EventKind": "add_to_shopping_list"}
+-[ RECORD 287 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 81
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:24:12.43501+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "Kaffe", "EventKind": "add_to_shopping_list"}
+-[ RECORD 288 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 80
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 14:24:02.675886+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_to_shopping_list", "Label": "mælk", "EventKind": "add_to_shopping_list"}
+-[ RECORD 289 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 79
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 09:51:36.783334+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_chore", "NewLabel": "Rengøre ovne", "OldLabel": "Rengøre ovnen", "EventKind": "rename_chore"}
+-[ RECORD 290 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 78
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-10 09:51:32.251589+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Rengøre ovnen", "EventKind": "set_goal", "Numerator": 1}
+-[ RECORD 291 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 77
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-08 07:38:28.990022+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename_chore", "NewLabel": "Rengøre ovnen", "OldLabel": "Rengøre ovn", "EventKind": "rename_chore"}
+-[ RECORD 292 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 76
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-05 10:29:15.168747+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "do_chore"}
+-[ RECORD 293 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 75
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-05 10:29:14.852951+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "do_chore"}
+-[ RECORD 294 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 74
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-05 10:29:14.684696+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "do_chore"}
+-[ RECORD 295 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 73
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-05 10:29:14.531238+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "do_chore"}
+-[ RECORD 296 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 72
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-05 10:29:14.401631+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "do_chore"}
+-[ RECORD 297 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 71
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-05 10:29:14.243691+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "do_chore"}
+-[ RECORD 298 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 70
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-05 10:21:31.505369+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "set_goal", "Numerator": 1}
+-[ RECORD 299 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 69
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-05 10:21:26.839851+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "set_goal", "Numerator": 3}
+-[ RECORD 300 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 68
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-05 10:21:21.63895+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "set_goal", "Numerator": 3}
+-[ RECORD 301 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 67
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:18:08.742082+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre ovn", "EventKind": "undo_chore", "timestamp": "2026-05-03T10:18:06.40178+00:00"}
+-[ RECORD 302 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 66
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:18:06.40178+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre ovn", "EventKind": "do_chore"}
+-[ RECORD 303 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 65
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:18:05.294672+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Rengøre ovn", "EventKind": "set_goal", "Numerator": 2}
+-[ RECORD 304 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 64
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:12:35.51485+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "do_chore"}
+-[ RECORD 305 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 63
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:12:35.038101+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "set_goal", "Numerator": 1}
+-[ RECORD 306 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 62
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:12:27.097081+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Vask forhæng (badeværelse)", "EventKind": "do_chore"}
+-[ RECORD 307 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 61
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:12:26.193967+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Vask forhæng (badeværelse)", "EventKind": "set_goal", "Numerator": 2}
+-[ RECORD 308 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 60
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:12:18.85208+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "Køkken: Vask + vandhande + bordplade + vindueskarme", "EventKind": "add_chore"}
+-[ RECORD 309 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 59
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:12:16.784995+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "Vask forhæng (badeværelse)", "EventKind": "add_chore"}
+-[ RECORD 310 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 58
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:00:37.819638+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:21:46.111095+00:00"}
+-[ RECORD 311 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 57
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 10:00:05.169237+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Vaske vinduer", "EventKind": "do_chore"}
+-[ RECORD 312 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 56
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 09:59:46.958507+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Vaske vinduer", "EventKind": "undo_chore", "timestamp": "2026-05-03T09:59:36.957703+00:00"}
+-[ RECORD 313 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 55
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-05-03 09:59:36.957703+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Vaske vinduer", "EventKind": "do_chore"}
+-[ RECORD 314 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 54
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:49:26.789544+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 2, "Chore": "Vaske vinduer", "EventKind": "set_goal", "Numerator": 3}
+-[ RECORD 315 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 53
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:33.879707+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:21.113287+00:00"}
+-[ RECORD 316 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 52
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:33.204425+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:20.956951+00:00"}
+-[ RECORD 317 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 51
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:32.774621+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:20.781545+00:00"}
+-[ RECORD 318 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 50
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:32.315447+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:20.60591+00:00"}
+-[ RECORD 319 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 49
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:31.755586+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:20.426212+00:00"}
+-[ RECORD 320 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 48
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:31.454944+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:20.232767+00:00"}
+-[ RECORD 321 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 47
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:31.218048+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:20.058001+00:00"}
+-[ RECORD 322 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 46
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:30.951241+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:19.894544+00:00"}
+-[ RECORD 323 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 45
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:30.691147+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:19.730056+00:00"}
+-[ RECORD 324 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 44
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:30.387189+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:19.53633+00:00"}
+-[ RECORD 325 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 43
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:30.0918+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:19.356685+00:00"}
+-[ RECORD 326 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 42
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:29.831335+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:19.188975+00:00"}
+-[ RECORD 327 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 41
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:29.553353+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:19.022523+00:00"}
+-[ RECORD 328 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 40
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:29.205072+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:18.85827+00:00"}
+-[ RECORD 329 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 39
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:28.694468+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:18.677305+00:00"}
+-[ RECORD 330 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 38
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:28.139722+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Rengøre kaninbur", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:22:18.503703+00:00"}
+-[ RECORD 331 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 37
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:21.113287+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 332 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 36
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:20.956951+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 333 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 35
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:20.781545+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 334 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 34
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:20.60591+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 335 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 33
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:20.426212+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 336 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 32
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:20.232767+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 337 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 31
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:20.058001+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 338 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 30
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:19.894544+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 339 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 29
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:19.730056+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 340 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 28
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:19.53633+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 341 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 27
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:19.356685+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 342 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 26
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:19.188975+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 343 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 25
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:19.022523+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 344 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 24
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:18.85827+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 345 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 23
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:18.677305+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 346 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 22
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:22:18.503703+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 347 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 21
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:21:46.111095+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 348 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 20
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:17:20.855454+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 2, "Chore": "Vaske vinduer", "EventKind": "set_goal", "Numerator": 3}
+-[ RECORD 349 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 19
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:17:05.779074+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "Vaske vinduer", "EventKind": "add_chore"}
+-[ RECORD 350 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 18
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:16:55.500607+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 351 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 17
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:16:40.631626+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Afrime fryser", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:16:33.394863+00:00"}
+-[ RECORD 352 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 16
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:16:37.93533+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "undo_chore", "Label": "Afrime fryser", "EventKind": "undo_chore", "timestamp": "2026-04-30T12:16:33.204127+00:00"}
+-[ RECORD 353 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 15
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:16:33.394863+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Afrime fryser", "EventKind": "do_chore"}
+-[ RECORD 354 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 14
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:16:33.204127+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Afrime fryser", "EventKind": "do_chore"}
+-[ RECORD 355 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 13
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-30 12:16:32.624594+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Afrime fryser", "EventKind": "do_chore"}
+-[ RECORD 356 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 2
+[38;2;0;255;95;01mversion[39;00m      | 7
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:45:55.408378+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "remove_member", "User": "test@cwb.dk", "EventKind": "remove_member"}
+-[ RECORD 357 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 2
+[38;2;0;255;95;01mversion[39;00m      | 6
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:45:50.098079+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "Meditere", "EventKind": "add_chore"}
+-[ RECORD 358 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 12
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:45:32.425735+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "do_chore", "Label": "Rengøre kaninbur", "EventKind": "do_chore"}
+-[ RECORD 359 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 11
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:45:28.290486+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 2, "Chore": "Afrime fryser", "EventKind": "set_goal", "Numerator": 2}
+-[ RECORD 360 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 10
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:45:21.33568+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Rengøre kaninbur", "EventKind": "set_goal", "Numerator": 2}
+-[ RECORD 361 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 9
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:45:15.162175+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "set_goal", "Unit": 1, "Chore": "Rengøre ovn", "EventKind": "set_goal", "Numerator": 2}
+-[ RECORD 362 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 8
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:45:07.332665+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "Afrime fryser", "EventKind": "add_chore"}
+-[ RECORD 363 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 7
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:45:04.961264+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "Rengøre ovn", "EventKind": "add_chore"}
+-[ RECORD 364 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 6
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:45:00.128756+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "Rengøre kaninbur", "EventKind": "add_chore"}
+-[ RECORD 365 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 5
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:38:52.741414+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "remove_member", "User": "test@test.dk", "EventKind": "remove_member"}
+-[ RECORD 366 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 4
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:38:48.660156+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_member", "User": "test@test.dk", "EventKind": "add_member"}
+-[ RECORD 367 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 3
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:38:43.025333+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename", "NewName": "Lykkebo", "EventKind": "rename"}
+-[ RECORD 368 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 2
+[38;2;0;255;95;01mversion[39;00m      | 5
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-29 06:35:28.198525+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_member", "User": "test@cwb.dk", "EventKind": "add_member"}
+-[ RECORD 369 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 2
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-28 19:30:36.997304+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_member", "User": "alberte623@hotmail.com", "EventKind": "add_member"}
+-[ RECORD 370 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 2
+[38;2;0;255;95;01mversion[39;00m      | 4
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-28 19:29:18.61447+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename", "NewName": "Casper ", "EventKind": "rename"}
+-[ RECORD 371 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 2
+[38;2;0;255;95;01mversion[39;00m      | 3
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-28 19:27:58.565573+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "add_chore", "Label": "test", "EventKind": "add_chore"}
+-[ RECORD 372 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 2
+[38;2;0;255;95;01mversion[39;00m      | 2
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-28 19:25:51.633127+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "rename", "NewName": "Privat (IK KIG)", "EventKind": "rename"}
+-[ RECORD 373 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 2
+[38;2;0;255;95;01mversion[39;00m      | 1
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-28 19:12:14.469565+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "create_household", "Name": "Privat", "EventKind": "create_household"}
+-[ RECORD 374 ]-------------------------
+[38;2;0;255;95;01mhousehold_id[39;00m | 1
+[38;2;0;255;95;01mversion[39;00m      | 1
+[38;2;0;255;95;01mtimestamp[39;00m    | 2026-04-26 15:22:28.020236+00
+[38;2;0;255;95;01mcreated_by[39;00m   | c@cwb.dk
+[38;2;0;255;95;01mpayload[39;00m      | {"Kind": "create_household", "Name": "Hobrovej"}
+SELECT 374

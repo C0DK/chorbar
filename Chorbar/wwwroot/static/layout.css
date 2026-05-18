@@ -6,7 +6,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-family: "Helvetica", sans-serif;
 
   width: 100dvw;
   overflow-x: clip;
@@ -37,6 +36,12 @@ main {
 }
 
 nav {
+  font-family: var(--font-brand);
+
+  * {
+    font-family: var(--font-brand) !important;
+  }
+
   display: flex;
   justify-content: flex-end;
   width: 100%;

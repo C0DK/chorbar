@@ -1,26 +1,37 @@
-<h1> Welcome to <em>Chor.bar</em></h1>
 <section id="landing-page">
-  <h3>
-    <em>Chor.bar</em> helps track chores, and match expectations with the rest of the
-    household.
-  </h3>
+  <div class="hero">
+    <h1> Welcome to <em class="brand">Chor.bar</em></h1>
+    <p class="tagline">
+      Track chores, and match expectations with the rest of the
+      household.
+    </p>
+  </div>
+
+  <ul class="pain-points">
+    <li>Anyone noticed the bathroom hasn't been cleaned in weeks?</li>
+    <li>Unsure how long ago the fridge got cleaned?</li>
+    <li>Disagree how often you should mob the floor?</li>
+    <li>Or just want to build a new habit that sticks?</li>
+  </ul>
+
   <p>
     Agree on how often things should get done, tick them off as you go, and
     get a clear shared picture of what your household actually needs.
     No nagging required.
-
   </p>
+  <div class="call-to-action">
+    <p>
+      As of today,
+      <strong>{{users}} users</strong> already did
+      <strong>{{chores}} different chores</strong> a total of
+      <strong>{{choreTimes}} times</strong>.
+      Follow their example and...
+    </p>
 
-  <a class="btn call-to-action" href="/household/" hx-boost="true">
-    Get to the <em>Chor.bar</em> →
-  </a>
-  <ul class="pain-points">
-    <li>Wonder if anyone else has noticed the bathroom hasn't been cleaned in weeks?</li>
-    <li>Disagree about what "clean enough" actually means?</li>
-    <li>Or just want to build a new habit that sticks?</li>
-    <li>Unsure how long ago the fridge got cleaned?</li>
-  </ul>
-
+    <a class="btn" href="/household/" hx-boost="true">
+      Get to the <em class="brand">Chor.bar</em> →
+    </a>
+  </div>
 
   <p>
     <em>Chor.bar</em> is young and growing, built from the real needs of our own household —
@@ -32,7 +43,7 @@
 
   <h2>For the developers and tinkerers</h2>
   <p>
-    <em>Chor.bar</em> is fully open source — poke around the code on
+    <em class="brand">Chor.bar</em> is fully open source — poke around the code on
     <a href="https://github.com/C0DK/chorbar/">GitHub</a>.
     Bug reports, feature ideas, and pull requests are all very welcome.
   </p>

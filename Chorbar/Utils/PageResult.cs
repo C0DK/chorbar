@@ -51,6 +51,7 @@ public class PageResult(string content, string? title = null) : IResult
             response.Headers["HX-Reswap"] = "innerHTML transition:true";
             // make this less codey ugly
             await response.WriteAsync(
+                //language=html
                 $"""
                 <title>{pageTitle}</title>
                 {nav}
@@ -58,7 +59,7 @@ public class PageResult(string content, string? title = null) : IResult
                     {content.Trim()}
                 </main>
                 <footer>
-                    Chorbar - A very unfinished product
+                    <em class="brand">Chor.bar</em> - A very unfinished product
                 </footer>
                 """
             );
