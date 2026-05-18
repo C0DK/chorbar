@@ -53,6 +53,7 @@ builder
 builder.Services.AddControllers();
 builder.Services.AddSerilog();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<StaticFileVersion>();
 builder.Services.AddSingleton(Log.Logger);
 builder.Services.AddTransient<IIdentityProvider, ClaimsBasedIdentityProvider>();
 builder.Services.AddTransient<HouseholdStore>();
@@ -123,7 +124,14 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+        ctx.Context.Response.Headers.Append(
+            "Cache-Control",
+            "public, max-age=31536000, immutable"
+        ),
+});
 app.UseSession();
 app.UseRateLimiter();
 app.UseSerilogRequestLogging();
