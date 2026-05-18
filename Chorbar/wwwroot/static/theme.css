@@ -26,6 +26,9 @@
   --space-md: 0.875rem;
   --space-lg: 1.25rem;
   --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 5rem;
 
   /* Radii */
   --radius-sm: 3px;
@@ -38,6 +41,7 @@
   --font-size-base: 1rem;
   --font-size-sm: 0.875rem;
   --font-size-xs: 0.75rem;
+  --font-size-2xs: 0.5rem;
   --line-height-base: 1.65;
 
 

@@ -1,7 +1,17 @@
 <li {% if isChecked %}class="checked" {% end %}>
+
+  <svg class="sortable-handle" width="14" height="14" viewBox="0 0 10 14" xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true">
+    <circle cx="3" cy="2" r="1.1" fill="currentColor" />
+    <circle cx="7" cy="2" r="1.1" fill="currentColor" />
+    <circle cx="3" cy="6" r="1.1" fill="currentColor" />
+    <circle cx="7" cy="6" r="1.1" fill="currentColor" />
+    <circle cx="3" cy="10" r="1.1" fill="currentColor" />
+    <circle cx="7" cy="10" r="1.1" fill="currentColor" />
+  </svg>
   <input type='hidden' name='itemId' value='{{id}}'>
   <form>
-    <label class="sortable-handle">
+    <label>
       <input type="checkbox" hx-post="shopping_list/{{id}}/checked" hx-target="#shopping-list" hx-trigger="change"
         name="isChecked" {% if isChecked %}checked{% end %}>
       {{Label}}
