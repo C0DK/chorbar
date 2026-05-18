@@ -8,6 +8,9 @@ main {
 .hero {
   align-self: flex-start;
 
+  min-width: 80dvw;
+  margin: auto;
+
 
   h1 {
     margin: 0;
