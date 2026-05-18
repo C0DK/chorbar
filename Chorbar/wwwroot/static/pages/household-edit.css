@@ -14,7 +14,7 @@
         overflow: hidden;
         text-wrap: nowrap;
         text-overflow: ellipsis;
-        border-radius: var(--radius-lg);
+        border-radius: var(--radius-sm);
         padding: var(--space-sm);
 
         flex: 1;
