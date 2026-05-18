@@ -10,11 +10,16 @@
     <circle cx="7" cy="10" r="1.1" fill="currentColor" />
   </svg>
   <input type='hidden' name='itemId' value='{{id}}'>
-  <form>
+  <form class="label-form">
     <label>
       <input type="checkbox" hx-post="shopping_list/{{id}}/checked" hx-target="#shopping-list" hx-trigger="change"
         name="isChecked" {% if isChecked %}checked{% end %}>
-      {{Label}}
+      <span class="item-label" _="on click add .editing to closest <li/> then call (closest('li').querySelector('input[name=newLabel]')).focus()">{{Label}}</span>
     </label>
+  </form>
+  <form class="rename-item" hx-post="shopping_list/{{id}}/rename" hx-target="#shopping-list">
+    <button type="submit">+</button>
+    <input type="text" name="newLabel" value="{{Label}}" required hx-trigger="keyup[key=='Enter']"
+      _="on keydown[key is 'Escape'] remove .editing from closest <li/>">
   </form>
 </li>
