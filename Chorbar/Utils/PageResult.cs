@@ -21,6 +21,7 @@ public class PageResult(string content, string? title = null) : IResult
         var tokenSet = httpContext
             .RequestServices.GetRequiredService<IAntiforgery>()
             .GetAndStoreTokens(httpContext);
+        var cssHash = httpContext.RequestServices.GetRequiredService<StaticFileVersion>().Hash;
         var pageTitle = title is null
             ? "Chor.bar — Shared household chore tracking, without the nagging"
             : $"Chor.bar | {title}";
@@ -41,7 +42,8 @@ public class PageResult(string content, string? title = null) : IResult
                     nav: nav,
                     title: pageTitle,
                     content: content,
-                    csrfToken: tokenSet.RequestToken!
+                    csrfToken: tokenSet.RequestToken!,
+                    cssHash: cssHash
                 )
             );
         else
