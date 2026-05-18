@@ -2,7 +2,7 @@ using Chorbar.Model;
 using Microsoft.Extensions.Time.Testing;
 using Npgsql;
 
-namespace Chorbar.Tests;
+namespace Chorbar.Tests.Integration;
 
 public class ShoppingListTest
 {

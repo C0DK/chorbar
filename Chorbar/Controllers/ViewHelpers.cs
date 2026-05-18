@@ -67,21 +67,47 @@ internal static class ViewHelpers
 
     private static IEnumerable<TemplateArgument> ChoreBadges(Chore chore)
     {
+        if (chore.Goal is not null)
+        {
+            var deadline = chore.Deadline();
+            yield return new ChoreBadge(
+                content: $"📅 {DeadlineText(deadline)}",
+                additionalClasses: (deadline - DateTimeOffset.UtcNow) < TimeSpan.FromHours(30)
+                    ? ["danger"]
+                    : Array.Empty<string>()
+            );
+        }
+
+        var streak = chore.Streak(DateTimeOffset.UtcNow);
+        if (streak >= 2)
+            yield return new ChoreBadge(content: $"🔥 {streak}", additionalClasses: ["danger"]);
+
         if (chore.History.Length > 0)
             yield return new ChoreBadge(
                 content: $"x{chore.History.Length}",
                 additionalClasses: Array.Empty<string>()
             );
-        if (chore.Goal is not null)
-        {
-            yield return new ChoreBadge(
-                content: $"📅 {TimeUntil(chore.Deadline())}",
-                additionalClasses: (chore.Deadline() - DateTimeOffset.UtcNow)
-                < TimeSpan.FromHours(30)
-                    ? ["danger"]
-                    : Array.Empty<string>()
-            );
-        }
+    }
+
+    public static string DeadlineText(DateTimeOffset? deadline)
+    {
+        if (deadline is null)
+            return "never";
+        var now = DateTimeOffset.Now;
+        var deadlineLocal = deadline.Value.ToLocalTime();
+        var today = now.Date;
+        var deadlineDate = deadlineLocal.Date;
+
+        if (deadlineLocal < now)
+            return "overdue";
+        if (deadlineDate == today)
+            return "due today";
+        if (deadlineDate == today.AddDays(1))
+            return "due tomorrow";
+        if (deadlineDate <= today.AddDays(6))
+            return $"due {deadlineLocal:dddd}";
+
+        return TimeUntil(deadline);
     }
 
     public static EditChore EditChore(string label, Chore chore) =>
