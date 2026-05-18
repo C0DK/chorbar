@@ -82,7 +82,7 @@ internal static class ViewHelpers
         if (streak >= 2)
             yield return new ChoreBadge(
                 content: $"🔥 {streak}",
-                additionalClasses: Array.Empty<string>()
+                additionalClasses: ["danger"]
             );
 
         if (chore.History.Length > 0)
