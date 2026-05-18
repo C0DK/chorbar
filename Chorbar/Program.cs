@@ -124,14 +124,16 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
-app.UseStaticFiles(new StaticFileOptions
-{
-    OnPrepareResponse = ctx =>
-        ctx.Context.Response.Headers.Append(
-            "Cache-Control",
-            "public, max-age=31536000, immutable"
-        ),
-});
+app.UseStaticFiles(
+    new StaticFileOptions
+    {
+        OnPrepareResponse = ctx =>
+            ctx.Context.Response.Headers.Append(
+                "Cache-Control",
+                "public, max-age=31536000, immutable"
+            ),
+    }
+);
 app.UseSession();
 app.UseRateLimiter();
 app.UseSerilogRequestLogging();
