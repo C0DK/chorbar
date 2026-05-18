@@ -1,44 +1,94 @@
+main {
+  &:has(.hero) {
+    height: 100%;
+    flex: 1;
+  }
+}
+
+.hero {
+  align-self: flex-start;
+
+
+  h1 {
+    margin: 0;
+    font-weight: 300;
+  }
+
+
+  .tagline {
+    font-weight: 400;
+    font-style: italic;
+    text-indent: var(--space-md);
+    color: var(--color-secondary);
+    margin-bottom: var(--space-md);
+    align-self: start;
+
+    font-size: 1.125rem;
+
+    @media (max-width: 600px),
+    (max-height: 600px) {
+      font-size: 1.1rem;
+    }
+
+  }
+
+  margin-bottom: 2dvh;
+}
+
 #landing-page {
+  flex: 1;
   max-width: 60rem;
+
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+  }
 
   font-size: 1.01rem;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
   align-items: center;
-  justify-content: center;
   gap: var(--space-md);
 
   p {
     margin-bottom: 0;
   }
 
-  .hero {
-    align-self: flex-start;
+  .cols {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: 1fr 1fr;
 
-    h1 {
-      margin: 0;
-      font-weight: 300;
-    }
-
-
-    .tagline {
-      font-weight: 400;
-      font-style: italic;
-      text-indent: var(--space-md);
-      color: var(--color-secondary);
-      margin-bottom: var(--space-md);
-      align-self: start;
-
-      font-size: 1.125rem;
-
-      @media (max-width: 600px),
-      (max-height: 600px) {
-        font-size: 1.1rem;
-      }
+    @media (max-width: 600px),
+    (max-height: 600px) {
+      grid-template-columns: 1fr;
 
     }
   }
+
+  .features {
+    align-self: flex-start;
+    list-style: points;
+
+    li {
+      list-style: inside;
+    }
+
+    .new {
+      font-family: var(--font-brand);
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xs) var(--space-xs);
+      color: var(--color-primary);
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      animation: pulse 2s infinite both;
+    }
+  }
+
 
 
   .pain-points {
@@ -68,6 +118,16 @@
 
 }
 
+.for-devs {
+  margin-top: auto;
+
+  @media (max-width: 600px),
+  (max-height: 600px) {
+    margin-top: var(--space-3xl);
+  }
+
+}
+
 .call-to-action {
   display: flex;
   flex-direction: column;
@@ -75,7 +135,8 @@
   align-items: center;
   justify-content: center;
 
-  margin-bottom: var(--space-md);
+
+  margin-bottom: 8dvh;
 
   button,
   .btn {
@@ -88,5 +149,22 @@
     (max-height: 600px) {
       font-size: 1.2rem;
     }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+  }
+
+  50% {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  100% {
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
   }
 }
