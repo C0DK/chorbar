@@ -72,16 +72,43 @@ internal static class ViewHelpers
                 content: $"x{chore.History.Length}",
                 additionalClasses: Array.Empty<string>()
             );
+
+        var streak = chore.Streak(DateTimeOffset.UtcNow);
+        if (streak >= 2)
+            yield return new ChoreBadge(
+                content: $"🔥 {streak}",
+                additionalClasses: Array.Empty<string>()
+            );
+
         if (chore.Goal is not null)
         {
+            var deadline = chore.Deadline();
             yield return new ChoreBadge(
-                content: $"📅 {TimeUntil(chore.Deadline())}",
-                additionalClasses: (chore.Deadline() - DateTimeOffset.UtcNow)
-                < TimeSpan.FromHours(30)
+                content: $"📅 {DeadlineText(deadline)}",
+                additionalClasses: (deadline - DateTimeOffset.UtcNow) < TimeSpan.FromHours(30)
                     ? ["danger"]
                     : Array.Empty<string>()
             );
         }
+    }
+
+    public static string DeadlineText(DateTimeOffset? deadline)
+    {
+        if (deadline is null)
+            return "never";
+        var now = DateTimeOffset.UtcNow;
+        var span = deadline.Value - now;
+
+        if (span.TotalSeconds < 0)
+            return "overdue";
+        if (span.TotalHours < 24)
+            return "due today";
+        if (span.TotalHours < 48)
+            return "due tomorrow";
+        if (span.TotalDays <= 6)
+            return $"due {deadline.Value.ToLocalTime():dddd}";
+
+        return TimeUntil(deadline);
     }
 
     public static EditChore EditChore(string label, Chore chore) =>

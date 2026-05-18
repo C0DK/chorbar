@@ -41,4 +41,34 @@ public record Chore(
     public DateTimeOffset? Deadline() => Goal?.Deadline(History.IsEmpty ? Created : History.Last());
 
     public TimeSpan WorstFrequency() => Intervals().LastOrDefault(TimeSpan.Zero);
+
+    public int Streak(DateTimeOffset now)
+    {
+        if (History.IsEmpty)
+            return 0;
+
+        var sorted = History.OrderBy(t => t).ToList();
+        var frequency = Frequency();
+
+        if (frequency == TimeSpan.Zero)
+            return 1;
+
+        var allowedLatencyDays = Math.Max(1.0, frequency.TotalDays / 10.0);
+        var maxGap = frequency + TimeSpan.FromDays(allowedLatencyDays);
+
+        if (now - sorted.Last() > maxGap)
+            return 0;
+
+        var streak = 1;
+        for (var i = sorted.Count - 1; i > 0; i--)
+        {
+            var gap = sorted[i] - sorted[i - 1];
+            if (gap <= maxGap)
+                streak++;
+            else
+                break;
+        }
+
+        return streak;
+    }
 }
