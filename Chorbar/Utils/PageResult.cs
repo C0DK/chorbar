@@ -21,6 +21,7 @@ public class PageResult(string content, string? title = null) : IResult
         var tokenSet = httpContext
             .RequestServices.GetRequiredService<IAntiforgery>()
             .GetAndStoreTokens(httpContext);
+        var cssHash = httpContext.RequestServices.GetRequiredService<StaticFileVersion>().Hash;
         var pageTitle = title is null
             ? "Chor.bar — Shared household chore tracking, without the nagging"
             : $"Chor.bar | {title}";
@@ -41,15 +42,18 @@ public class PageResult(string content, string? title = null) : IResult
                     nav: nav,
                     title: pageTitle,
                     content: content,
-                    csrfToken: tokenSet.RequestToken!
+                    csrfToken: tokenSet.RequestToken!,
+                    cssHash: cssHash
                 )
             );
         else
         {
+            response.Headers["HX-Trigger"] = "closeModal";
             response.Headers["HX-Retarget"] = "body";
             response.Headers["HX-Reswap"] = "innerHTML transition:true";
             // make this less codey ugly
             await response.WriteAsync(
+                //language=html
                 $"""
                 <title>{pageTitle}</title>
                 {nav}
@@ -58,7 +62,7 @@ public class PageResult(string content, string? title = null) : IResult
                 </main>
                 <div id="modal"></div>
                 <footer>
-                    Chorbar - A very unfinished product
+                    <em class="brand">Chor.bar</em> - A very unfinished product
                 </footer>
                 """
             );

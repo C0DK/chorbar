@@ -10,6 +10,11 @@
 
   <link rel="canonical" href="https://chor.bar/">
 
+
+
+  <link href="https://fonts.cdnfonts.com/css/inter" rel="stylesheet">
+
+
   <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
     integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
     crossorigin="anonymous"></script>
@@ -27,19 +32,18 @@
         var group = sortable.dataset.sortableGroup;
         var sortableInstance = new Sortable(sortable, {
           animation: 150,
-          //ghostClass: 'blue-background-class',
           group: group,
           // Make the `.htmx-indicator` unsortable
           filter: ".htmx-indicator, .no-sort",
-          onMove: function (evt) {
-            return (evt.related.className.indexOf('htmx-indicator') === -1) && (evt.related.className.indexOf('no-sort') === -1);
-          },
+
+          preventOnFilter: false,
+          handle: ".sortable-handle",
 
           // Disable sorting on the `end` event
           onAdd: function (evt) {
             this.option("disabled", true);
           },
-          onChange: function (evt) {
+          onUpdate: function (evt) {
             this.option("disabled", true);
           }
         });
@@ -50,9 +54,21 @@
         });
       }
     })
+
+    document.addEventListener("toggle", function (e) {
+      if (!(e.target instanceof HTMLElement) || !e.target.hasAttribute("popover")) return;
+      var open = e.newState === "open";
+      var apply = function () {
+        document.querySelectorAll("body > :not([popover])").forEach(function (el) {
+          el.inert = open;
+        });
+      };
+      if (open) apply();
+      else setTimeout(apply, 30); // sometimes the touch thing is too quick and will click through.
+    }, true);
   </script>
 
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/style.css?v={{cssHash}}">
   <title>{{title}}</title>
 
   <meta property="og:type" content="website">
@@ -78,7 +94,7 @@
   </main>
   <div id="modal"></div>
   <footer>
-    <span>Chorbar - A very unfinished product by <a href="https://cwb.dk">cwb.dk</a></span>
+    <span><em class="brand">Chor.bar</em> - A very unfinished product by <a href="https://cwb.dk">cwb.dk</a></span>
   </footer>
 </body>
 

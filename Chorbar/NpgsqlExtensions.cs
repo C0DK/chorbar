@@ -1,3 +1,4 @@
+using System.Data;
 using System.Data.Common;
 using System.Runtime.CompilerServices;
 using Npgsql;
@@ -8,6 +9,12 @@ public static class NpgsqlExtensions
 {
     public static string? GetStringOrNull(this DbDataReader reader, int ordinal) =>
         reader.IsDBNull(ordinal) ? null : reader.GetFieldValue<string>(ordinal);
+
+    public static Task<T> Get<T>(
+        this DbDataReader reader,
+        string key,
+        CancellationToken cancellationToken
+    ) => reader.GetFieldValueAsync<T>(key, cancellationToken);
 
     public static ValueTask<T> FirstAsync<T>(
         this NpgsqlCommand command,

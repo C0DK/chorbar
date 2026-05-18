@@ -1,5 +1,4 @@
 #landing-page {
-  margin-top: var(--space-xl);
   max-width: 60rem;
 
   font-size: 1.01rem;
@@ -8,19 +7,51 @@
   overflow-x: hidden;
   align-items: center;
   justify-content: center;
+  gap: var(--space-md);
 
   p {
     margin-bottom: 0;
   }
 
-  gap: var(--space-md);
+  .hero {
+    align-self: flex-start;
+
+    h1 {
+      margin: 0;
+      font-weight: 300;
+    }
+
+
+    .tagline {
+      font-weight: 400;
+      font-style: italic;
+      text-indent: var(--space-md);
+      color: var(--color-secondary);
+      margin-bottom: var(--space-md);
+      align-self: start;
+
+      font-size: 1.125rem;
+
+      @media (max-width: 600px),
+      (max-height: 600px) {
+        font-size: 1.1rem;
+      }
+
+    }
+  }
+
 
   .pain-points {
     color: var(--color-primary);
-    font-weight: 600;
-
-
+    font-weight: 500;
     align-self: flex-start;
+    text-indent: var(--space-xl);
+
+
+
+    li+li {
+      margin-top: var(--space-sm);
+    }
 
     li {
       line-height: 2;
@@ -28,10 +59,34 @@
       @media (max-width: 600px),
       (max-height: 600px) {
         line-height: 1.5;
+        text-indent: var(--space-xl);
       }
 
       list-style: none;
     }
   }
 
+}
+
+.call-to-action {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: var(--space-md);
+
+  button,
+  .btn {
+    margin-top: var(--space-sm);
+    padding: var(--space-lg) var(--space-xl);
+
+    font-size: 1.375rem;
+
+    @media (max-width: 600px),
+    (max-height: 600px) {
+      font-size: 1.2rem;
+    }
+  }
 }

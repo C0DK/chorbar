@@ -6,7 +6,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-family: "Helvetica", sans-serif;
 
   width: 100dvw;
   overflow-x: clip;
@@ -33,9 +32,11 @@ main {
 
   view-transition-name: slide;
 
+  max-width: 99dvw;
 }
 
 nav {
+
   display: flex;
   justify-content: flex-end;
   width: 100%;
