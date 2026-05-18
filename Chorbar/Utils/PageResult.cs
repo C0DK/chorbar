@@ -60,6 +60,7 @@ public class PageResult(string content, string? title = null) : IResult
                 <main>
                     {content.Trim()}
                 </main>
+                <div id="modal"></div>
                 <footer>
                     <em class="brand">Chor.bar</em> - A very unfinished product
                 </footer>
