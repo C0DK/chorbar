@@ -36,11 +36,6 @@ main {
 }
 
 nav {
-  font-family: var(--font-brand);
-
-  * {
-    font-family: var(--font-brand) !important;
-  }
 
   display: flex;
   justify-content: flex-end;
