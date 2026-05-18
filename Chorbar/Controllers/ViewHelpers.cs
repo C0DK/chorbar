@@ -96,17 +96,19 @@ internal static class ViewHelpers
     {
         if (deadline is null)
             return "never";
-        var now = DateTimeOffset.UtcNow;
-        var span = deadline.Value - now;
+        var now = DateTimeOffset.Now;
+        var deadlineLocal = deadline.Value.ToLocalTime();
+        var today = now.Date;
+        var deadlineDate = deadlineLocal.Date;
 
-        if (span.TotalSeconds < 0)
+        if (deadlineLocal < now)
             return "overdue";
-        if (span.TotalHours < 24)
+        if (deadlineDate == today)
             return "due today";
-        if (span.TotalHours < 48)
+        if (deadlineDate == today.AddDays(1))
             return "due tomorrow";
-        if (span.TotalDays <= 6)
-            return $"due {deadline.Value.ToLocalTime():dddd}";
+        if (deadlineDate <= today.AddDays(6))
+            return $"due {deadlineLocal:dddd}";
 
         return TimeUntil(deadline);
     }

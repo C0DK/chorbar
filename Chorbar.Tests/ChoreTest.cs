@@ -153,42 +153,56 @@ public class ChoreTest
     [Test]
     public void DeadlineText_Overdue()
     {
-        var past = DateTimeOffset.UtcNow.AddHours(-1);
+        var past = DateTimeOffset.Now.AddHours(-1);
 
         Assert.That(ViewHelpers.DeadlineText(past), Is.EqualTo("overdue"));
     }
 
     [Test]
-    public void DeadlineText_DueToday()
+    public void DeadlineText_DueToday_BeforeMidnight()
     {
-        var soon = DateTimeOffset.UtcNow.AddHours(12);
+        // End of today — 1 minute before midnight local time
+        var endOfToday = DateTimeOffset.Now.Date.AddDays(1).AddMinutes(-1);
+        var deadline = new DateTimeOffset(endOfToday, DateTimeOffset.Now.Offset);
 
-        Assert.That(ViewHelpers.DeadlineText(soon), Is.EqualTo("due today"));
+        Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("due today"));
     }
 
     [Test]
-    public void DeadlineText_DueTomorrow()
+    public void DeadlineText_DueTomorrow_JustAfterMidnight()
     {
-        var tomorrow = DateTimeOffset.UtcNow.AddHours(36);
+        // 1 minute into tomorrow
+        var startOfTomorrow = DateTimeOffset.Now.Date.AddDays(1).AddMinutes(1);
+        var deadline = new DateTimeOffset(startOfTomorrow, DateTimeOffset.Now.Offset);
 
-        Assert.That(ViewHelpers.DeadlineText(tomorrow), Is.EqualTo("due tomorrow"));
+        Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("due tomorrow"));
+    }
+
+    [Test]
+    public void DeadlineText_DueTomorrow_EndOfTomorrow()
+    {
+        // End of tomorrow — 1 minute before midnight the day after
+        var endOfTomorrow = DateTimeOffset.Now.Date.AddDays(2).AddMinutes(-1);
+        var deadline = new DateTimeOffset(endOfTomorrow, DateTimeOffset.Now.Offset);
+
+        Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("due tomorrow"));
     }
 
     [Test]
     public void DeadlineText_DueWithinSixDays_ShowsWeekday()
     {
-        var future = DateTimeOffset.UtcNow.AddDays(4);
-        var expected = $"due {future.ToLocalTime():dddd}";
+        var fourDaysFromNow = DateTimeOffset.Now.Date.AddDays(4);
+        var deadline = new DateTimeOffset(fourDaysFromNow, DateTimeOffset.Now.Offset);
+        var expected = $"due {deadline:dddd}";
 
-        Assert.That(ViewHelpers.DeadlineText(future), Is.EqualTo(expected));
+        Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo(expected));
     }
 
     [Test]
     public void DeadlineText_DueInMoreThanSixDays_ShowsTimeUntil()
     {
-        var future = DateTimeOffset.UtcNow.AddDays(10);
+        var future = DateTimeOffset.Now.AddDays(10);
 
-        // should fall through to TimeUntil format
         Assert.That(ViewHelpers.DeadlineText(future), Does.StartWith("in "));
     }
 
