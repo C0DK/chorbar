@@ -2,7 +2,7 @@ using Chorbar.Const;
 using Npgsql;
 using Testcontainers.PostgreSql;
 
-namespace Chorbar.Tests;
+namespace Chorbar.Tests.Integration;
 
 [SetUpFixture]
 public class DatabaseFixture

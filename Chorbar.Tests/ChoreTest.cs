@@ -1,7 +1,7 @@
 using Chorbar.Controllers;
 using Chorbar.Model;
 
-namespace Chorbar.Unit;
+namespace Chorbar.Tests;
 
 public class ChoreTest
 {

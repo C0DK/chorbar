@@ -1,6 +1,6 @@
 using Chorbar.Model;
 
-namespace Chorbar.Tests;
+namespace Chorbar.Tests.Integration;
 
 [TestFixture]
 public class EmailTests
