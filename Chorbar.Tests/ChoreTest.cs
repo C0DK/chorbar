@@ -56,96 +56,88 @@ public class ChoreTest
     // Streak tests — use day-based time steps
 
     [Test]
-    public void Streak_EmptyHistory_ReturnsZero()
+    public void StreakDays_EmptyHistory_ReturnsZero()
     {
         var subject = new Chore(d(0), []);
 
-        Assert.That(subject.Streak(d(10)), Is.EqualTo(0));
+        Assert.That(subject.StreakDays(d(10)), Is.EqualTo(0));
     }
 
     [Test]
-    public void Streak_SingleCompletion_WithinWindow_ReturnsOne()
-    {
-        // created day 0, done day 7, frequency = 7 days, allowedLatency = 0.7 days, maxGap = 7.7 days
-        // now = day 14 → timeSinceLast = 7 days ≤ 7.7 days → still active
-        var subject = new Chore(d(0), [d(7)]);
-
-        Assert.That(subject.Streak(d(14)), Is.EqualTo(1));
-    }
-
-    [Test]
-    public void Streak_SingleCompletion_TooOld_ReturnsZero()
+    public void StreakDays_SingleCompletion_WithinWindow_ReturnsDaysSinceCompletion()
     {
         // created day 0, done day 7, frequency = 7 days, maxGap = 7.7 days
-        // now = day 16 → timeSinceLast = 9 days > 7.7 days → streak broken
+        // now = day 14 → timeSinceLast = 7 days ≤ 7.7 → streak active, started at d(7)
         var subject = new Chore(d(0), [d(7)]);
 
-        Assert.That(subject.Streak(d(16)), Is.EqualTo(0));
+        Assert.That(subject.StreakDays(d(14)), Is.EqualTo(7));
     }
 
     [Test]
-    public void Streak_MultipleConsecutive_ReturnsCount()
+    public void StreakDays_SingleCompletion_TooOld_ReturnsZero()
     {
-        // done every 7 days, frequency = 7 days, maxGap = 7.7 days
-        // now just after last completion → all 3 count
+        // created day 0, done day 7, frequency = 7 days, maxGap = 7.7 days
+        // now = day 16 → timeSinceLast = 9 days > 7.7 → streak broken
+        var subject = new Chore(d(0), [d(7)]);
+
+        Assert.That(subject.StreakDays(d(16)), Is.EqualTo(0));
+    }
+
+    [Test]
+    public void StreakDays_MultipleConsecutive_ReturnsDaysSinceFirst()
+    {
+        // done every 7 days, streak started at d(7), now = d(21) → 14 days
         var subject = new Chore(d(0), [d(7), d(14), d(21)]);
 
-        Assert.That(subject.Streak(d(21)), Is.EqualTo(3));
+        Assert.That(subject.StreakDays(d(21)), Is.EqualTo(14));
     }
 
     [Test]
-    public void Streak_BrokenInMiddle_CountsFromLastContinuous()
+    public void StreakDays_BrokenInMiddle_CountsFromRestartOnly()
     {
-        // day 0 created, done at 7, 14, then gap of 30 days (missing), then 44, 51
-        // frequency ≈ 7 days (median of: 7,7,16,7,7 sorted: 7,7,7,7,16 → median=7)
-        // maxGap = 7 + 0.7 = 7.7 days
-        // gap between d(14) and d(44) = 30 days > 7.7 → streak broken there
-        // streak from d(44) to d(51) = 2
+        // streak breaks between d(14) and d(44), restarts at d(44)
+        // now = d(51) → streak started at d(44) → 7 days
         var subject = new Chore(d(0), [d(7), d(14), d(44), d(51)]);
 
-        Assert.That(subject.Streak(d(51)), Is.EqualTo(2));
+        Assert.That(subject.StreakDays(d(51)), Is.EqualTo(7));
     }
 
     [Test]
-    public void Streak_ShortFrequency_OneDayLatency()
+    public void StreakDays_ShortFrequency_OneDayLatency_ActiveStreak()
     {
-        // frequency = 5 days, allowedLatency = max(1, 5/10) = 1 day, maxGap = 6 days
-        // done at 0, 5, 10, 16 (6 days gap = exactly at limit)
+        // frequency = 5 days, maxGap = 6 days, streak started at d(0)
+        // now = d(16) → 16 days
         var subject = new Chore(d(-5), [d(0), d(5), d(10), d(16)]);
 
-        // gap between d(10) and d(16) = 6 days = maxGap → still counts
-        Assert.That(subject.Streak(d(16)), Is.EqualTo(4));
+        Assert.That(subject.StreakDays(d(16)), Is.EqualTo(16));
     }
 
     [Test]
-    public void Streak_ShortFrequency_BreaksWhenTooLate()
+    public void StreakDays_ShortFrequency_BreaksWhenTooLate()
     {
-        // frequency = 5 days, maxGap = 6 days
-        // done at 0, 5, 10, 17 (7 days gap > maxGap) → streak resets
+        // gap d(10)→d(17) = 7 days > maxGap 6 → streak resets at d(17), now = d(17) → 0 days
         var subject = new Chore(d(-5), [d(0), d(5), d(10), d(17)]);
 
-        Assert.That(subject.Streak(d(17)), Is.EqualTo(1));
+        Assert.That(subject.StreakDays(d(17)), Is.EqualTo(0));
     }
 
     [Test]
-    public void Streak_HundredDayFrequency_TenDayLatency()
+    public void StreakDays_HundredDayFrequency_TenDayLatency()
     {
-        // frequency ≈ 100 days, allowedLatency = max(1, 100/10) = 10 days, maxGap = 110 days
-        // created day 0, done day 100, 200, 300 → all gaps = 100 days ≤ 110 days
-        // now = day 300, timeSinceLast = 0 → active
+        // frequency ≈ 100 days, maxGap = 110 days, streak started at d(100)
+        // now = d(300) → 200 days
         var subject = new Chore(d(0), [d(100), d(200), d(300)]);
 
-        Assert.That(subject.Streak(d(300)), Is.EqualTo(3));
+        Assert.That(subject.StreakDays(d(300)), Is.EqualTo(200));
     }
 
     [Test]
-    public void Streak_HundredDayFrequency_BreaksAfterElevenDaysLate()
+    public void StreakDays_HundredDayFrequency_BreaksAfterElevenDaysLate()
     {
-        // frequency ≈ 100 days, maxGap = 110 days
-        // done at 100, 200, 311 (111 days gap > 110) → streak resets
+        // gap d(200)→d(311) = 111 days > 110 → streak resets at d(311), now = d(311) → 0 days
         var subject = new Chore(d(0), [d(100), d(200), d(311)]);
 
-        Assert.That(subject.Streak(d(311)), Is.EqualTo(1));
+        Assert.That(subject.StreakDays(d(311)), Is.EqualTo(0));
     }
 
     // DeadlineText tests
