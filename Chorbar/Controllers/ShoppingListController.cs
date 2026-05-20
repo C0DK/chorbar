@@ -116,7 +116,7 @@ public class ShoppingListController(HouseholdStore store) : SpecificHouseholdCon
 
     [HttpPost("{itemId:int}/rename")]
     public async Task<IResult> Rename(
-        [FromForm] int itemId,
+        int itemId,
         [FromForm] string newLabel,
         CancellationToken cancellationToken
     ) => Render(await Write(new RenameShoppingListItem(itemId, newLabel), cancellationToken));

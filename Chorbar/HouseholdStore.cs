@@ -112,7 +112,9 @@ public class HouseholdStore
         if (!entity.Members.Contains(identity))
             throw new NotMemberOfHouseholdException(id, identity);
         if (!payload.IsValid(entity))
-            throw new InvalidOperationException("Event not valid!");
+            throw new InvalidOperationException(
+                $"Event '{payload.EventKind}' not valid! ({payload})"
+            );
         await _connection.ExecuteAsync(
             //language=sql
             """

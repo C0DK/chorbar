@@ -1,17 +1,4 @@
-<li>
-  <svg class="sortable-handle" width="14" height="14" viewBox="0 0 10 14" xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true">
-    <circle cx="3" cy="2" r="1.1" fill="currentColor" />
-    <circle cx="7" cy="2" r="1.1" fill="currentColor" />
-    <circle cx="3" cy="6" r="1.1" fill="currentColor" />
-    <circle cx="7" cy="6" r="1.1" fill="currentColor" />
-    <circle cx="3" cy="10" r="1.1" fill="currentColor" />
-    <circle cx="7" cy="10" r="1.1" fill="currentColor" />
-  </svg>
-  <form class="rename-item" hx-post="shopping_list/{{id}}/rename" hx-target="#shopping-list">
-    <button type="submit">+</button>
-    <input type="text" name="newLabel" value="{{Label}}" required autofocus
-      hx-get="shopping_list/{{id}}" hx-target="closest li" hx-swap="outerHTML"
-      hx-trigger="keydown[key=='Escape']">
-  </form>
-</li>
+<form class="rename-item" hx-post="shopping_list/{{id}}/rename" hx-target="#shopping-list">
+  <input type="text" name="newLabel" value="{{Label}}" required autofocus hx-get="shopping_list/{{id}}"
+    hx-target="closest li" hx-swap="outerHTML" hx-trigger="keydown[key=='Escape'], blur">
+</form>
