@@ -98,9 +98,25 @@ public class ShoppingListController(HouseholdStore store) : SpecificHouseholdCon
             )
         );
 
+    [HttpGet("{itemId:int}")]
+    public async Task<IResult> GetItem(int itemId, CancellationToken cancellationToken)
+    {
+        var household = await Get(cancellationToken);
+        var item = household.ShoppingListItems.First(i => i.Id == itemId);
+        return new PartialResult(Render(item));
+    }
+
+    [HttpGet("{itemId:int}/edit")]
+    public async Task<IResult> EditItem(int itemId, CancellationToken cancellationToken)
+    {
+        var household = await Get(cancellationToken);
+        var item = household.ShoppingListItems.First(i => i.Id == itemId);
+        return new PartialResult(new ShoppingListItemEdit(id: itemId, Label: item.Label));
+    }
+
     [HttpPost("{itemId:int}/rename")]
     public async Task<IResult> Rename(
-        [FromForm] int itemId,
+        int itemId,
         [FromForm] string newLabel,
         CancellationToken cancellationToken
     ) => Render(await Write(new RenameShoppingListItem(itemId, newLabel), cancellationToken));

@@ -1,4 +1,4 @@
-<li {% if isChecked %}class="checked" {% end %}>
+<li class="item {% if isChecked %}checked{% end %}">
 
   <svg class="sortable-handle" width="14" height="14" viewBox="0 0 10 14" xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true">
@@ -11,10 +11,10 @@
   </svg>
   <input type='hidden' name='itemId' value='{{id}}'>
   <form>
-    <label>
-      <input type="checkbox" hx-post="shopping_list/{{id}}/checked" hx-target="#shopping-list" hx-trigger="change"
-        name="isChecked" {% if isChecked %}checked{% end %}>
-      {{Label}}
-    </label>
+    <input type="checkbox" aria-label="{{Label}} check if bought" hx-post="shopping_list/{{id}}/checked"
+      hx-target="#shopping-list" hx-trigger="change" name="isChecked" {% if isChecked %}checked{% end %}>
   </form>
+  <span hx-get="shopping_list/{{id}}/edit" hx-trigger="click consume" hx-target="this" hx-swap="outerHTML">
+    {{Label}}
+  </span>
 </li>

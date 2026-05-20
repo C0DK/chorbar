@@ -1,6 +1,8 @@
 .sortable-handle {
   cursor: move;
   cursor: -webkit-grabbing;
+  align-self: center;
+  margin-right: var(--space-xs);
 }
 
 .sortable-ghost {
@@ -20,7 +22,10 @@
   .new-item {
     display: flex;
     margin-bottom: var(--space-sm);
+  }
 
+  .new-item,
+  .rename-item {
     button {
       padding: 0;
       font-weight: 900;
@@ -39,9 +44,7 @@
       min-height: 0;
 
       &:hover,
-
-
-      Grønt &:focus {
+      &:focus {
         border: none;
         box-shadow: none;
       }
@@ -121,26 +124,41 @@
   li {
     list-style: none;
 
-    &:not(.checked) {
-      label {
-        color: var(--color-primary);
-      }
-    }
+    .item {
+      &:not(.checked) {
 
-    &.checked {
-      input[type="checkbox"]:checked {
-        background: var(--color-muted);
-        border-color: var(--color-muted);
+        label,
+        span {
+          color: var(--color-primary);
+        }
       }
 
-      label {
-        color: var(--color-muted);
-        text-decoration: line-through;
+      span,
+      form.rename-item {
+        display: block;
+        margin-left: var(--space-sm);
       }
-    }
 
-    label {
-      gap: var(--space-md);
+      >form {
+        display: contents;
+      }
+
+      &.checked {
+        input[type="checkbox"]:checked {
+          background: var(--color-muted);
+          border-color: var(--color-muted);
+        }
+
+        label,
+        span {
+          color: var(--color-muted);
+          text-decoration: line-through;
+
+        }
+      }
+
+      display: flex;
+      align-items: center;
       line-height: 1.8;
       font-size: 1.125rem;
 
@@ -150,5 +168,6 @@
         font-size: 1.1rem;
       }
     }
+
   }
 }
