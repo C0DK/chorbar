@@ -87,5 +87,11 @@
         imports = [ ./infra/app.nix ];
         virtualisation.oci-containers.containers.chorbar-web.imageFile = dockerImage;
       };
+
+      # Optional: add this module alongside nixosModules.default to enable
+      # Grafana + Loki + Promtail log collection. See README for setup.
+      nixosModules.observability = { ... }: {
+        imports = [ ./infra/observability.nix ];
+      };
     };
 }
