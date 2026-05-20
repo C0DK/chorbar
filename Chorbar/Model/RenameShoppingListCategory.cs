@@ -11,7 +11,7 @@ public record RenameShoppingListCategory(string Category, string NewCategory)
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) =>
+    public override bool IsValid(Household household, DateTimeOffset now) =>
         !string.IsNullOrWhiteSpace(NewCategory)
         && household.ShoppingListCategories.Contains(Category);
 

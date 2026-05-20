@@ -9,7 +9,7 @@ public record AddShoppingListCategory(string Category) : HouseholdEventPayload
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) =>
+    public override bool IsValid(Household household, DateTimeOffset now) =>
         !string.IsNullOrWhiteSpace(Category)
         && !household.ShoppingListCategories.Contains(Category);
 

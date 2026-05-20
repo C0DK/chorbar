@@ -9,7 +9,7 @@ public record DeleteHousehold : HouseholdEventPayload
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) => !household.IsDeleted;
+    public override bool IsValid(Household household, DateTimeOffset now) => !household.IsDeleted;
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>
         household with

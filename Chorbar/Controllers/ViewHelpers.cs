@@ -123,7 +123,8 @@ internal static class ViewHelpers
             // badges are annoying to update for the form..
             //badges: ChoreBadges(chore),
             goalNumerator: chore.Goal?.Numerator,
-            goalUnit: chore?.Goal?.Unit.ToString()
+            goalUnit: chore?.Goal?.Unit.ToString(),
+            today: DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")
         );
 
     public static string TimeAgo(DateTimeOffset? timestamp)

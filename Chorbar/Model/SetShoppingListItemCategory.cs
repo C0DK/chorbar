@@ -10,7 +10,7 @@ public record SetShoppingListItemCategory(int ItemId, string? Category) : Househ
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) =>
+    public override bool IsValid(Household household, DateTimeOffset now) =>
         household.ShoppingListItems.Any(item => item.Id == ItemId)
         && (Category is null || household.ShoppingListCategories.Contains(Category));
 

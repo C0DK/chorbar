@@ -2,15 +2,15 @@ using System.Text.Json.Serialization;
 
 namespace Chorbar.Model;
 
-public record UndoChore(string Label, DateTimeOffset timestamp) : HouseholdEventPayload
+public record AddPastChoreCompletion(string Label, DateOnly When) : HouseholdEventPayload
 {
     [JsonIgnore]
-    public const string Kind = "undo_chore";
+    public const string Kind = "add_past_chore_completion";
 
     public override string EventKind => Kind;
 
     public override bool IsValid(Household household, DateTimeOffset now) =>
-        household.Chores.ContainsKey(Label) && household.Chores[Label].History.Contains(timestamp);
+        household.Chores.ContainsKey(Label) && MidnightOn(When) <= now;
 
     public override Household Apply(Household household, DateTimeOffset timestamp)
     {
@@ -21,9 +21,12 @@ public record UndoChore(string Label, DateTimeOffset timestamp) : HouseholdEvent
                 Label,
                 chore with
                 {
-                    History = chore.History.Remove(this.timestamp),
+                    History = chore.History.Add(MidnightOn(When)),
                 }
             ),
         };
     }
+
+    private static DateTimeOffset MidnightOn(DateOnly date) =>
+        new DateTimeOffset(date, TimeOnly.MinValue, TimeSpan.Zero);
 }

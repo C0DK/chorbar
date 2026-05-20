@@ -5,6 +5,14 @@
     {{..actions}}
   </ol>
 
+  <form hx-post="chore/do_past" hx-target="#chore-editor" hx-swap="outerHTML">
+    <input type="hidden" Value="{{label}}" name="label" />
+    <fieldset>
+      <input type="date" name="when" required max="{{today}}" />
+      <button type="submit" class="small">Log past completion</button>
+    </fieldset>
+  </form>
+
   <form class="goal-form small" hx-post="chore/goal" hx-target="#{{htmlId}}" hx-swap="outerHTML">
     <input type="hidden" Value="{{label}}" name="label" />
     <h3>I want to do it every...</h3>

@@ -11,7 +11,7 @@ public record SetShoppingListCategoryItems(string? Category, ImmutableArray<int>
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) =>
+    public override bool IsValid(Household household, DateTimeOffset now) =>
         ItemIds.All(itemId => household.ShoppingListItems.Any(item => item.Id == itemId))
         && (Category is null || household.ShoppingListCategories.Contains(Category));
 

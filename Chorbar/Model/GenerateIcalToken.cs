@@ -9,7 +9,7 @@ public record GenerateIcalToken(string Token) : HouseholdEventPayload
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) => true;
+    public override bool IsValid(Household household, DateTimeOffset now) => true;
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>
         household with
