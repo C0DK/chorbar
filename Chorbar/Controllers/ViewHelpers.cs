@@ -81,7 +81,7 @@ internal static class ViewHelpers
         var streakDays = chore.StreakDays(DateTimeOffset.UtcNow);
         if (streakDays >= 1)
             yield return new ChoreBadge(
-                content: $"🔥 {streakDays}d",
+                content: $"🔥 {FormatStreak(streakDays, chore.Goal?.Unit)}",
                 additionalClasses: Array.Empty<string>()
             );
 
@@ -91,6 +91,18 @@ internal static class ViewHelpers
                 additionalClasses: Array.Empty<string>()
             );
     }
+
+    internal static string FormatStreakForTest(int days, DateUnit? unit) =>
+        FormatStreak(days, unit);
+
+    private static string FormatStreak(int days, DateUnit? unit) =>
+        unit switch
+        {
+            DateUnit.Week => $"{days / 7}w",
+            DateUnit.Month => $"{days / 30}m",
+            DateUnit.Year => $"{days / 365}y",
+            _ => $"{days}d",
+        };
 
     public static string DeadlineText(DateTimeOffset? deadline)
     {
