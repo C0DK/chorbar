@@ -73,17 +73,14 @@ internal static class ViewHelpers
             yield return new ChoreBadge(
                 content: $"📅 {DeadlineText(deadline)}",
                 additionalClasses: (deadline - DateTimeOffset.UtcNow) < TimeSpan.FromHours(30)
-                    ? ["danger"]
+                    ? ["emphasis"]
                     : Array.Empty<string>()
             );
         }
 
         var streak = chore.Streak(DateTimeOffset.UtcNow);
         if (streak is not null)
-            yield return new ChoreBadge(
-                content: $"🔥 {streak}",
-                additionalClasses: Array.Empty<string>()
-            );
+            yield return new ChoreBadge(content: $"🔥 {streak}", additionalClasses: ["emphasis"]);
 
         if (chore.History.Length > 0)
             yield return new ChoreBadge(
