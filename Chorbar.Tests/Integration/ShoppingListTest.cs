@@ -1,15 +1,14 @@
 using Chorbar.Model;
 using Microsoft.Extensions.Time.Testing;
-using Npgsql;
 
 namespace Chorbar.Tests.Integration;
 
-public class ShoppingListTest
+public class ShoppingListTest : StoreTestBase
 {
     [Test, CancelAfter(10_000)]
     public async Task ShoppingListEmptyInitially(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         var household = await store.Read(_householdId, cancellationToken);
         Assert.That(household.ShoppingListItems, Is.Empty);
@@ -18,7 +17,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task AddItem(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         var household = await store.Write(
@@ -35,7 +34,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task AddSameLabelTwice(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         var household = await store.Write(
@@ -54,7 +53,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task CheckOffItemDoesntTakeDuplicates(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         var household = await store.Write(
@@ -69,7 +68,7 @@ public class ShoppingListTest
         Assert.That(
             household.ShoppingListItems,
             Is.EquivalentTo<ShoppingListItem>(
-                [new(1, label, t(2), Order: 0), new(2, label, null, Order: 1)]
+                [new(1, label, T(2), Order: 0), new(2, label, null, Order: 1)]
             )
         );
     }
@@ -77,7 +76,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task CheckOffTwiceDoesntUpdateTime(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         var householdPre = await store.Write(
@@ -99,7 +98,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task UnCheckOff(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         var household = await store.Write(
@@ -120,7 +119,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task Rename(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         const string newLabel = "Milkyway";
@@ -143,7 +142,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task ShoppingListOnlyContainsUnchecked(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         var household = await store.Write(
@@ -167,7 +166,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task RecentlyCheckedOff(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         await store.Write(
@@ -179,7 +178,7 @@ public class ShoppingListTest
             ],
             cancellationToken
         );
-        _timeProvider.SetUtcNow(t(10_000));
+        _timeProvider.SetUtcNow(T(10_000));
 
         var household = await store.Write(
             _householdId,
@@ -189,14 +188,14 @@ public class ShoppingListTest
 
         Assert.That(
             household.RecentlyCheckedItems(_timeProvider),
-            Is.EquivalentTo<ShoppingListItem>([new(2, label, t(10_000), Order: 1)])
+            Is.EquivalentTo<ShoppingListItem>([new(2, label, T(10_000), Order: 1)])
         );
     }
 
     [Test, CancelAfter(10_000)]
     public async Task ShoppingListAddCategoryShowsEmpty(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         const string category = "Dairy";
@@ -214,7 +213,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task ShoppingListSetCategory(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         const string category = "Dairy";
@@ -238,7 +237,7 @@ public class ShoppingListTest
         CancellationToken cancellationToken
     )
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string label = "Milk";
         const string category = "Dairy";
@@ -263,7 +262,7 @@ public class ShoppingListTest
         CancellationToken cancellationToken
     )
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         await store.Write(_householdId, [new AddToShoppingList("Milk")], cancellationToken);
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -278,7 +277,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task AddDuplicateCategoryRejected(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         await store.Write(_householdId, [new AddShoppingListCategory("Dairy")], cancellationToken);
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -293,7 +292,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task AddBlankCategoryRejected(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
             await store.Write(_householdId, [new AddShoppingListCategory("   ")], cancellationToken)
@@ -303,7 +302,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task SortCategoriesReordersList(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         var household = await store.Write(
             _householdId,
@@ -324,7 +323,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task SortCategoriesRejectsUnknownCategory(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         await store.Write(_householdId, [new AddShoppingListCategory("Dairy")], cancellationToken);
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -341,7 +340,7 @@ public class ShoppingListTest
         CancellationToken cancellationToken
     )
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string category = "Dairy";
         var household = await store.Write(
@@ -361,7 +360,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task DeleteCategoryRejectsUnknown(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
             await store.Write(
@@ -375,7 +374,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task RenameCategoryUpdatesItems(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string category = "Dairy";
         const string renamed = "Mejeri";
@@ -396,7 +395,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task RenameCategoryRejectsBlankNewName(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         await store.Write(_householdId, [new AddShoppingListCategory("Dairy")], cancellationToken);
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -411,7 +410,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task RenameCategoryRejectsUnknown(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
             await store.Write(
@@ -425,7 +424,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task SetCategoryItemsMovesItemsAndAssignsOrder(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string category = "Dairy";
         var household = await store.Write(
@@ -451,7 +450,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task SetCategoryItemsToNullUncategorizes(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         const string category = "Dairy";
         var household = await store.Write(
@@ -470,7 +469,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task SetCategoryItemsRejectsUnknownItem(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         await store.Write(_householdId, [new AddShoppingListCategory("Dairy")], cancellationToken);
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -485,7 +484,7 @@ public class ShoppingListTest
     [Test, CancelAfter(10_000)]
     public async Task SetCategoryItemsRejectsUnknownCategory(CancellationToken cancellationToken)
     {
-        var store = GetStore(_userA);
+        var store = GetStore(UserA);
 
         await store.Write(_householdId, [new AddToShoppingList("Milk")], cancellationToken);
         Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -497,34 +496,12 @@ public class ShoppingListTest
         );
     }
 
-    NpgsqlConnection _conn = null!;
+    private HouseholdId _householdId;
 
     [SetUp]
     public async Task SetUp()
     {
-        _conn = await DatabaseFixture.DataSource.OpenConnectionAsync();
-        var cancellationToken = CancellationToken.None;
-        _timeProvider = new FakeTimeProvider(t(-1)) { AutoAdvanceAmount = _timeStep };
-        await using (var cmd = new NpgsqlCommand("TRUNCATE household_event", _conn))
-            await cmd.ExecuteNonQueryAsync();
-        var store = GetStore(_userA);
-        _householdId = (await store.New("Some Name", cancellationToken));
+        _timeProvider = new FakeTimeProvider(T(-1)) { AutoAdvanceAmount = TimeStep };
+        _householdId = await GetStore(UserA).New("Some Name", CancellationToken.None);
     }
-
-    [TearDown]
-    public async Task TearDown() => await _conn.DisposeAsync();
-
-    private HouseholdId _householdId;
-    private static Email _userA => new Email("alice@example.com");
-    private static Email _userB => new Email("bob@example.com");
-
-    private static TimeSpan _timeStep = TimeSpan.FromMinutes(1);
-
-    private DateTimeOffset t(int i) =>
-        new DateTimeOffset(2024, 01, 01, 0, 0, 0, TimeSpan.Zero).Add(_timeStep * i);
-
-    private FakeTimeProvider _timeProvider = null!;
-
-    private HouseholdStore GetStore(Email identity) =>
-        new HouseholdStore(_conn, new StaticIdentityProvider(identity), _timeProvider);
 }

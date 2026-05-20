@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using Chorbar.Model;
 using Microsoft.Extensions.Time.Testing;
 
-namespace Chorbar.Tests;
+namespace Chorbar.Tests.Integration;
 
 public class ChoreStoreTests : StoreTestBase
 {
@@ -193,7 +193,6 @@ public class ChoreStoreTests : StoreTestBase
             [new AddChore("A"), new DoChore("A"), new AddChore("B")],
             cancellationToken
         );
-
         var householdA = await storeA.Read(_householdAId, cancellationToken);
         var householdB = await storeB.Read(_householdBId, cancellationToken);
         Assert.Multiple(() =>
