@@ -42,7 +42,22 @@ public record Chore(
 
     public TimeSpan WorstFrequency() => Intervals().LastOrDefault(TimeSpan.Zero);
 
-    public int StreakDays(DateTimeOffset now)
+    public Streak? Streak(DateTimeOffset now)
+    {
+        var days = StreakDays(now);
+        if (days == 0)
+            return null;
+
+        return Goal?.Unit switch
+        {
+            DateUnit.Week => new Streak(days / 7, DateUnit.Week),
+            DateUnit.Month => new Streak(days / 30, DateUnit.Month),
+            DateUnit.Year => new Streak(days / 365, DateUnit.Year),
+            _ => new Streak(days, DateUnit.Day),
+        };
+    }
+
+    private int StreakDays(DateTimeOffset now)
     {
         if (History.IsEmpty)
             return 0;

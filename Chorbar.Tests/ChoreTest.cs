@@ -56,119 +56,119 @@ public class ChoreTest
     // Streak tests — use day-based time steps
 
     [Test]
-    public void StreakDays_EmptyHistory_ReturnsZero()
+    public void Streak_EmptyHistory_ReturnsNull()
     {
         var subject = new Chore(d(0), []);
 
-        Assert.That(subject.StreakDays(d(10)), Is.EqualTo(0));
+        Assert.That(subject.Streak(d(10)), Is.Null);
     }
 
     [Test]
-    public void StreakDays_SingleCompletion_WithinWindow_ReturnsDaysSinceCompletion()
+    public void Streak_SingleCompletion_WithinWindow_ReturnsDaysSinceCompletion()
     {
         // created day 0, done day 7, frequency = 7 days, maxGap = 7.7 days
-        // now = day 14 → timeSinceLast = 7 days ≤ 7.7 → streak active, started at d(7)
+        // now = day 14 → streak active, started at d(7) → 7 days
         var subject = new Chore(d(0), [d(7)]);
 
-        Assert.That(subject.StreakDays(d(14)), Is.EqualTo(7));
+        Assert.That(subject.Streak(d(14)), Is.EqualTo(new Streak(7, DateUnit.Day)));
     }
 
     [Test]
-    public void StreakDays_SingleCompletion_TooOld_ReturnsZero()
+    public void Streak_SingleCompletion_TooOld_ReturnsNull()
     {
-        // created day 0, done day 7, frequency = 7 days, maxGap = 7.7 days
         // now = day 16 → timeSinceLast = 9 days > 7.7 → streak broken
         var subject = new Chore(d(0), [d(7)]);
 
-        Assert.That(subject.StreakDays(d(16)), Is.EqualTo(0));
+        Assert.That(subject.Streak(d(16)), Is.Null);
     }
 
     [Test]
-    public void StreakDays_MultipleConsecutive_ReturnsDaysSinceFirst()
+    public void Streak_MultipleConsecutive_ReturnsDaysSinceFirst()
     {
-        // done every 7 days, streak started at d(7), now = d(21) → 14 days
+        // streak started at d(7), now = d(21) → 14 days
         var subject = new Chore(d(0), [d(7), d(14), d(21)]);
 
-        Assert.That(subject.StreakDays(d(21)), Is.EqualTo(14));
+        Assert.That(subject.Streak(d(21)), Is.EqualTo(new Streak(14, DateUnit.Day)));
     }
 
     [Test]
-    public void StreakDays_BrokenInMiddle_CountsFromRestartOnly()
+    public void Streak_BrokenInMiddle_CountsFromRestartOnly()
     {
-        // streak breaks between d(14) and d(44), restarts at d(44)
-        // now = d(51) → streak started at d(44) → 7 days
+        // streak breaks between d(14) and d(44), restarts at d(44), now = d(51) → 7 days
         var subject = new Chore(d(0), [d(7), d(14), d(44), d(51)]);
 
-        Assert.That(subject.StreakDays(d(51)), Is.EqualTo(7));
+        Assert.That(subject.Streak(d(51)), Is.EqualTo(new Streak(7, DateUnit.Day)));
     }
 
     [Test]
-    public void StreakDays_ShortFrequency_OneDayLatency_ActiveStreak()
+    public void Streak_ShortFrequency_OneDayLatency_ActiveStreak()
     {
-        // frequency = 5 days, maxGap = 6 days, streak started at d(0)
-        // now = d(16) → 16 days
+        // frequency = 5 days, maxGap = 6 days, streak started at d(0), now = d(16) → 16 days
         var subject = new Chore(d(-5), [d(0), d(5), d(10), d(16)]);
 
-        Assert.That(subject.StreakDays(d(16)), Is.EqualTo(16));
+        Assert.That(subject.Streak(d(16)), Is.EqualTo(new Streak(16, DateUnit.Day)));
     }
 
     [Test]
-    public void StreakDays_ShortFrequency_BreaksWhenTooLate()
+    public void Streak_ShortFrequency_BreaksWhenTooLate()
     {
-        // gap d(10)→d(17) = 7 days > maxGap 6 → streak resets at d(17), now = d(17) → 0 days
+        // gap d(10)→d(17) = 7 days > maxGap 6 → streak broken
         var subject = new Chore(d(-5), [d(0), d(5), d(10), d(17)]);
 
-        Assert.That(subject.StreakDays(d(17)), Is.EqualTo(0));
+        Assert.That(subject.Streak(d(17)), Is.Null);
     }
 
     [Test]
-    public void StreakDays_HundredDayFrequency_TenDayLatency()
+    public void Streak_HundredDayFrequency_TenDayLatency()
     {
-        // frequency ≈ 100 days, maxGap = 110 days, streak started at d(100)
-        // now = d(300) → 200 days
+        // frequency ≈ 100 days, maxGap = 110 days, streak started at d(100), now = d(300) → 200 days
         var subject = new Chore(d(0), [d(100), d(200), d(300)]);
 
-        Assert.That(subject.StreakDays(d(300)), Is.EqualTo(200));
+        Assert.That(subject.Streak(d(300)), Is.EqualTo(new Streak(200, DateUnit.Day)));
     }
 
     [Test]
-    public void StreakDays_HundredDayFrequency_BreaksAfterElevenDaysLate()
+    public void Streak_HundredDayFrequency_BreaksAfterElevenDaysLate()
     {
-        // gap d(200)→d(311) = 111 days > 110 → streak resets at d(311), now = d(311) → 0 days
+        // gap d(200)→d(311) = 111 days > 110 → streak broken
         var subject = new Chore(d(0), [d(100), d(200), d(311)]);
 
-        Assert.That(subject.StreakDays(d(311)), Is.EqualTo(0));
+        Assert.That(subject.Streak(d(311)), Is.Null);
     }
 
-    // FormatStreak tests — via StreakDays + badge unit matching
-
     [Test]
-    public void StreakDays_GoalInWeeks_DisplaysWeeks()
+    public void Streak_GoalInWeeks_NumeratorInWeeks()
     {
-        // frequency = 7 days, streak started at d(7), now = d(21) → 14 days → 2w
+        // streak started at d(7), now = d(21) → 14 days → 2w
         var subject = new Chore(d(0), [d(7), d(14), d(21)], new Goal(1, DateUnit.Week));
 
-        Assert.That(subject.StreakDays(d(21)), Is.EqualTo(14));
-        Assert.That(ViewHelpers.FormatStreakForTest(14, DateUnit.Week), Is.EqualTo("2w"));
+        Assert.That(subject.Streak(d(21)), Is.EqualTo(new Streak(2, DateUnit.Week)));
     }
 
     [Test]
-    public void StreakDays_GoalInMonths_DisplaysMonths()
+    public void Streak_GoalInMonths_NumeratorInMonths()
     {
-        Assert.That(ViewHelpers.FormatStreakForTest(60, DateUnit.Month), Is.EqualTo("2m"));
+        // streak started at d(30), now = d(90) → 60 days → 2m
+        var subject = new Chore(d(0), [d(30), d(60), d(90)], new Goal(1, DateUnit.Month));
+
+        Assert.That(subject.Streak(d(90)), Is.EqualTo(new Streak(2, DateUnit.Month)));
     }
 
     [Test]
-    public void StreakDays_GoalInDays_DisplaysDays()
-    {
-        Assert.That(ViewHelpers.FormatStreakForTest(10, DateUnit.Day), Is.EqualTo("10d"));
-    }
+    public void Streak_ToString_Days() =>
+        Assert.That(new Streak(10, DateUnit.Day).ToString(), Is.EqualTo("10d"));
 
     [Test]
-    public void StreakDays_NoGoal_DisplaysDays()
-    {
-        Assert.That(ViewHelpers.FormatStreakForTest(10, null), Is.EqualTo("10d"));
-    }
+    public void Streak_ToString_Weeks() =>
+        Assert.That(new Streak(3, DateUnit.Week).ToString(), Is.EqualTo("3w"));
+
+    [Test]
+    public void Streak_ToString_Months() =>
+        Assert.That(new Streak(2, DateUnit.Month).ToString(), Is.EqualTo("2m"));
+
+    [Test]
+    public void Streak_ToString_Years() =>
+        Assert.That(new Streak(1, DateUnit.Year).ToString(), Is.EqualTo("1y"));
 
     // DeadlineText tests
 
