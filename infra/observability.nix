@@ -83,53 +83,46 @@
     };
   };
 
-  # ── Promtail: ship chorbar-web container logs → Loki ──────────────────────
-  services.promtail = {
-    enable = true;
-    configuration = {
-      server = {
-        http_listen_address = "127.0.0.1";
-        http_listen_port = 9080;
-        grpc_listen_port = 0;
-      };
-      clients = [ { url = "http://127.0.0.1:3100/loki/api/v1/push"; } ];
-      scrape_configs = [
-        {
-          job_name = "chorbar";
-          journal = {
-            max_age = "12h";
-            labels.job = "chorbar";
-          };
-          relabel_configs = [
-            {
-              source_labels = [ "__journal__systemd_unit" ];
-              target_label = "unit";
-            }
-            {
-              # Keep only the chorbar-web container's stdout/stderr.
-              source_labels = [ "__journal__systemd_unit" ];
-              regex = "podman-chorbar-web\\.service";
-              action = "keep";
-            }
-          ];
-          pipeline_stages = [
-            # The app writes two lines per log event: a human-readable line
-            # and a Serilog compact-JSON line. Drop the non-JSON lines so
-            # only structured entries reach Loki.
-            { drop.expression = "^[^{]"; }
-            {
-              json.expressions = {
-                level = "@l";
-                message = "@m";
-              };
-            }
-            # Promote the parsed level to a Loki label for filtering.
-            { labels.level = ""; }
-          ];
-        }
-      ];
-    };
-  };
+  # ── Grafana Alloy: ship chorbar-web container logs → Loki ─────────────────
+  # Alloy replaces the deprecated Promtail agent. Configuration is in
+  # River/Alloy syntax at /etc/alloy/config.alloy.
+  services.alloy.enable = true;
+
+  environment.etc."alloy/config.alloy".text = ''
+    // Read chorbar-web container logs from the systemd journal.
+    loki.source.journal "chorbar" {
+      max_age    = "12h"
+      matches    = "_SYSTEMD_UNIT=podman-chorbar-web.service"
+      labels     = {"job" = "chorbar"}
+      forward_to = [loki.process.chorbar.receiver]
+    }
+
+    // The app emits two lines per log event: a human-readable line and a
+    // Serilog compact-JSON line. Drop the former, parse the latter.
+    loki.process "chorbar" {
+      stage.drop {
+        expression = "^[^{]"
+      }
+
+      stage.json {
+        // @l is the Serilog compact-JSON level field (absent for Information).
+        expressions = {"level" = "@l"}
+      }
+
+      stage.labels {
+        values = {"level" = "level"}
+      }
+
+      forward_to = [loki.write.local.receiver]
+    }
+
+    // Push to the local Loki instance.
+    loki.write "local" {
+      endpoint {
+        url = "http://127.0.0.1:3100/loki/api/v1/push"
+      }
+    }
+  '';
 
   # ── Grafana ────────────────────────────────────────────────────────────────
   # Secrets are read at runtime from /etc/grafana/ — never stored in the
@@ -153,7 +146,9 @@
         allow_org_create = false;
         default_theme = "dark";
       };
-      "auth.anonymous".enabled = false;
+      "auth.anonymous" = {
+        enabled = false;
+      };
     };
     provision = {
       enable = true;
