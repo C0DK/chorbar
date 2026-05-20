@@ -27,6 +27,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"
     integrity="sha256-v0JBvHP+9/EcWaKDpp/oBRzdMcbY/1orm6IZ54Mfz3Y=" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script>
     htmx.onLoad(function (content) {
       var sortables = content.querySelectorAll(".sortable");
@@ -57,6 +58,27 @@
         });
       }
     })
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest(".do button[type=submit]");
+      if (!btn) return;
+      var rect = btn.getBoundingClientRect();
+      confetti({
+
+        angle: randomInRange(55, 125),
+        particleCount: randomInRange(50, 100),
+        spread: randomInRange(50, 70),
+        origin: {
+          x: (rect.left + rect.width / 2) / window.innerWidth,
+          y: (rect.top + rect.height / 2) / window.innerHeight
+        },
+        startVelocity: 25,
+        gravity: 1.2,
+        ticks: 150
+      });
+    });
 
     document.addEventListener("toggle", function (e) {
       if (!(e.target instanceof HTMLElement) || !e.target.hasAttribute("popover")) return;
