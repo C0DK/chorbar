@@ -141,3 +141,5 @@ app.MapControllers();
 HtmxErrorMiddleware.Use(app);
 
 app.Run();
+
+public partial class Program { }
