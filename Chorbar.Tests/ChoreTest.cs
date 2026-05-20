@@ -70,82 +70,60 @@ public class ChoreTest
         }
 
         [Test]
-        public void SingleCompletion_WithinWindow_ReturnsDaysSinceCompletion()
+        public void OneBefore2Streak()
         {
-            // created day 0, done day 7, frequency = 7 days, maxGap = 7.7 days
-            // now = day 14 → streak active, started at d(7) → 7 days
-            var subject = new Chore(d(0), [d(7)]);
+            var subject = new Chore(d(0), [d(0), d(5)], Goal: new Goal(5, DateUnit.Day));
 
-            Assert.That(subject.Streak(d(14)), Is.EqualTo(new Streak(7, DateUnit.Day)));
+            Assert.That(subject.Streak(d(7)), Is.Null);
         }
 
         [Test]
-        public void SingleCompletion_TooOld_ReturnsNull()
+        public void WithinGoal()
         {
-            // now = day 16 → timeSinceLast = 9 days > 7.7 → streak broken
-            var subject = new Chore(d(0), [d(7)]);
+            var subject = new Chore(d(0), [d(0), d(5), d(10)], Goal: new Goal(5, DateUnit.Day));
 
-            Assert.That(subject.Streak(d(16)), Is.Null);
+            Assert.That(subject.Streak(d(11)), Is.EqualTo(new Streak(11, DateUnit.Day)));
         }
 
         [Test]
-        public void MultipleConsecutive_ReturnsDaysSinceFirst()
+        public void WithinGoalByLatency()
         {
-            // streak started at d(7), now = d(21) → 14 days
-            var subject = new Chore(d(0), [d(7), d(14), d(21)]);
-
-            Assert.That(subject.Streak(d(21)), Is.EqualTo(new Streak(14, DateUnit.Day)));
-        }
-
-        [Test]
-        public void BrokenInMiddle_CountsFromRestartOnly()
-        {
-            // streak breaks between d(14) and d(44), restarts at d(44), now = d(51) → 7 days
-            var subject = new Chore(d(0), [d(7), d(14), d(44), d(51)]);
-
-            Assert.That(subject.Streak(d(51)), Is.EqualTo(new Streak(7, DateUnit.Day)));
-        }
-
-        [Test]
-        public void ShortFrequency_OneDayLatency_ActiveStreak()
-        {
-            // frequency = 5 days, maxGap = 6 days, streak started at d(0), now = d(16) → 16 days
-            var subject = new Chore(d(-5), [d(0), d(5), d(10), d(16)]);
+            var subject = new Chore(d(0), [d(0), d(5), d(10)], Goal: new Goal(5, DateUnit.Day));
 
             Assert.That(subject.Streak(d(16)), Is.EqualTo(new Streak(16, DateUnit.Day)));
         }
 
         [Test]
-        public void ShortFrequency_BreaksWhenTooLate()
+        public void StreakBroken()
         {
-            // gap d(10)→d(17) = 7 days > maxGap 6 → streak broken
-            var subject = new Chore(d(-5), [d(0), d(5), d(10), d(17)]);
+            var subject = new Chore(d(0), [d(0), d(5), d(10)], Goal: new Goal(5, DateUnit.Day));
 
             Assert.That(subject.Streak(d(17)), Is.Null);
         }
 
         [Test]
-        public void HundredDayFrequency_TenDayLatency()
+        public void BrokenInMiddle_CountsFromRestartOnly()
         {
-            // frequency ≈ 100 days, maxGap = 110 days, streak started at d(100), now = d(300) → 200 days
-            var subject = new Chore(d(0), [d(100), d(200), d(300)]);
+            var subject = new Chore(
+                d(0),
+                [
+                    d(0),
+                    d(5),
+                    d(10),
+                    // broken!
+                    d(20),
+                    d(25),
+                    d(30),
+                ],
+                Goal: new Goal(5, DateUnit.Day)
+            );
 
-            Assert.That(subject.Streak(d(300)), Is.EqualTo(new Streak(200, DateUnit.Day)));
-        }
-
-        [Test]
-        public void HundredDayFrequency_BreaksAfterElevenDaysLate()
-        {
-            // gap d(200)→d(311) = 111 days > 110 → streak broken
-            var subject = new Chore(d(0), [d(100), d(200), d(311)]);
-
-            Assert.That(subject.Streak(d(311)), Is.Null);
+            Assert.That(subject.Streak(d(31)), Is.EqualTo(new Streak(11, DateUnit.Day)));
         }
 
         [Test]
         public void GoalInWeeks_NumeratorInWeeks()
         {
-            // streak started at d(7), now = d(21) → 14 days → 2w
             var subject = new Chore(d(0), [d(7), d(14), d(21)], new Goal(1, DateUnit.Week));
 
             Assert.That(subject.Streak(d(21)), Is.EqualTo(new Streak(2, DateUnit.Week)));

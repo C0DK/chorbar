@@ -44,46 +44,30 @@ public record Chore(
 
     public Streak? Streak(DateTimeOffset now)
     {
-        var days = StreakDays(now);
-        if (days == 0)
+        if (Goal is null)
             return null;
+        var streakStart = now;
 
-        return Goal?.Unit switch
+        foreach (var activity in History.OrderByDescending(a => a))
         {
-            DateUnit.Week => new Streak(days / 7, DateUnit.Week),
-            DateUnit.Month => new Streak(days / 30, DateUnit.Month),
-            DateUnit.Year => new Streak(days / 365, DateUnit.Year),
-            _ => new Streak(days, DateUnit.Day),
-        };
-    }
-
-    private int StreakDays(DateTimeOffset now)
-    {
-        if (History.IsEmpty)
-            return 0;
-
-        var sorted = History.OrderBy(t => t).ToList();
-        var frequency = Frequency();
-
-        if (frequency == TimeSpan.Zero)
-            return (int)(now - sorted[0]).TotalDays;
-
-        var allowedLatencyDays = Math.Max(1.0, frequency.TotalDays / 10.0);
-        var maxGap = frequency + TimeSpan.FromDays(allowedLatencyDays);
-
-        if (now - sorted.Last() > maxGap)
-            return 0;
-
-        var streakStart = sorted.Last();
-        for (var i = sorted.Count - 1; i > 0; i--)
-        {
-            var gap = sorted[i] - sorted[i - 1];
-            if (gap <= maxGap)
-                streakStart = sorted[i - 1];
+            if (Goal.IsWithinInterval(activity, streakStart))
+                streakStart = activity;
             else
                 break;
         }
 
-        return (int)(now - streakStart).TotalDays;
+        var delta = now - streakStart;
+
+        var numerator = Goal.Unit switch
+        {
+            DateUnit.Day => (int)(now - streakStart).TotalDays,
+            DateUnit.Week => ((int)(now - streakStart).TotalDays) / 7,
+            DateUnit.Month => streakStart.GetMonthsBetween(now),
+            DateUnit.Year => streakStart.GetYearsBetween(now),
+            _ => throw new NotImplementedException(),
+        };
+        if (numerator < Goal.Numerator * 2)
+            return null;
+        return new Streak(numerator, Goal.Unit);
     }
 }
