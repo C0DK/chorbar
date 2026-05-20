@@ -140,6 +140,36 @@ public class ChoreTest
         Assert.That(subject.StreakDays(d(311)), Is.EqualTo(0));
     }
 
+    // FormatStreak tests — via StreakDays + badge unit matching
+
+    [Test]
+    public void StreakDays_GoalInWeeks_DisplaysWeeks()
+    {
+        // frequency = 7 days, streak started at d(7), now = d(21) → 14 days → 2w
+        var subject = new Chore(d(0), [d(7), d(14), d(21)], new Goal(1, DateUnit.Week));
+
+        Assert.That(subject.StreakDays(d(21)), Is.EqualTo(14));
+        Assert.That(ViewHelpers.FormatStreakForTest(14, DateUnit.Week), Is.EqualTo("2w"));
+    }
+
+    [Test]
+    public void StreakDays_GoalInMonths_DisplaysMonths()
+    {
+        Assert.That(ViewHelpers.FormatStreakForTest(60, DateUnit.Month), Is.EqualTo("2m"));
+    }
+
+    [Test]
+    public void StreakDays_GoalInDays_DisplaysDays()
+    {
+        Assert.That(ViewHelpers.FormatStreakForTest(10, DateUnit.Day), Is.EqualTo("10d"));
+    }
+
+    [Test]
+    public void StreakDays_NoGoal_DisplaysDays()
+    {
+        Assert.That(ViewHelpers.FormatStreakForTest(10, null), Is.EqualTo("10d"));
+    }
+
     // DeadlineText tests
 
     [Test]
