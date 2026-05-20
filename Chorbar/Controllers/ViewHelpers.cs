@@ -79,8 +79,11 @@ internal static class ViewHelpers
         }
 
         var streak = chore.Streak(DateTimeOffset.UtcNow);
-        if (streak >= 2)
-            yield return new ChoreBadge(content: $"🔥 {streak}", additionalClasses: ["danger"]);
+        if (streak is not null)
+            yield return new ChoreBadge(
+                content: $"🔥 {streak}",
+                additionalClasses: Array.Empty<string>()
+            );
 
         if (chore.History.Length > 0)
             yield return new ChoreBadge(

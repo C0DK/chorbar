@@ -42,33 +42,32 @@ public record Chore(
 
     public TimeSpan WorstFrequency() => Intervals().LastOrDefault(TimeSpan.Zero);
 
-    public int Streak(DateTimeOffset now)
+    public Streak? Streak(DateTimeOffset now)
     {
-        if (History.IsEmpty)
-            return 0;
+        if (Goal is null)
+            return null;
+        var streakStart = now;
 
-        var sorted = History.OrderBy(t => t).ToList();
-        var frequency = Frequency();
-
-        if (frequency == TimeSpan.Zero)
-            return 1;
-
-        var allowedLatencyDays = Math.Max(1.0, frequency.TotalDays / 10.0);
-        var maxGap = frequency + TimeSpan.FromDays(allowedLatencyDays);
-
-        if (now - sorted.Last() > maxGap)
-            return 0;
-
-        var streak = 1;
-        for (var i = sorted.Count - 1; i > 0; i--)
+        foreach (var activity in History.OrderByDescending(a => a))
         {
-            var gap = sorted[i] - sorted[i - 1];
-            if (gap <= maxGap)
-                streak++;
+            if (Goal.IsWithinInterval(activity, streakStart))
+                streakStart = activity;
             else
                 break;
         }
 
-        return streak;
+        var delta = now - streakStart;
+
+        var numerator = Goal.Unit switch
+        {
+            DateUnit.Day => (int)(now - streakStart).TotalDays,
+            DateUnit.Week => ((int)(now - streakStart).TotalDays) / 7,
+            DateUnit.Month => streakStart.GetMonthsBetween(now),
+            DateUnit.Year => streakStart.GetYearsBetween(now),
+            _ => throw new NotImplementedException(),
+        };
+        if (numerator < Goal.Numerator * 2)
+            return null;
+        return new Streak(numerator, Goal.Unit);
     }
 }
