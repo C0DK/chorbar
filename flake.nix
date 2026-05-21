@@ -1,9 +1,20 @@
 {
   description = "Chorbar — Chore management system - full deployment with database";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      sops-nix,
+    }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -17,15 +28,22 @@
         imageDigest = "sha256:6d7f69bc7bc9d4510ca255977b1f53ce52a79307e048a91450b2aecd63627cc3";
         finalImageName = "mcr.microsoft.com/dotnet/sdk";
         finalImageTag = "10.0";
-        sha256 = lib.removeSuffix "\n"
-          (builtins.readFile ./infra/sdk-image.x86_64-linux.sha256);
+        sha256 = lib.removeSuffix "\n" (builtins.readFile ./infra/sdk-image.x86_64-linux.sha256);
       };
 
       src = lib.cleanSourceWith {
         src = ./.;
-        filter = path: _:
-          let base = baseNameOf (toString path); in
-          ! lib.elem base [ "bin" "obj" ".git" "result" ];
+        filter =
+          path: _:
+          let
+            base = baseNameOf (toString path);
+          in
+          !lib.elem base [
+            "bin"
+            "obj"
+            ".git"
+            "result"
+          ];
       };
 
       # Stable per-source-content marker. Different source = different store
@@ -83,9 +101,23 @@
     {
       packages.${system}.dockerImage = dockerImage;
 
-      nixosModules.default = { ... }: {
-        imports = [ ./infra/app.nix ];
-        virtualisation.oci-containers.containers.chorbar-web.imageFile = dockerImage;
-      };
+      nixosModules.default =
+        { ... }:
+        {
+          imports = [ ./infra/app.nix ];
+          virtualisation.oci-containers.containers.chorbar-web.imageFile = dockerImage;
+        };
+
+      # Optional: add this module alongside nixosModules.default to enable
+      # Grafana + Loki + Alloy log collection. Pulls in sops-nix for
+      # secret management — see README for host-side setup.
+      nixosModules.observability =
+        { ... }:
+        {
+          imports = [
+            sops-nix.nixosModules.sops
+            ./infra/observability.nix
+          ];
+        };
     };
 }
