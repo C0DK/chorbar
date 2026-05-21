@@ -20,7 +20,9 @@ _ :
 
       stage.json {
         // @l is the Serilog compact-JSON level field (absent for Information).
-        expressions = {"level" = "@l"}
+        // JMESPath needs the field name quoted because '@' is the
+        // current-node token in unquoted form.
+        expressions = {"level" = "\"@l\""}
       }
 
       stage.labels {
