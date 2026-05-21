@@ -71,7 +71,7 @@ internal static class ViewHelpers
         {
             var deadline = chore.Deadline();
             yield return new ChoreBadge(
-                content: $"🔔 {DeadlineText(deadline)}",
+                content: $"📅 {DeadlineText(deadline)}",
                 additionalClasses: (deadline - DateTimeOffset.UtcNow) < TimeSpan.FromHours(30)
                     ? ["emphasis"]
                     : Array.Empty<string>()
