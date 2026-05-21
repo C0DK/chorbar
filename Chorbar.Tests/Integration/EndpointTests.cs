@@ -89,7 +89,7 @@ sealed class ChorbarWebApplicationFactory : WebApplicationFactory<Program>
 
     public HttpClient CreateAuthenticatedClient(string email = "test@example.com")
     {
-        return WithWebHostBuilder(b =>
+        var factory = WithWebHostBuilder(b =>
             b.ConfigureTestServices(services =>
             {
                 services
@@ -104,8 +104,8 @@ sealed class ChorbarWebApplicationFactory : WebApplicationFactory<Program>
                     opts.DefaultChallengeScheme = "Test";
                 });
             })
-        )
-            .CreateClient();
+        );
+        return factory.CreateClient();
     }
 }
 
