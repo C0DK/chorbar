@@ -1,12 +1,6 @@
 { config, ... }:
 {
   # ── PostgreSQL: grafana readonly role ──────────────────────────────────────
-  services.postgresql.ensureUsers = [
-    {
-      name = "grafana";
-      ensureClauses.login = true;
-    }
-  ];
 
   # Runs on every boot; all statements are idempotent in PostgreSQL.
   systemd.services.chorbar-grafana-db-grants = {
@@ -30,63 +24,123 @@
   };
 
   # ── Loki: log storage (localhost only) ────────────────────────────────────
-  services.loki = {
-    enable = true;
-    configuration = {
-      server = {
-        http_listen_address = "127.0.0.1";
-        http_listen_port = 3100;
-        grpc_listen_address = "127.0.0.1";
-        grpc_listen_port = 9096;
-      };
-      auth_enabled = false;
-      ingester = {
-        lifecycler = {
-          address = "127.0.0.1";
-          ring = {
-            kvstore.store = "inmemory";
-            replication_factor = 1;
-          };
+  services = {
+    postgresql.ensureUsers = [
+      {
+        name = "grafana";
+        ensureClauses.login = true;
+      }
+    ];
+    loki = {
+      enable = true;
+      configuration = {
+        server = {
+          http_listen_address = "127.0.0.1";
+          http_listen_port = 3100;
+          grpc_listen_address = "127.0.0.1";
+          grpc_listen_port = 9096;
         };
-        chunk_idle_period = "5m";
-        chunk_retain_period = "30s";
-        max_transfer_retries = 0;
-      };
-      schema_config.configs = [
-        {
-          from = "2024-01-01";
-          store = "tsdb";
-          object_store = "filesystem";
-          schema = "v13";
-          index = {
-            prefix = "index_";
-            period = "24h";
+        auth_enabled = false;
+        ingester = {
+          lifecycler = {
+            address = "127.0.0.1";
+            ring = {
+              kvstore.store = "inmemory";
+              replication_factor = 1;
+            };
           };
-        }
-      ];
-      storage_config = {
-        tsdb_shipper = {
-          active_index_directory = "/var/lib/loki/tsdb-index";
-          cache_location = "/var/lib/loki/tsdb-cache";
+          chunk_idle_period = "5m";
+          chunk_retain_period = "30s";
+          max_transfer_retries = 0;
         };
-        filesystem.directory = "/var/lib/loki/chunks";
+        schema_config.configs = [
+          {
+            from = "2024-01-01";
+            store = "tsdb";
+            object_store = "filesystem";
+            schema = "v13";
+            index = {
+              prefix = "index_";
+              period = "24h";
+            };
+          }
+        ];
+        storage_config = {
+          tsdb_shipper = {
+            active_index_directory = "/var/lib/loki/tsdb-index";
+            cache_location = "/var/lib/loki/tsdb-cache";
+          };
+          filesystem.directory = "/var/lib/loki/chunks";
+        };
+        limits_config = {
+          allow_structured_metadata = false;
+          reject_old_samples = true;
+          reject_old_samples_max_age = "168h";
+        };
+        compactor = {
+          working_directory = "/var/lib/loki/compactor";
+          compaction_interval = "10m";
+        };
       };
-      limits_config = {
-        allow_structured_metadata = false;
-        reject_old_samples = true;
-        reject_old_samples_max_age = "168h";
+    };
+
+    # ── Grafana Alloy: ship chorbar-web container logs → Loki ─────────────────
+    # Alloy replaces the deprecated Promtail agent. Configuration is in
+    # River/Alloy syntax at /etc/alloy/config.alloy.
+    alloy.enable = true;
+
+    # ── Grafana ────────────────────────────────────────────────────────────────
+    # Secrets are read at runtime from /etc/grafana/ — never stored in the
+    # Nix store. See README for pre-deployment setup.
+    grafana = {
+      enable = true;
+      settings = {
+        server = {
+          http_port = 3000;
+          domain = "localhost";
+        };
+        security = {
+          admin_password = "$__file{/etc/grafana/admin_password}";
+          secret_key = "$__file{/etc/grafana/secret_key}";
+          disable_gravatar = true;
+          # Enable cookie_secure once Grafana is behind HTTPS.
+          cookie_secure = false;
+        };
+        users = {
+          allow_sign_up = false;
+          allow_org_create = false;
+          default_theme = "dark";
+        };
+        "auth.anonymous" = {
+          enabled = false;
+        };
       };
-      compactor = {
-        working_directory = "/var/lib/loki/compactor";
-        compaction_interval = "10m";
+      provision = {
+        enable = true;
+        datasources.settings = {
+          apiVersion = 1;
+          datasources = [
+            {
+              name = "Loki";
+              type = "loki";
+              url = "http://127.0.0.1:3100";
+              isDefault = true;
+            }
+            {
+              name = "Chorbar DB";
+              type = "postgres";
+              url = "localhost:5432";
+              user = "grafana";
+              jsonData = {
+                database = "chorbar";
+                sslmode = "disable";
+              };
+            }
+          ];
+        };
       };
     };
   };
-
-  # ── Grafana Alloy: ship chorbar-web container logs → Loki ─────────────────
-  # Alloy replaces the deprecated Promtail agent. Configuration is in
-  # River/Alloy syntax at /etc/alloy/config.alloy.
-  services.alloy.enable = true;
 
   environment.etc."alloy/config.alloy".text = ''
     // Read chorbar-web container logs from the systemd journal.
@@ -123,58 +177,6 @@
       }
     }
   '';
-
-  # ── Grafana ────────────────────────────────────────────────────────────────
-  # Secrets are read at runtime from /etc/grafana/ — never stored in the
-  # Nix store. See README for pre-deployment setup.
-  services.grafana = {
-    enable = true;
-    settings = {
-      server = {
-        http_port = 3000;
-        domain = "localhost";
-      };
-      security = {
-        admin_password = "$__file{/etc/grafana/admin_password}";
-        secret_key = "$__file{/etc/grafana/secret_key}";
-        disable_gravatar = true;
-        # Enable cookie_secure once Grafana is behind HTTPS.
-        cookie_secure = false;
-      };
-      users = {
-        allow_sign_up = false;
-        allow_org_create = false;
-        default_theme = "dark";
-      };
-      "auth.anonymous" = {
-        enabled = false;
-      };
-    };
-    provision = {
-      enable = true;
-      datasources.settings = {
-        apiVersion = 1;
-        datasources = [
-          {
-            name = "Loki";
-            type = "loki";
-            url = "http://127.0.0.1:3100";
-            isDefault = true;
-          }
-          {
-            name = "Chorbar DB";
-            type = "postgres";
-            url = "localhost:5432";
-            user = "grafana";
-            jsonData = {
-              database = "chorbar";
-              sslmode = "disable";
-            };
-          }
-        ];
-      };
-    };
-  };
 
   # Open port 3000 for Grafana. Consider fronting with a TLS reverse proxy
   # (nginx/caddy) and removing this once HTTPS is in place.
