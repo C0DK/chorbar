@@ -1,7 +1,7 @@
 using System.Net;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
-using Chorbar.Controllers;
+using Chorbar;
 using Chorbar.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -51,10 +51,7 @@ public class EndpointTests
         );
         var response = await client.GetAsync("/household/", cancellationToken);
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Found));
-        Assert.That(
-            response.Headers.Location?.ToString(),
-            Does.Contain("/auth/")
-        );
+        Assert.That(response.Headers.Location?.ToString(), Does.Contain("/auth/"));
     }
 
     [Test, CancelAfter(10_000)]
@@ -62,11 +59,7 @@ public class EndpointTests
     {
         var identity = new Email("test@example.com");
         await using var conn = await DatabaseFixture.DataSource.OpenConnectionAsync();
-        var store = new HouseholdStore(
-            conn,
-            new StaticIdentityProvider(identity),
-            TimeProvider.System
-        );
+        var store = new HouseholdStore(conn, new StaticIdentityProvider(identity));
         var householdId = await store.New("Test Household", cancellationToken);
 
         var client = _factory.CreateAuthenticatedClient(identity.Value);
@@ -93,8 +86,9 @@ sealed class ChorbarWebApplicationFactory : WebApplicationFactory<Program>
         });
     }
 
-    public HttpClient CreateAuthenticatedClient(string email = "test@example.com") =>
-        WithWebHostBuilder(b =>
+    public HttpClient CreateAuthenticatedClient(string email = "test@example.com")
+    {
+        return WithWebHostBuilder(b =>
             b.ConfigureTestServices(services =>
             {
                 services
@@ -110,6 +104,7 @@ sealed class ChorbarWebApplicationFactory : WebApplicationFactory<Program>
                 });
             })
         ).CreateClient();
+    }
 }
 
 sealed class TestAuthHandlerOptions : AuthenticationSchemeOptions
