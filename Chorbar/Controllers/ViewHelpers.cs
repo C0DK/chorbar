@@ -82,7 +82,8 @@ internal static class ViewHelpers
         if (streak is not null)
             yield return new ChoreBadge(content: $"🔥 {streak}", additionalClasses: ["emphasis"]);
 
-        if (chore.History.Length > 0) {
+        if (chore.History.Length > 0)
+        {
             /* Show last?
             yield return new ChoreBadge(
                 content: $"📅 {TimeAgo(chore.History.Last())}",
@@ -93,7 +94,7 @@ internal static class ViewHelpers
                 content: $"x{chore.History.Length}",
                 additionalClasses: Array.Empty<string>()
             );
-            }
+        }
     }
 
     public static string DeadlineText(DateTimeOffset? deadline)
@@ -134,11 +135,13 @@ internal static class ViewHelpers
             htmlId: ChoreHtmlId(label),
             label: label,
             renameForm: new EditChoreRenameForm(label: label),
-            actions: chore.History.OrderByDescending(t => t).Select(timestamp => new ChoreActivity(
-                timeAgo: TimeAgo(timestamp),
-                timestamp: timestamp.ToString("O"),
-                label: label
-            )),
+            actions: chore
+                .History.OrderByDescending(t => t)
+                .Select(timestamp => new ChoreActivity(
+                    timeAgo: TimeAgo(timestamp),
+                    timestamp: timestamp.ToString("O"),
+                    label: label
+                )),
             // badges are annoying to update for the form..
             //badges: ChoreBadges(chore),
             goalNumerator: chore.Goal?.Numerator,
