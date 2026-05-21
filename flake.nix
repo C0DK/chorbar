@@ -104,20 +104,19 @@
       nixosModules.default =
         { ... }:
         {
-          imports = [ ./infra/app.nix ];
+          imports = [
+            sops-nix.nixosModules.sops
+            ./infra/app.nix
+          ];
           virtualisation.oci-containers.containers.chorbar-web.imageFile = dockerImage;
         };
 
       # Optional: add this module alongside nixosModules.default to enable
-      # Grafana + Loki + Alloy log collection. Pulls in sops-nix for
-      # secret management — see README for host-side setup.
+      # Grafana + Loki + Alloy log collection. See README for setup.
       nixosModules.observability =
         { ... }:
         {
-          imports = [
-            sops-nix.nixosModules.sops
-            ./infra/observability.nix
-          ];
+          imports = [ ./infra/observability.nix ];
         };
     };
 }
