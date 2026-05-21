@@ -65,9 +65,10 @@ config that imports it.
 ## Observability (optional)
 
 `chorbar.nixosModules.observability` adds Grafana (port 3000), Loki
-(log storage), and Grafana Alloy (ships container logs from journald to
-Loki). It also creates a `grafana` PostgreSQL role with read-only
-(`SELECT`) access to the chorbar database.
+(log storage), Grafana Alloy (ships container logs from journald to
+Loki), and Prometheus (scrapes the app's `/metrics` endpoint). It also
+creates a `grafana` PostgreSQL role with read-only (`SELECT`) access to
+the chorbar database.
 
 Import it alongside the default module:
 
@@ -129,9 +130,14 @@ renders `/run/secrets/rendered/chorbar.env`. Grafana reads its key via
 - **`services.alloy`** — Grafana Alloy reads `podman-chorbar-web.service`
   journal entries, drops human-readable lines, parses Serilog compact-JSON,
   and extracts `@l` as a `level` label before shipping to Loki.
-- **`services.grafana`** — listens on `:3000` with two pre-provisioned
-  datasources: *Loki* (default) and *Chorbar DB* (read-only Postgres).
-  Sign-up and anonymous access are disabled.
+- **`services.prometheus`** — scrapes `127.0.0.1:8080/metrics` (the
+  chorbar app) every 15s. Binds to `127.0.0.1:9090` only. The app emits
+  `chorbar_page_views_total{route,method,status}` and
+  `chorbar_unique_visitors_total{route}` (unique = sha256(ip+ua),
+  24h window), plus the standard prometheus-net HTTP/runtime metrics.
+- **`services.grafana`** — listens on `:3000` with three pre-provisioned
+  datasources: *Loki* (default), *Prometheus*, and *Chorbar DB*
+  (read-only Postgres). Sign-up and anonymous access are disabled.
 - **`sops.secrets.grafana_secret_key`** — declared but not encrypted by
   chorbar; you supply the encrypted value (see above).
 - **`chorbar-grafana-db-grants`** — oneshot systemd service that grants
@@ -140,7 +146,13 @@ renders `/run/secrets/rendered/chorbar.env`. Grafana reads its key via
 
 The module does **not** open the firewall. Add `networking.firewall.
 allowedTCPPorts = [ 3000 ];` in your host config if you want Grafana
-reachable from outside. Loki and Alloy bind to `127.0.0.1` only.
+reachable from outside. Loki, Prometheus, and Alloy bind to
+`127.0.0.1` only.
+
+> **Note:** the chorbar app's `/metrics` endpoint is served on the
+> same port as the rest of the app (`8080`). If you put chorbar behind
+> a public reverse proxy, block `/metrics` there — Prometheus scrapes
+> over loopback and does not need it exposed publicly.
 
 ### Hardening checklist
 

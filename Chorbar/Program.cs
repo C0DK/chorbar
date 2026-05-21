@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Npgsql;
+using Prometheus;
 using Serilog;
 
 Log.Logger = Logging.CreateConfiguration().CreateLogger();
@@ -137,6 +138,8 @@ app.UseStaticFiles(
 app.UseSession();
 app.UseRateLimiter();
 app.UseSerilogRequestLogging();
+MetricsMiddleware.Use(app);
+app.MapMetrics();
 app.MapControllers();
 HtmxErrorMiddleware.Use(app);
 
