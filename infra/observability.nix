@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   imports = [
     ./loki.nix
@@ -25,14 +25,14 @@
     settings = {
       server = {
         http_port = 3000;
-        domain = "localhost";
+        domain = lib.mkDefault "localhost";
         enable_gzip = true;
       };
       security = {
         secret_key = "$__file{${config.sops.secrets.grafana_secret_key.path}}";
         disable_gravatar = true;
-        # Enable cookie_secure once Grafana is behind HTTPS.
-        cookie_secure = false;
+        # Override to true in host config when Grafana is behind HTTPS.
+        cookie_secure = lib.mkDefault false;
       };
       users = {
         allow_sign_up = false;
