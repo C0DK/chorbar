@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
 namespace Chorbar.Model;
@@ -21,7 +22,10 @@ public record AddPastChoreCompletion(string Label, DateOnly When) : HouseholdEve
                 Label,
                 chore with
                 {
-                    History = chore.History.Add(MidnightOn(When)),
+                    History = chore
+                        .History.Add(MidnightOn(When))
+                        .OrderBy(a => a)
+                        .ToImmutableArray(),
                 }
             ),
         };

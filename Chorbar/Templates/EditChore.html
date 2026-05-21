@@ -6,10 +6,11 @@
   </ol>
 
   <form hx-post="chore/do_past" hx-target="#chore-editor" hx-swap="outerHTML">
+    <h3>Add past activity</h3>
     <input type="hidden" Value="{{label}}" name="label" />
-    <fieldset>
+    <fieldset class="inputWithButton small">
       <input type="date" name="when" required max="{{today}}" />
-      <button type="submit" class="small">Log past completion</button>
+      <button type="submit" class="small">Add</button>
     </fieldset>
   </form>
 

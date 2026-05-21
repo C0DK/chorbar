@@ -219,7 +219,8 @@ select {
   line-height: var(--line-height-base);
 
   &.small,
-  form.small & {
+  form.small &,
+  fieldset.small & {
     padding: var(--space-xs) var(--space-md);
     min-height: 2rem;
     font-size: var(--font-size-xs);
@@ -373,6 +374,7 @@ fieldset {
 }
 
 details {
+
   summary,
   summary::-webkit-details-marker {
     cursor: pointer;
