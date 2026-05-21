@@ -104,7 +104,8 @@ sealed class ChorbarWebApplicationFactory : WebApplicationFactory<Program>
                     opts.DefaultChallengeScheme = "Test";
                 });
             })
-        ).CreateClient();
+        )
+            .CreateClient();
     }
 }
 
