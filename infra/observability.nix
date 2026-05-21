@@ -51,7 +51,6 @@
           };
           chunk_idle_period = "5m";
           chunk_retain_period = "30s";
-          max_transfer_retries = 0;
         };
         schema_config.configs = [
           {
