@@ -9,11 +9,8 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
 {
     private static readonly Counter PageViews = Metrics.CreateCounter(
         "chorbar_page_views_total",
-        "Total page views per route.",
-        new CounterConfiguration
-        {
-            LabelNames = ["route", "method", "status", "client", "device"],
-        }
+        "Total page views per route (GET only).",
+        new CounterConfiguration { LabelNames = ["route", "status", "client", "device"] }
     );
 
     private static readonly Counter UniqueVisitors = Metrics.CreateCounter(
@@ -34,7 +31,6 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
             return;
 
         var route = RouteLabel(context);
-        var method = context.Request.Method;
         var status = context.Response.StatusCode.ToString(
             System.Globalization.CultureInfo.InvariantCulture
         );
@@ -42,7 +38,7 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
         var client = ClientBucket(ua);
         var device = DeviceBucket(ua);
 
-        PageViews.WithLabels(route, method, status, client, device).Inc();
+        PageViews.WithLabels(route, status, client, device).Inc();
 
         var fingerprint = Fingerprint(context, ua);
         var cacheKey = $"visitor:{route}:{fingerprint}";
@@ -73,8 +69,7 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
         if (path.Equals("/favicon.ico", StringComparison.OrdinalIgnoreCase))
             return false;
 
-        var method = context.Request.Method;
-        return method is "GET" or "POST" or "PUT" or "DELETE" or "PATCH";
+        return context.Request.Method == "GET";
     }
 
     // Use the route pattern (e.g. /household/{householdId:int}/edit) rather
@@ -117,27 +112,33 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
         return "other";
     }
 
-    // Form-factor bucket. iPad reports as "Macintosh" in modern Safari so we
-    // check for explicit "iPad" first (some still send it). "Mobi" is the
-    // spec-defined token mobile browsers must include in Firefox/Chrome.
+    // OS / device-platform bucket. Android is checked before Linux because
+    // Android UAs include "Linux" in the platform token. iPad/iPhone are
+    // checked before Mac for the same reason on modern iPadOS Safari.
     private static string DeviceBucket(string userAgent)
     {
         if (string.IsNullOrEmpty(userAgent))
             return "unknown";
         if (userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase))
             return "bot";
+        if (userAgent.Contains("Android", StringComparison.Ordinal))
+            return "android";
         if (
-            userAgent.Contains("iPad", StringComparison.Ordinal)
-            || userAgent.Contains("Tablet", StringComparison.OrdinalIgnoreCase)
+            userAgent.Contains("iPhone", StringComparison.Ordinal)
+            || userAgent.Contains("iPad", StringComparison.Ordinal)
+            || userAgent.Contains("iPod", StringComparison.Ordinal)
         )
-            return "tablet";
+            return "ios";
+        if (userAgent.Contains("Windows", StringComparison.Ordinal))
+            return "windows";
         if (
-            userAgent.Contains("Mobi", StringComparison.Ordinal)
-            || userAgent.Contains("iPhone", StringComparison.Ordinal)
-            || userAgent.Contains("Android", StringComparison.Ordinal)
+            userAgent.Contains("Mac OS X", StringComparison.Ordinal)
+            || userAgent.Contains("Macintosh", StringComparison.Ordinal)
         )
-            return "mobile";
-        return "desktop";
+            return "mac";
+        if (userAgent.Contains("Linux", StringComparison.Ordinal))
+            return "linux";
+        return "other";
     }
 
     private static string Fingerprint(HttpContext context, string userAgent)
