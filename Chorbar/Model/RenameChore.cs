@@ -9,7 +9,7 @@ public record RenameChore(string OldLabel, string NewLabel) : HouseholdEventPayl
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) =>
+    public override bool IsValid(Household household, DateTimeOffset now) =>
         household.Chores.ContainsKey(OldLabel) && !household.Chores.ContainsKey(NewLabel);
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>

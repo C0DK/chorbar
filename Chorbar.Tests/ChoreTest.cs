@@ -165,7 +165,7 @@ public class ChoreTest
         {
             var past = DateTimeOffset.Now.AddHours(-1);
 
-            Assert.That(ViewHelpers.DeadlineText(past), Is.EqualTo("overdue"));
+            Assert.That(ViewHelpers.DeadlineText(past), Is.EqualTo("Overdue"));
         }
 
         [Test]
@@ -174,7 +174,7 @@ public class ChoreTest
             var endOfToday = DateTimeOffset.Now.Date.AddDays(1).AddMinutes(-1);
             var deadline = new DateTimeOffset(endOfToday, DateTimeOffset.Now.Offset);
 
-            Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("due today"));
+            Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("Today"));
         }
 
         [Test]
@@ -183,7 +183,7 @@ public class ChoreTest
             var startOfTomorrow = DateTimeOffset.Now.Date.AddDays(1).AddMinutes(1);
             var deadline = new DateTimeOffset(startOfTomorrow, DateTimeOffset.Now.Offset);
 
-            Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("due tomorrow"));
+            Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("Tomorrow"));
         }
 
         [Test]
@@ -192,7 +192,7 @@ public class ChoreTest
             var endOfTomorrow = DateTimeOffset.Now.Date.AddDays(2).AddMinutes(-1);
             var deadline = new DateTimeOffset(endOfTomorrow, DateTimeOffset.Now.Offset);
 
-            Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("due tomorrow"));
+            Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("Tomorrow"));
         }
 
         [Test]
@@ -200,9 +200,8 @@ public class ChoreTest
         {
             var fourDaysFromNow = DateTimeOffset.Now.Date.AddDays(4);
             var deadline = new DateTimeOffset(fourDaysFromNow, DateTimeOffset.Now.Offset);
-            var expected = $"due {deadline:dddd}";
 
-            Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo(expected));
+            Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo(deadline.ToString("dddd")));
         }
 
         [Test]

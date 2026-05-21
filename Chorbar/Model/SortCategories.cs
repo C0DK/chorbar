@@ -10,7 +10,7 @@ public record SortCategories(ImmutableArray<string> Categories) : HouseholdEvent
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) =>
+    public override bool IsValid(Household household, DateTimeOffset now) =>
         Categories.All(category => household.ShoppingListCategories.Contains(category));
 
     public override Household Apply(Household household, DateTimeOffset timestamp) =>

@@ -616,6 +616,80 @@ public class HouseholdStoreTest
         Assert.That(household.Id, Is.EqualTo(_householdBId));
     }
 
+    // --- AddPastChoreCompletion ---
+
+    [Test, CancelAfter(10_000)]
+    public async Task AddPastChoreRecordsMidnightTimestamp(CancellationToken cancellationToken)
+    {
+        var store = GetStore();
+        var yesterday = DateOnly.FromDateTime(t(0).AddDays(-1).UtcDateTime);
+        await store.Write(_householdAId, new AddChore("Sleep"), cancellationToken);
+
+        var household = await store.Write(
+            _householdAId,
+            new AddPastChoreCompletion("Sleep", yesterday),
+            cancellationToken
+        );
+
+        var expectedMidnight = new DateTimeOffset(yesterday, TimeOnly.MinValue, TimeSpan.Zero);
+        Assert.That(household.Chores["Sleep"].History, Is.EquivalentTo([expectedMidnight]));
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task AddPastChoreOnNonExistingChoreThrows(CancellationToken cancellationToken)
+    {
+        var store = GetStore();
+        var yesterday = DateOnly.FromDateTime(t(0).AddDays(-1).UtcDateTime);
+
+        Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await store.Write(
+                _householdAId,
+                new AddPastChoreCompletion("Ghost", yesterday),
+                cancellationToken
+            )
+        );
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task AddPastChoreWithFutureDateThrows(CancellationToken cancellationToken)
+    {
+        var store = GetStore();
+        var tomorrow = DateOnly.FromDateTime(t(0).AddDays(1).UtcDateTime);
+        await store.Write(_householdAId, new AddChore("Sleep"), cancellationToken);
+
+        Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await store.Write(
+                _householdAId,
+                new AddPastChoreCompletion("Sleep", tomorrow),
+                cancellationToken
+            )
+        );
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task AddPastChoreCoexistsWithRegularCompletions(
+        CancellationToken cancellationToken
+    )
+    {
+        var store = GetStore();
+        var yesterday = DateOnly.FromDateTime(t(0).AddDays(-1).UtcDateTime);
+        await store.Write(
+            _householdAId,
+            [new AddChore("Sleep"), new DoChore("Sleep")],
+            cancellationToken
+        );
+
+        var household = await store.Write(
+            _householdAId,
+            new AddPastChoreCompletion("Sleep", yesterday),
+            cancellationToken
+        );
+
+        var expectedMidnight = new DateTimeOffset(yesterday, TimeOnly.MinValue, TimeSpan.Zero);
+        Assert.That(household.Chores["Sleep"].History, Has.Length.EqualTo(2));
+        Assert.That(household.Chores["Sleep"].History, Contains.Item(expectedMidnight));
+    }
+
     private static TimeSpan _timeStep = TimeSpan.FromMinutes(1);
 
     private DateTimeOffset t(int i) =>

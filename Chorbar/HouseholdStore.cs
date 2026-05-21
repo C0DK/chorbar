@@ -111,7 +111,8 @@ public class HouseholdStore
         var entity = await Read(id, cancellationToken);
         if (!entity.Members.Contains(identity))
             throw new NotMemberOfHouseholdException(id, identity);
-        if (!payload.IsValid(entity))
+        var now = _timeProvider.GetUtcNow();
+        if (!payload.IsValid(entity, now))
             throw new InvalidOperationException(
                 $"Event '{payload.EventKind}' not valid! ({payload})"
             );
@@ -126,7 +127,7 @@ public class HouseholdStore
             {
                 p.AddWithValue(id.Value);
                 p.AddWithValue((entity.History.LastOrDefault()?.Version ?? 0) + 1);
-                p.AddWithValue(NpgsqlDbType.TimestampTz, _timeProvider.GetUtcNow());
+                p.AddWithValue(NpgsqlDbType.TimestampTz, now);
                 p.AddWithValue(identity.Value);
                 p.AddWithValue(NpgsqlDbType.Jsonb, payload.Serialize());
             },

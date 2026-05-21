@@ -9,7 +9,8 @@ public record DoChore(string Label) : HouseholdEventPayload
 
     public override string EventKind => Kind;
 
-    public override bool IsValid(Household household) => household.Chores.ContainsKey(Label);
+    public override bool IsValid(Household household, DateTimeOffset now) =>
+        household.Chores.ContainsKey(Label);
 
     public override Household Apply(Household household, DateTimeOffset timestamp)
     {

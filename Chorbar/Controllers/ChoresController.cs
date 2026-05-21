@@ -114,5 +114,18 @@ public class ChoresController(HouseholdStore store) : SpecificHouseholdControlle
         var chore = household.Chores[label];
         return new PageResult(ViewHelpers.ChoreCard(label, chore));
     }
+
+    [HttpPost("do_past")]
+    public async Task<IResult> DoPast(
+        [FromForm] string label,
+        [FromForm] DateOnly when,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Write(new AddPastChoreCompletion(label, when), cancellationToken);
+        var chore = household.Chores[label];
+        return new PartialResult(ViewHelpers.EditChore(label, chore));
+    }
+
     // TODO: swap is janky..
 }
