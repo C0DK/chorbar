@@ -10,14 +10,18 @@ _ :
         grpc_listen_port = 9096;
       };
       auth_enabled = false;
-      ingester = {
-        lifecycler = {
-          address = "127.0.0.1";
-          ring = {
-            kvstore.store = "inmemory";
-            replication_factor = 1;
-          };
+      # Inter-component gRPC traffic stays on loopback. Without this,
+      # frontend/scheduler/querier register their external IP and then
+      # fail to dial each other (grpc only binds 127.0.0.1).
+      common = {
+        instance_addr = "127.0.0.1";
+        ring = {
+          instance_addr = "127.0.0.1";
+          kvstore.store = "inmemory";
         };
+        replication_factor = 1;
+      };
+      ingester = {
         chunk_idle_period = "5m";
         chunk_retain_period = "30s";
       };
