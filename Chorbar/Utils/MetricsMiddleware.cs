@@ -10,13 +10,16 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
     private static readonly Counter PageViews = Metrics.CreateCounter(
         "chorbar_page_views_total",
         "Total page views per route.",
-        new CounterConfiguration { LabelNames = ["route", "method", "status", "client"] }
+        new CounterConfiguration
+        {
+            LabelNames = ["route", "method", "status", "client", "device"],
+        }
     );
 
     private static readonly Counter UniqueVisitors = Metrics.CreateCounter(
         "chorbar_unique_visitors_total",
         "Unique visitors per route (deduped by ip+user-agent over a 24h window).",
-        new CounterConfiguration { LabelNames = ["route", "client"] }
+        new CounterConfiguration { LabelNames = ["route", "client", "device"] }
     );
 
     // Visitor fingerprints expire after this long, after which a returning
@@ -37,8 +40,9 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
         );
         var ua = context.Request.Headers.UserAgent.ToString();
         var client = ClientBucket(ua);
+        var device = DeviceBucket(ua);
 
-        PageViews.WithLabels(route, method, status, client).Inc();
+        PageViews.WithLabels(route, method, status, client, device).Inc();
 
         var fingerprint = Fingerprint(context, ua);
         var cacheKey = $"visitor:{route}:{fingerprint}";
@@ -49,7 +53,7 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
                 true,
                 new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = VisitorWindow }
             );
-            UniqueVisitors.WithLabels(route, client).Inc();
+            UniqueVisitors.WithLabels(route, client, device).Inc();
         }
     }
 
@@ -111,6 +115,29 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
         if (userAgent.Contains("Safari/", StringComparison.Ordinal))
             return "safari";
         return "other";
+    }
+
+    // Form-factor bucket. iPad reports as "Macintosh" in modern Safari so we
+    // check for explicit "iPad" first (some still send it). "Mobi" is the
+    // spec-defined token mobile browsers must include in Firefox/Chrome.
+    private static string DeviceBucket(string userAgent)
+    {
+        if (string.IsNullOrEmpty(userAgent))
+            return "unknown";
+        if (userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase))
+            return "bot";
+        if (
+            userAgent.Contains("iPad", StringComparison.Ordinal)
+            || userAgent.Contains("Tablet", StringComparison.OrdinalIgnoreCase)
+        )
+            return "tablet";
+        if (
+            userAgent.Contains("Mobi", StringComparison.Ordinal)
+            || userAgent.Contains("iPhone", StringComparison.Ordinal)
+            || userAgent.Contains("Android", StringComparison.Ordinal)
+        )
+            return "mobile";
+        return "desktop";
     }
 
     private static string Fingerprint(HttpContext context, string userAgent)
