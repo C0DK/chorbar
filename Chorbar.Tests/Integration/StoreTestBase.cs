@@ -12,6 +12,7 @@ public abstract class StoreTestBase
     protected static readonly Email UserB = new("bob@example.com");
     protected NpgsqlConnection _conn = null!;
     protected FakeTimeProvider _timeProvider = null!;
+
     protected DateTimeOffset T(int i) => BaseTime.Add(TimeStep * i);
 
     protected HouseholdStore GetStore(Email? identity = null) =>
