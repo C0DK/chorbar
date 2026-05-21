@@ -5,6 +5,7 @@
 
 }
 
+
 .badge {
   border: 1px solid var(--color-muted);
   border-radius: var(--radius-sm);
@@ -159,8 +160,8 @@
   flex-direction: column;
 
 
-  ol {
-    max-height: var(--chore-height);
+  ol.activities {
+    max-height: 10dvh;
     overflow-y: auto;
     list-style: inside;
 

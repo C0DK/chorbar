@@ -71,7 +71,7 @@ internal static class ViewHelpers
         {
             var deadline = chore.Deadline();
             yield return new ChoreBadge(
-                content: $"📅 {DeadlineText(deadline)}",
+                content: $"🔔 {DeadlineText(deadline)}",
                 additionalClasses: (deadline - DateTimeOffset.UtcNow) < TimeSpan.FromHours(30)
                     ? ["emphasis"]
                     : Array.Empty<string>()
@@ -82,11 +82,18 @@ internal static class ViewHelpers
         if (streak is not null)
             yield return new ChoreBadge(content: $"🔥 {streak}", additionalClasses: ["emphasis"]);
 
-        if (chore.History.Length > 0)
+        if (chore.History.Length > 0) {
+            /* Show last?
+            yield return new ChoreBadge(
+                content: $"📅 {TimeAgo(chore.History.Last())}",
+                additionalClasses: Array.Empty<string>()
+            );
+            */
             yield return new ChoreBadge(
                 content: $"x{chore.History.Length}",
                 additionalClasses: Array.Empty<string>()
             );
+            }
     }
 
     public static string DeadlineText(DateTimeOffset? deadline)
@@ -99,15 +106,27 @@ internal static class ViewHelpers
         var deadlineDate = deadlineLocal.Date;
 
         if (deadlineLocal < now)
-            return "overdue";
+            return "Overdue";
         if (deadlineDate == today)
-            return "due today";
+            return "Today";
         if (deadlineDate == today.AddDays(1))
-            return "due tomorrow";
+            return "Tomorrow";
         if (deadlineDate <= today.AddDays(6))
-            return $"due {deadlineLocal:dddd}";
+            return $"{deadlineLocal:dddd}";
 
-        return TimeUntil(deadline);
+        var span = (deadline.Value - DateTimeOffset.UtcNow);
+
+        return span switch
+        {
+            { TotalSeconds: < 0 } => "now",
+            { TotalSeconds: < 60 } => "now",
+            { TotalMinutes: < 2 } => "in a few seconds",
+            { TotalMinutes: < 121 } => $"in {span.TotalMinutes:N0} minutes",
+            { TotalHours: < 49 } => $"in {span.TotalHours:N0} hours",
+            { TotalDays: < 20 } => $"in {span.TotalDays:N0} days",
+            { TotalDays: < 200 } => deadline.Value.ToString("d MMMM"),
+            _ => $"on {deadline.Value:d MMMM yyyy}",
+        };
     }
 
     public static EditChore EditChore(string label, Chore chore) =>
@@ -115,7 +134,7 @@ internal static class ViewHelpers
             htmlId: ChoreHtmlId(label),
             label: label,
             renameForm: new EditChoreRenameForm(label: label),
-            actions: chore.History.Select(timestamp => new ChoreActivity(
+            actions: chore.History.OrderByDescending(t => t).Select(timestamp => new ChoreActivity(
                 timeAgo: TimeAgo(timestamp),
                 timestamp: timestamp.ToString("O"),
                 label: label
@@ -132,35 +151,23 @@ internal static class ViewHelpers
         if (timestamp is null)
             return "never";
         var span = (DateTimeOffset.UtcNow - timestamp.Value);
+        // browser time?
+        var today = DateTimeOffset.Now.GetCalendarDate();
+        var date = timestamp.Value.GetCalendarDate();
 
         return span switch
         {
             { TotalSeconds: < 60 } => "just now",
             { TotalMinutes: < 2 } => "a few seconds ago",
             { TotalMinutes: < 121 } => $"{span.TotalMinutes:N0} minutes ago",
-            { TotalHours: < 49 } => $"{span.TotalHours:N0} hours ago",
+            { TotalHours: < 4 } => $"{span.TotalHours:N0} hours ago",
+            _ when date == today.AddDays(-1) => $"Yesterday at {timestamp:HH:mm}",
+            { TotalHours: < 40 } => $"{span.TotalHours:N0} hours ago",
+            _ when date >= today.AddDays(-6) => $"{date:dddd} at {timestamp:HH:mm}",
+
             { TotalDays: < 14 } => $"{span.TotalDays:N0} days ago",
-            { TotalDays: < 200 } => $"{timestamp.Value:d MMMM}",
+            { TotalDays: < 100 } when today.Year == date.Year => $"{timestamp.Value:d MMMM}",
             _ => timestamp.Value.ToString("d MMMM yyyy"),
-        };
-    }
-
-    public static string TimeUntil(DateTimeOffset? timestamp)
-    {
-        if (timestamp is null)
-            return "never";
-        var span = (timestamp.Value - DateTimeOffset.UtcNow);
-
-        return span switch
-        {
-            { TotalSeconds: < 0 } => "now",
-            { TotalSeconds: < 60 } => "now",
-            { TotalMinutes: < 2 } => "in a few seconds",
-            { TotalMinutes: < 121 } => $"in {span.TotalMinutes:N0} minutes",
-            { TotalHours: < 49 } => $"in {span.TotalHours:N0} hours",
-            { TotalDays: < 20 } => $"in {span.TotalDays:N0} days",
-            { TotalDays: < 200 } => $"on {timestamp.Value:d MMMM}",
-            _ => $"on {timestamp:d MMMM yyyy}",
         };
     }
 }
