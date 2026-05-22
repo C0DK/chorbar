@@ -3,6 +3,7 @@
   imports = [
     ./loki.nix
     ./alloy.nix
+    ./prometheus.nix
   ];
 
   # Grafana cookie-signing key. Decrypted at boot to
@@ -51,6 +52,11 @@
             type = "loki";
             url = "http://127.0.0.1:3100";
             isDefault = true;
+          }
+          {
+            name = "Prometheus";
+            type = "prometheus";
+            url = "http://127.0.0.1:9090";
           }
           {
             name = "Chorbar DB";
