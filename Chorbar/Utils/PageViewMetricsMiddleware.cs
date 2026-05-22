@@ -41,7 +41,7 @@ public class PageViewMetricsMiddleware(RequestDelegate next, IMemoryCache cache)
         PageViews.WithLabels(route, status, client, device).Inc();
 
         var fingerprint = Fingerprint(context, ua);
-        var cacheKey = $"visitor:{route}:{fingerprint}";
+        var cacheKey = $"visitor:{fingerprint}";
         if (!cache.TryGetValue(cacheKey, out _))
         {
             cache.Set(
@@ -49,7 +49,7 @@ public class PageViewMetricsMiddleware(RequestDelegate next, IMemoryCache cache)
                 true,
                 new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = VisitorWindow }
             );
-            UniqueVisitors.WithLabels(route, client, device).Inc();
+            UniqueVisitors.WithLabels(client, device).Inc();
         }
     }
 
