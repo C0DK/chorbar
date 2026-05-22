@@ -5,7 +5,7 @@ using Prometheus;
 
 namespace Chorbar.Utils;
 
-public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
+public class PageViewMetricsMiddleware(RequestDelegate next, IMemoryCache cache)
 {
     private static readonly Counter PageViews = Metrics.CreateCounter(
         "chorbar_page_views_total",
@@ -149,5 +149,5 @@ public class MetricsMiddleware(RequestDelegate next, IMemoryCache cache)
     }
 
     public static void Use(IApplicationBuilder builder) =>
-        builder.UseMiddleware<MetricsMiddleware>();
+        builder.UseMiddleware<PageViewMetricsMiddleware>();
 }

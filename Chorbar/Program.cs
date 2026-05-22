@@ -138,7 +138,7 @@ app.UseStaticFiles(
 app.UseSession();
 app.UseRateLimiter();
 app.UseSerilogRequestLogging();
-MetricsMiddleware.Use(app);
+PageViewMetricsMiddleware.Use(app);
 app.MapMetrics();
 app.MapControllers();
 HtmxErrorMiddleware.Use(app);
