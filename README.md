@@ -154,6 +154,24 @@ reachable from outside. Loki, Prometheus, and Alloy bind to
 > a public reverse proxy, block `/metrics` there — Prometheus scrapes
 > over loopback and does not need it exposed publicly.
 
+#### Blocking `/metrics` in Caddy
+
+If you front chorbar with Caddy, return 404 for `/metrics` before
+reverse-proxying the rest. Example Caddyfile:
+
+```
+chorbar.example.com {
+    @metrics path /metrics /metrics/*
+    respond @metrics 404
+
+    reverse_proxy 127.0.0.1:8080
+}
+```
+
+The matcher fires before `reverse_proxy`, so the request never reaches
+the app from the public side. Local Prometheus keeps scraping
+`127.0.0.1:8080/metrics` directly, bypassing Caddy entirely.
+
 ### Hardening checklist
 
 - [ ] Change Grafana admin password on first login (`/profile`).
