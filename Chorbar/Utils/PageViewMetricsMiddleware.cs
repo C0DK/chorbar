@@ -16,7 +16,7 @@ public class PageViewMetricsMiddleware(RequestDelegate next, IMemoryCache cache)
     private static readonly Counter UniqueVisitors = Metrics.CreateCounter(
         "chorbar_unique_visitors_total",
         "Unique visitors per route (deduped by ip+user-agent over a 24h window).",
-        new CounterConfiguration { LabelNames = ["route", "client", "device"] }
+        new CounterConfiguration { LabelNames = ["client", "device"] }
     );
 
     // Visitor fingerprints expire after this long, after which a returning
