@@ -10,9 +10,11 @@ public record Household(
     ImmutableDictionary<string, Chore> Chores,
     ImmutableArray<ShoppingListItem> ShoppingListItems,
     ImmutableArray<string> ShoppingListCategories,
+    ImmutableArray<TodoItem> Todos,
     ImmutableArray<HouseholdEvent> History,
     int ShoppingListNextId = 1,
     bool ShoppingListEnabled = false,
+    bool TodoListEnabled = false,
     string? IcalToken = null,
     bool IsDeleted = false
 )

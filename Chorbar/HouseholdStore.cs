@@ -296,6 +296,7 @@ ORDER BY household_id, timestamp
             Creator: genesisEvent.CreatedBy,
             Members: [genesisEvent.CreatedBy],
             Chores: [],
+            Todos: [],
             ShoppingListItems: [],
             ShoppingListCategories: [],
             History: [genesisEvent]

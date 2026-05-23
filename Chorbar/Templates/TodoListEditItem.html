@@ -1,0 +1,4 @@
+<form class="rename-item" hx-post="todo/{{id}}/rename" hx-target="#todo-list">
+  <input type="text" name="newLabel" value="{{Label}}" required autofocus hx-get="todo/{{id}}" hx-target="closest li"
+    hx-swap="outerHTML" hx-trigger="keydown[key=='Escape'], blur">
+</form>
