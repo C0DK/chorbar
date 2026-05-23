@@ -6,9 +6,14 @@
     ./prometheus.nix
   ];
 
-  # Grafana cookie-signing key. Decrypted at boot to
-  # /run/secrets/grafana_secret_key, owned by grafana.
+  # Grafana cookie-signing key + admin password. Decrypted at boot to
+  # /run/secrets/<name>, owned by grafana.
   sops.secrets.grafana_secret_key = {
+    owner = "grafana";
+    group = "grafana";
+    mode = "0400";
+  };
+  sops.secrets.grafana_admin_password = {
     owner = "grafana";
     group = "grafana";
     mode = "0400";
@@ -30,6 +35,7 @@
         enable_gzip = true;
       };
       security = {
+        admin_password = "$__file{${config.sops.secrets.grafana_admin_password.path}}";
         secret_key = "$__file{${config.sops.secrets.grafana_secret_key.path}}";
         disable_gravatar = true;
         # Override to true in host config when Grafana is behind HTTPS.
@@ -88,8 +94,20 @@
       ${config.services.postgresql.package}/bin/psql -d chorbar <<'SQL'
         GRANT CONNECT ON DATABASE chorbar TO grafana;
         GRANT USAGE ON SCHEMA public TO grafana;
-        GRANT SELECT ON ALL TABLES IN SCHEMA public TO grafana;
-        ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO grafana;
+
+        -- Revoke any prior broad grants from earlier setups.
+        REVOKE ALL ON ALL TABLES IN SCHEMA public FROM grafana;
+        ALTER DEFAULT PRIVILEGES IN SCHEMA public
+          REVOKE SELECT ON TABLES FROM grafana;
+
+        -- Event metadata only. Payload (JSONB) may contain PII / emails.
+        GRANT SELECT (household_id, version, timestamp, created_by)
+          ON household_event TO grafana;
+
+        -- Sign-in visibility without exposing the OTP code.
+        GRANT SELECT (email, created) ON signin_otp TO grafana;
+
+        -- data_protection_key: no grants. XML column is encryption material.
       SQL
     '';
   };
