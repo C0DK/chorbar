@@ -10,6 +10,11 @@
       {% if shoppingListEnabled %}checked{% end %}>
     Enable shopping list
   </label>
+  <label>
+    <input type="checkbox" hx-post="enable_todo_list" hx-trigger="change" name="enabled" hx-target="#edit-household" {%
+      if todoListEnabled %}checked{% end %}>
+    Enable todo list
+  </label>
   <div class="members">
     <h3>Members</h3>
     <ul>

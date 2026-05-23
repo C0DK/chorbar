@@ -1,5 +1,5 @@
-{% if shoppingListEnabled %}
 <div id="household-page">
+  {% if shoppingListEnabled %}
   <details open>
     <summary>
       Shopping List
@@ -7,11 +7,20 @@
     <ol id="shopping-list" hx-trigger="revealed" hx-get="shopping_list">
     </ol>
   </details>
+  {% end %}
+  {% if todoListEnabled %}
+  <details open>
+    <summary>
+      Todo List
+    </summary>
+    <ol id="todo-list" hx-trigger="revealed" hx-get="todo">
+    </ol>
+  </details>
+  {% end %}
   <details open>
     <summary>
       Chores
     </summary>
-    {% end %}
     <form id="new-chore" hx-post="chore/add" hx-target="#chores" hx-swap="afterbegin"
       hx-on::after-request="if(event.detail.successful) this.reset()">
       <input required type="text" id="label" name="label" placeholder="I.e clean toilets"
@@ -21,7 +30,5 @@
     <div id="chores">
       {{..chores}}
     </div>
-    {% if shoppingListEnabled %}
   </details>
 </div>
-{% end %}

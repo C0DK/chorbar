@@ -15,6 +15,7 @@ internal static class ViewHelpers
         new EditHousehold(
             name: household.Name,
             shoppingListEnabled: household.ShoppingListEnabled,
+            todoListEnabled: household.TodoListEnabled,
             members: household.Members.Select(m => new HouseholdMemberEntity(
                 email: m.ToString(),
                 removable: m != household.Creator && m != currentUser

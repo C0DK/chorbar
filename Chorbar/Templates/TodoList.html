@@ -1,0 +1,18 @@
+<div id="todo-list">
+  <form hx-post="todo/sort" hx-target="#todo-list" hx-trigger="update">
+    <ol class="sortable" data-sortable-group="todo-list">
+      {{..openItems}}
+      <li class="no-sort">
+        <form class="new-item" hx-post="todo/add" hx-target="closest li" hx-swap="beforebegin"
+          hx-on::after-request="if(event.detail.successful) this.reset()">
+          <button type="submit">+</button>
+          <input required type="text" name="label" placeholder="Add todo" hx-trigger="keyup[key=='Enter']">
+        </form>
+      </li>
+    </ol>
+    <ol class="checked">
+      {{..checkedItems}}
+    </ol>
+  </form>
+
+</div>

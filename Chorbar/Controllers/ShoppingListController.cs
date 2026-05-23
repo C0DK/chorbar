@@ -70,23 +70,6 @@ public class ShoppingListController(HouseholdStore store) : SpecificHouseholdCon
         CancellationToken cancellationToken
     ) => Render(await Write(new DeleteShoppingListCategory(label), cancellationToken));
 
-    [HttpPost("sort-categories")]
-    public async Task<IResult> SortCategories(
-        [FromForm] string?[] category,
-        CancellationToken cancellationToken
-    ) =>
-        Render(
-            await Write(
-                new SortCategories(
-                    category
-                        .Where(c => !string.IsNullOrWhiteSpace(c))
-                        .Cast<string>()
-                        .ToImmutableArray()
-                ),
-                cancellationToken
-            )
-        );
-
     [HttpPost("{itemId:int}/checked")]
     public async Task<IResult> Check(int itemId, CancellationToken cancellationToken) =>
         Render(

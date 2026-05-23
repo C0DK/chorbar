@@ -9,7 +9,8 @@
   opacity: 0.4;
 }
 
-#shopping-list {
+#shopping-list,
+#todo-list {
   ol .checked {
     max-height: 5rem;
     overflow-y: auto;

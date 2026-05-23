@@ -1,0 +1,20 @@
+<li class="item {% if isChecked %}checked{% end %}">
+
+  <svg class="sortable-handle" width="14" height="14" viewBox="0 0 10 14" xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true">
+    <circle cx="3" cy="2" r="1.1" fill="currentColor" />
+    <circle cx="7" cy="2" r="1.1" fill="currentColor" />
+    <circle cx="3" cy="6" r="1.1" fill="currentColor" />
+    <circle cx="7" cy="6" r="1.1" fill="currentColor" />
+    <circle cx="3" cy="10" r="1.1" fill="currentColor" />
+    <circle cx="7" cy="10" r="1.1" fill="currentColor" />
+  </svg>
+  <input type='hidden' name='itemId' value='{{id}}'>
+  <form>
+    <input type="checkbox" aria-label="{{Label}} check if done" hx-post="todo/{{id}}/checked" hx-target="#todo-list"
+      hx-trigger="change" name="isChecked" {% if isChecked %}checked{% end %}>
+  </form>
+  <span hx-get="todo/{{id}}/edit" hx-trigger="click consume" hx-target="this" hx-swap="outerHTML">
+    {{Label}}
+  </span>
+</li>
