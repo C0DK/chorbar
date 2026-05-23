@@ -34,9 +34,8 @@ curl http://localhost:8080/
 
 ## App-level secrets (Brevo, etc.)
 
-The container's env file is rendered from sops at boot — there is no
-`/etc/chorbar/app.env` to provision manually. Map env-var names to
-sops secret keys via `chorbar.envSecrets`:
+The container's env file is rendered from sops at boot. Map env-var
+names to sops secret keys via `chorbar.envSecrets`:
 
 ```nix
 chorbar.envSecrets = {
