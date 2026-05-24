@@ -148,8 +148,6 @@ static Func<HttpContext, RateLimitPartition<string>> ClientPartition(
         );
 var app = builder.Build();
 
-AppMetrics.RegisterDbPoolStats(app.Services.GetRequiredService<NpgsqlDataSource>());
-
 app.UseHttpMetrics();
 app.UseAuthentication();
 app.UseAuthorization();
