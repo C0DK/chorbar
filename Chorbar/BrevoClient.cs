@@ -1,5 +1,6 @@
 using Chorbar.Model;
 using Chorbar.Templates;
+using Chorbar.Utils;
 
 namespace Chorbar;
 
@@ -42,14 +43,16 @@ public class BrevoClient(HttpClient client, string apiKey, ILogger logger) : IMa
 
         if ((int)response.StatusCode >= 400)
         {
+            AppMetrics.MailSent.WithLabels("error").Inc();
             logger
                 .ForContext("target", request.RequestUri)
                 .ForContext("statusCode", response.StatusCode)
                 .ForContext("Response.Content", response.Content.ToString())
                 .ForContext("message.subject", subject)
                 .Error("brevo request failed!");
+            response.EnsureSuccessStatusCode();
         }
-        response.EnsureSuccessStatusCode();
+        AppMetrics.MailSent.WithLabels("ok").Inc();
     }
 
     private static readonly Identity _sender = new("no-reply@chor.bar", "Chor.bar");

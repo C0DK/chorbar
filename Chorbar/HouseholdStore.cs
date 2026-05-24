@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Chorbar.Model;
+using Chorbar.Utils;
 using Npgsql;
 using NpgsqlTypes;
 
@@ -142,6 +143,7 @@ public class HouseholdStore
             },
             cancellationToken
         );
+        AppMetrics.EventsWritten.WithLabels(payload.EventKind).Inc();
     }
 
     public async IAsyncEnumerable<Household> List(
