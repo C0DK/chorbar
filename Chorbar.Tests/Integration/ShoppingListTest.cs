@@ -1,4 +1,5 @@
 using Chorbar.Model;
+using Chorbar.Utils;
 using Microsoft.Extensions.Time.Testing;
 using Npgsql;
 
@@ -526,5 +527,5 @@ public class ShoppingListTest
     private FakeTimeProvider _timeProvider = null!;
 
     private HouseholdStore GetStore(Email identity) =>
-        new HouseholdStore(_conn, new StaticIdentityProvider(identity), _timeProvider);
+        new HouseholdStore(_conn, new StaticIdentityProvider(identity), _timeProvider, new EventMetrics());
 }

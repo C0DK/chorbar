@@ -4,7 +4,8 @@ using Chorbar.Utils;
 
 namespace Chorbar;
 
-public class BrevoClient(HttpClient client, string apiKey, ILogger logger) : IMailSender
+public class BrevoClient(HttpClient client, string apiKey, ILogger logger, MailMetrics mailMetrics)
+    : IMailSender
 {
     public ValueTask SendAuthToken(Email email, int code, CancellationToken cancellationToken)
     {
@@ -43,7 +44,7 @@ public class BrevoClient(HttpClient client, string apiKey, ILogger logger) : IMa
 
         if ((int)response.StatusCode >= 400)
         {
-            AppMetrics.MailSent.WithLabels("error").Inc();
+            mailMetrics.Failed();
             logger
                 .ForContext("target", request.RequestUri)
                 .ForContext("statusCode", response.StatusCode)
@@ -52,7 +53,7 @@ public class BrevoClient(HttpClient client, string apiKey, ILogger logger) : IMa
                 .Error("brevo request failed!");
             response.EnsureSuccessStatusCode();
         }
-        AppMetrics.MailSent.WithLabels("ok").Inc();
+        mailMetrics.Sent();
     }
 
     private static readonly Identity _sender = new("no-reply@chor.bar", "Chor.bar");

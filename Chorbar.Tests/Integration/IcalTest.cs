@@ -1,4 +1,5 @@
 using Chorbar.Model;
+using Chorbar.Utils;
 using Microsoft.Extensions.Time.Testing;
 using Npgsql;
 
@@ -27,7 +28,7 @@ public class IcalTest
     public async Task TearDown() => await _conn.DisposeAsync();
 
     HouseholdStore GetStore() =>
-        new HouseholdStore(_conn, new StaticIdentityProvider(_userA), _timeProvider);
+        new HouseholdStore(_conn, new StaticIdentityProvider(_userA), _timeProvider, new EventMetrics());
 
     [Test, CancelAfter(10_000)]
     public async Task GenerateIcalTokenIsStoredInHousehold(CancellationToken ct)

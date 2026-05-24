@@ -9,12 +9,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Npgsql;
-using static Chorbar.Utils.AppMetrics;
-
 namespace Chorbar.Controllers;
 
 [Route("auth/")]
-public class AuthController : Controller
+public class AuthController(AuthMetrics authMetrics) : Controller
 {
     public const string SendPolicy = "auth-send";
     public const string VerifyPolicy = "auth-verify";
@@ -54,7 +52,7 @@ public class AuthController : Controller
 
         var code = RandomNumberGenerator.GetInt32(100_000, 1_000_000);
         await mailer.SendAuthToken(email, code, cancellationToken);
-        OtpSent.Inc();
+        authMetrics.OtpRequested();
 
         await connection.ExecuteAsync(
             "INSERT INTO signin_otp(email, code) VALUES($1, $2)",
@@ -109,16 +107,16 @@ public class AuthController : Controller
             .ToArrayAsync(cancellationToken);
         if (matches is not { Length: > 0 })
         {
-            OtpVerified.WithLabels("invalid").Inc();
+            authMetrics.OtpResult("invalid");
             return RenderCodeForm(email, persist, "Invalid code!");
         }
         if (DateTimeOffset.UtcNow.Subtract(matches.Single()) > TimeSpan.FromMinutes(10))
         {
-            OtpVerified.WithLabels("expired").Inc();
+            authMetrics.OtpResult("expired");
             return RenderLoginForm(email: email, error: "Code expired", returnUrl: returnUrl);
         }
 
-        OtpVerified.WithLabels("ok").Inc();
+        authMetrics.OtpResult("ok");
         await SignIn(HttpContext, email, persist);
         return new HxRedirectResult(returnUrl ?? "/household/");
     }
