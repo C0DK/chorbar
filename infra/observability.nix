@@ -4,6 +4,7 @@
     ./loki.nix
     ./alloy.nix
     ./prometheus.nix
+    ./tempo.nix
   ];
 
   # Grafana cookie-signing key + admin password. Decrypted at boot to
@@ -63,6 +64,11 @@
             name = "Prometheus";
             type = "prometheus";
             url = "http://127.0.0.1:9090";
+          }
+          {
+            name = "Tempo";
+            type = "tempo";
+            url = "http://127.0.0.1:3200";
           }
           {
             name = "Chorbar DB";

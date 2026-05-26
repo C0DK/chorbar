@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Chorbar.Model;
 using Npgsql;
@@ -7,6 +8,9 @@ namespace Chorbar;
 
 public class HouseholdStore
 {
+    public const string ActivitySourceName = "Chorbar.HouseholdStore";
+    private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
+
     public HouseholdStore(NpgsqlConnection connection, IIdentityProvider identityProvider)
     {
         _connection = connection;
@@ -31,6 +35,7 @@ public class HouseholdStore
 
     public async ValueTask<HouseholdId> New(string name, CancellationToken cancellationToken)
     {
+        using var activity = ActivitySource.StartActivity("HouseholdStore.New");
         await using var transaction = await _connection.BeginTransactionAsync(cancellationToken);
         var identity = _identityProvider.GetIdentity();
         HouseholdId id;
@@ -71,6 +76,8 @@ public class HouseholdStore
 
     public async ValueTask Delete(HouseholdId id, CancellationToken cancellationToken)
     {
+        using var activity = ActivitySource.StartActivity("HouseholdStore.Delete");
+        activity?.SetTag("household.id", id.Value);
         await using var transaction = await _connection.BeginTransactionAsync(cancellationToken);
         await WriteEvent(id, new DeleteHousehold(), cancellationToken);
         await transaction.CommitAsync(cancellationToken);
@@ -88,6 +95,8 @@ public class HouseholdStore
         CancellationToken cancellationToken
     )
     {
+        using var activity = ActivitySource.StartActivity("HouseholdStore.Write");
+        activity?.SetTag("household.id", id.Value);
         var identity = _identityProvider.GetIdentity();
         await using var transaction = await _connection.BeginTransactionAsync(cancellationToken);
         foreach (var payload in payloads)
@@ -139,7 +148,7 @@ public class HouseholdStore
         [EnumeratorCancellation] CancellationToken cancellationToken
     )
     {
-        // todo should also respect future renames etc. :D
+        using var activity = ActivitySource.StartActivity("HouseholdStore.List");
         using var command = new NpgsqlCommand(
             //language=sql
             $"""
@@ -203,6 +212,8 @@ ORDER BY household_id, timestamp
 
     public async ValueTask<Household> Read(HouseholdId id, CancellationToken cancellationToken)
     {
+        using var activity = ActivitySource.StartActivity("HouseholdStore.Read");
+        activity?.SetTag("household.id", id.Value);
         var household = await ReadEvents(id, cancellationToken);
 
         // TODO: precheck to save resources?

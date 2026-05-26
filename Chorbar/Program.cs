@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Npgsql;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Prometheus;
 using Serilog;
 
@@ -53,6 +55,20 @@ builder
     });
 builder.Services.AddControllers();
 builder.Services.AddSerilog();
+
+var otlpEndpoint = EnvironmentVariable.GetOrNull("OTEL_EXPORTER_OTLP_ENDPOINT");
+builder
+    .Services.AddOpenTelemetry()
+    .ConfigureResource(r => r.AddService("chorbar"))
+    .WithTracing(tracing =>
+    {
+        tracing.AddAspNetCoreInstrumentation();
+        tracing.AddNpgsql();
+        tracing.AddSource(HouseholdStore.ActivitySourceName);
+        if (otlpEndpoint is not null)
+            tracing.AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint));
+    });
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<StaticFileVersion>();
 builder.Services.AddSingleton(Log.Logger);
@@ -81,7 +97,9 @@ var connectionString =
     EnvironmentVariable.GetOrNull("DB_CONNECTION_STRING")
     ?? "Host=127.0.0.1;Username=postgres;Database=chorbar";
 Log.Logger.Information("Using postgres via {conn}", connectionString);
-builder.Services.AddSingleton<NpgsqlDataSource>(_ => NpgsqlDataSource.Create(connectionString));
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+dataSourceBuilder.EnableTracing();
+builder.Services.AddSingleton<NpgsqlDataSource>(_ => dataSourceBuilder.Build());
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-CSRF-TOKEN";
