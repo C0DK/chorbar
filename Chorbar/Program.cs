@@ -62,9 +62,17 @@ builder
     .ConfigureResource(r => r.AddService("chorbar"))
     .WithTracing(tracing =>
     {
-        tracing.AddAspNetCoreInstrumentation();
+        tracing.AddAspNetCoreInstrumentation(opts =>
+        {
+            opts.EnrichWithHttpResponse = (activity, response) =>
+            {
+                if (response.HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.ISessionFeature>() is not null)
+                    activity.SetTag("session.id", response.HttpContext.Session.Id);
+            };
+        });
         tracing.AddNpgsql();
         tracing.AddSource(HouseholdStore.ActivitySourceName);
+        tracing.AddSource(AuthController.ActivitySourceName);
         if (otlpEndpoint is not null)
             tracing.AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint));
     });
