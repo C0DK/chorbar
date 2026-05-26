@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.Repositories;
+using Microsoft.AspNetCore.Http.Features;
 using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -66,7 +67,7 @@ builder
         {
             opts.EnrichWithHttpResponse = (activity, response) =>
             {
-                if (response.HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.ISessionFeature>() is not null)
+                if (response.HttpContext.Features.Get<ISessionFeature>() is not null)
                     activity.SetTag("session.id", response.HttpContext.Session.Id);
             };
         });
@@ -106,7 +107,6 @@ var connectionString =
     ?? "Host=127.0.0.1;Username=postgres;Database=chorbar";
 Log.Logger.Information("Using postgres via {conn}", connectionString);
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-dataSourceBuilder.EnableTracing();
 builder.Services.AddSingleton<NpgsqlDataSource>(_ => dataSourceBuilder.Build());
 builder.Services.AddAntiforgery(options =>
 {
