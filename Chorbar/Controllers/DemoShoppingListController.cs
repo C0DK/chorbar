@@ -80,7 +80,7 @@ public class DemoShoppingListController(DemoHouseholdStore store) : Controller
     public IResult Rename(int itemId, [FromForm] string newLabel) =>
         Render(store.Write(new RenameShoppingListItem(itemId, newLabel)));
 
-    private IResult Render(Household household)
+    private static IResult Render(Household household)
     {
         return new PartialResult(
             new ShoppingList(

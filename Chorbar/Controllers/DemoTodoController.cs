@@ -48,7 +48,7 @@ public class DemoTodoController(DemoHouseholdStore store) : Controller
     public IResult Sort([FromForm] int[] itemId) =>
         Render(store.Write(new OrderTodo(itemId.ToImmutableArray())));
 
-    private IResult Render(Household household)
+    private static IResult Render(Household household)
     {
         return new PartialResult(
             new TodoList(
