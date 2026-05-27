@@ -32,6 +32,11 @@ namespace Chorbar.Model;
 [JsonDerivedType(typeof(CheckTodo), CheckTodo.Kind)]
 [JsonDerivedType(typeof(RenameTodo), RenameTodo.Kind)]
 [JsonDerivedType(typeof(OrderTodo), OrderTodo.Kind)]
+[JsonDerivedType(typeof(EnableMealPlan), EnableMealPlan.Kind)]
+[JsonDerivedType(typeof(AddMealPlanEntry), AddMealPlanEntry.Kind)]
+[JsonDerivedType(typeof(CheckMealPlanEntry), CheckMealPlanEntry.Kind)]
+[JsonDerivedType(typeof(RenameMealPlanEntry), RenameMealPlanEntry.Kind)]
+[JsonDerivedType(typeof(OrderMealPlan), OrderMealPlan.Kind)]
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "Kind")]
 public abstract record HouseholdEventPayload
 {

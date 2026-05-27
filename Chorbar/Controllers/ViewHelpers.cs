@@ -16,6 +16,7 @@ internal static class ViewHelpers
             name: household.Name,
             shoppingListEnabled: household.ShoppingListEnabled,
             todoListEnabled: household.TodoListEnabled,
+            mealPlanEnabled: household.MealPlanEnabled,
             members: household.Members.Select(m => new HouseholdMemberEntity(
                 email: m.ToString(),
                 removable: m != household.Creator && m != currentUser

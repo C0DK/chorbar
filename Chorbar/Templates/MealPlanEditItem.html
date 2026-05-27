@@ -1,0 +1,4 @@
+<form class="rename-item" hx-post="meal_plan/{{id}}/rename" hx-target="#meal-plan">
+  <input type="text" name="newLabel" value="{{Label}}" required autofocus hx-get="meal_plan/{{id}}"
+    hx-target="closest li" hx-swap="outerHTML" hx-trigger="keydown[key=='Escape'], blur">
+</form>

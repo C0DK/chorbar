@@ -15,6 +15,11 @@
       if todoListEnabled %}checked{% end %}>
     Enable todo list
   </label>
+  <label>
+    <input type="checkbox" hx-post="enable_meal_plan" hx-trigger="change" name="enabled" hx-target="#edit-household" {%
+      if mealPlanEnabled %}checked{% end %}>
+    Enable meal plan
+  </label>
   <div class="members">
     <h3>Members</h3>
     <ul>

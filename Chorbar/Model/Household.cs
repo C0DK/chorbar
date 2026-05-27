@@ -11,10 +11,12 @@ public record Household(
     ImmutableArray<ShoppingListItem> ShoppingListItems,
     ImmutableArray<string> ShoppingListCategories,
     ImmutableArray<TodoItem> Todos,
+    ImmutableArray<MealPlanItem> MealPlan,
     ImmutableArray<HouseholdEvent> History,
     int ShoppingListNextId = 1,
     bool ShoppingListEnabled = false,
     bool TodoListEnabled = false,
+    bool MealPlanEnabled = false,
     string? IcalToken = null,
     bool IsDeleted = false
 )

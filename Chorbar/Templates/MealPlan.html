@@ -1,0 +1,14 @@
+<div id="meal-plan">
+  <form hx-post="meal_plan/sort" hx-target="#meal-plan" hx-trigger="update">
+    <ol class="sortable meal-plan-list" data-sortable-group="meal-plan">
+      {{..items}}
+      <li class="no-sort">
+        <form class="new-item" hx-post="meal_plan/add" hx-target="closest li" hx-swap="beforebegin"
+          hx-on::after-request="if(event.detail.successful) this.reset()">
+          <button type="submit">+</button>
+          <input required type="text" name="label" placeholder="Add meal" hx-trigger="keyup[key=='Enter']">
+        </form>
+      </li>
+    </ol>
+  </form>
+</div>

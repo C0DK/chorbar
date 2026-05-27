@@ -17,6 +17,15 @@
     </ol>
   </details>
   {% end %}
+  {% if mealPlanEnabled %}
+  <details open>
+    <summary>
+      Meal Plan
+    </summary>
+    <div id="meal-plan" hx-trigger="revealed" hx-get="meal_plan">
+    </div>
+  </details>
+  {% end %}
   <details open>
     <summary>
       Chores

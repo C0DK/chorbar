@@ -55,6 +55,7 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
             new HouseholdPage(
                 shoppingListEnabled: household.ShoppingListEnabled,
                 todoListEnabled: household.TodoListEnabled,
+                mealPlanEnabled: household.MealPlanEnabled,
                 chores: household
                     .Chores.OrderBy(c =>
                         c.Value.Deadline()
@@ -75,6 +76,23 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
         var household = await store.Write(
             householdId,
             new EnableShoppingList(Request.Form.GetCheckbox("enabled")),
+            cancellationToken
+        );
+        return new PageResult(
+            ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()),
+            household.Name
+        );
+    }
+
+    [HttpPost("{householdId:int}/enable_meal_plan")]
+    public async Task<IResult> SetEnableMealPlan(
+        HouseholdId householdId,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await store.Write(
+            householdId,
+            new EnableMealPlan(Request.Form.GetCheckbox("enabled")),
             cancellationToken
         );
         return new PageResult(
