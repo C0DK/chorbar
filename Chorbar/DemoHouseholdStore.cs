@@ -16,18 +16,8 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
 
     private string CacheKey => $"demo:{httpContextAccessor.HttpContext!.Session.Id}";
 
-    public ValueTask<Household> Read(HouseholdId id, CancellationToken cancellationToken)
-    {
-        var household = cache.GetOrCreate(
-            CacheKey,
-            entry =>
-            {
-                entry.SetOptions(_cacheOptions);
-                return CreateSeedHousehold();
-            }
-        )!;
-        return ValueTask.FromResult(household);
-    }
+    public ValueTask<Household> Read(HouseholdId id, CancellationToken cancellationToken) =>
+        ValueTask.FromResult(ReadHousehold());
 
     public ValueTask<Household> Write(
         HouseholdId id,
@@ -41,7 +31,7 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
         CancellationToken cancellationToken
     )
     {
-        var household = Read(id, cancellationToken).Result;
+        var household = ReadHousehold();
         foreach (var payload in payloads)
         {
             var now = DateTimeOffset.UtcNow;
@@ -71,12 +61,22 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
     public ValueTask Delete(HouseholdId id, CancellationToken cancellationToken) =>
         throw new NotSupportedException();
 
+    private Household ReadHousehold() =>
+        cache.GetOrCreate(
+            CacheKey,
+            entry =>
+            {
+                entry.SetOptions(_cacheOptions);
+                return CreateSeedHousehold();
+            }
+        )!;
+
     private static Household CreateSeedHousehold()
     {
         var now = DateTimeOffset.UtcNow;
 
         return new Household(
-            Id: _demoId,
+            Id: DemoHouseholdId,
             Name: "Demo Household",
             Creator: _demoEmail,
             Members: [_demoEmail],
