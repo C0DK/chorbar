@@ -6,21 +6,25 @@ namespace Chorbar;
 
 public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpContextAccessor)
 {
-    private static readonly HouseholdId DemoId = new(0);
-    private static readonly Email DemoEmail = new("demo@chor.bar");
-    private static readonly MemoryCacheEntryOptions CacheOptions =
-        new() { SlidingExpiration = TimeSpan.FromHours(4) };
+    private static readonly HouseholdId _demoId = new(0);
+    private static readonly Email _demoEmail = new("demo@chor.bar");
+    private static readonly MemoryCacheEntryOptions _cacheOptions = new()
+    {
+        SlidingExpiration = TimeSpan.FromHours(4),
+    };
 
-    private string CacheKey =>
-        $"demo:{httpContextAccessor.HttpContext!.Session.Id}";
+    private string CacheKey => $"demo:{httpContextAccessor.HttpContext!.Session.Id}";
 
     public Household Read()
     {
-        return cache.GetOrCreate(CacheKey, entry =>
-        {
-            entry.SetOptions(CacheOptions);
-            return CreateSeedHousehold();
-        })!;
+        return cache.GetOrCreate(
+            CacheKey,
+            entry =>
+            {
+                entry.SetOptions(_cacheOptions);
+                return CreateSeedHousehold();
+            }
+        )!;
     }
 
     public Household Write(HouseholdEventPayload payload)
@@ -32,14 +36,14 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                 $"Event '{payload.EventKind}' not valid! ({payload})"
             );
         var evt = new HouseholdEvent(
-            HouseholdId: DemoId,
+            HouseholdId: _demoId,
             Version: household.History.Length + 1,
             Timestamp: now,
             Payload: payload,
-            CreatedBy: DemoEmail
+            CreatedBy: _demoEmail
         );
         household = evt.Apply(household);
-        cache.Set(CacheKey, household, CacheOptions);
+        cache.Set(CacheKey, household, _cacheOptions);
         return household;
     }
 
@@ -54,15 +58,15 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                     $"Event '{payload.EventKind}' not valid! ({payload})"
                 );
             var evt = new HouseholdEvent(
-                HouseholdId: DemoId,
+                HouseholdId: _demoId,
                 Version: household.History.Length + 1,
                 Timestamp: now,
                 Payload: payload,
-                CreatedBy: DemoEmail
+                CreatedBy: _demoEmail
             );
             household = evt.Apply(household);
         }
-        cache.Set(CacheKey, household, CacheOptions);
+        cache.Set(CacheKey, household, _cacheOptions);
         return household;
     }
 
@@ -71,12 +75,12 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
         var now = DateTimeOffset.UtcNow;
 
         return new Household(
-            Id: DemoId,
+            Id: _demoId,
             Name: "Demo Household",
-            Creator: DemoEmail,
-            Members: [DemoEmail],
-            Chores: ImmutableDictionary<string, Chore>.Empty
-                .Add(
+            Creator: _demoEmail,
+            Members: [_demoEmail],
+            Chores: ImmutableDictionary<string, Chore>
+                .Empty.Add(
                     "Vacuum living room",
                     new Chore(
                         Created: now.AddDays(-42),
@@ -96,12 +100,7 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                     "Clean bathroom",
                     new Chore(
                         Created: now.AddDays(-56),
-                        History:
-                        [
-                            now.AddDays(-42),
-                            now.AddDays(-28),
-                            now.AddDays(-14),
-                        ],
+                        History: [now.AddDays(-42), now.AddDays(-28), now.AddDays(-14)],
                         Goal: new Goal(2, DateUnit.Week)
                     )
                 )

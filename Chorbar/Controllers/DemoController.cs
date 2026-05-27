@@ -9,7 +9,7 @@ namespace Chorbar.Controllers;
 public class DemoController(DemoHouseholdStore store) : Controller
 {
     [HttpGet("")]
-    public IResult View()
+    public IResult Index()
     {
         var household = store.Read();
         HttpContext.UpdateHousehold(household);
@@ -51,11 +51,7 @@ public class DemoController(DemoHouseholdStore store) : Controller
     }
 
     [HttpPost("chore/goal")]
-    public IResult Goal(
-        [FromForm] string label,
-        [FromForm] DateUnit unit,
-        [FromForm] int numerator
-    )
+    public IResult Goal([FromForm] string label, [FromForm] DateUnit unit, [FromForm] int numerator)
     {
         var household = store.Write(new SetGoal(label, numerator, unit));
         var chore = household.Chores[label];
