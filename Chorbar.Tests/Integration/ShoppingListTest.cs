@@ -527,5 +527,10 @@ public class ShoppingListTest
     private FakeTimeProvider _timeProvider = null!;
 
     private HouseholdStore GetStore(Email identity) =>
-        new HouseholdStore(_conn, new StaticIdentityProvider(identity), _timeProvider, new EventMetrics());
+        new HouseholdStore(
+            _conn,
+            new StaticIdentityProvider(identity),
+            _timeProvider,
+            new EventMetrics()
+        );
 }

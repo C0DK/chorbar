@@ -18,7 +18,12 @@ public class HouseholdStoreTest
         _timeProvider = new FakeTimeProvider(t(-4)) { AutoAdvanceAmount = _timeStep };
         await using (var cmd = new NpgsqlCommand("TRUNCATE household_event", _conn))
             await cmd.ExecuteNonQueryAsync();
-        var store = new HouseholdStore(_conn, new StaticIdentityProvider(_userA), _timeProvider, new EventMetrics());
+        var store = new HouseholdStore(
+            _conn,
+            new StaticIdentityProvider(_userA),
+            _timeProvider,
+            new EventMetrics()
+        );
         _householdAId = (await store.New("Some Name", cancellationToken));
         _householdAInitialEvents = (
             await store.Write(_householdAId, new AddMember(_userB), cancellationToken)
@@ -703,7 +708,12 @@ public class HouseholdStoreTest
     private HouseholdStore GetStore() => GetStore(_userA);
 
     private HouseholdStore GetStore(Email identity) =>
-        new HouseholdStore(_conn, new StaticIdentityProvider(identity), _timeProvider, new EventMetrics());
+        new HouseholdStore(
+            _conn,
+            new StaticIdentityProvider(identity),
+            _timeProvider,
+            new EventMetrics()
+        );
 
     private HouseholdId _householdAId;
     private HouseholdId _householdBId;
