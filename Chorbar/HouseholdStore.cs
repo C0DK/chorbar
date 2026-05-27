@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Chorbar.Model;
+using Chorbar.Utils;
 using Npgsql;
 using NpgsqlTypes;
 
@@ -11,26 +12,34 @@ public class HouseholdStore
     public const string ActivitySourceName = "Chorbar.HouseholdStore";
     private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
 
-    public HouseholdStore(NpgsqlConnection connection, IIdentityProvider identityProvider)
+    public HouseholdStore(
+        NpgsqlConnection connection,
+        IIdentityProvider identityProvider,
+        EventMetrics eventMetrics
+    )
     {
         _connection = connection;
         _identityProvider = identityProvider;
         _timeProvider = TimeProvider.System;
+        _eventMetrics = eventMetrics;
     }
 
     public HouseholdStore(
         NpgsqlConnection connection,
         IIdentityProvider identityProvider,
-        TimeProvider timeProvider
+        TimeProvider timeProvider,
+        EventMetrics eventMetrics
     )
     {
         _connection = connection;
         _identityProvider = identityProvider;
         _timeProvider = timeProvider;
+        _eventMetrics = eventMetrics;
     }
 
     private readonly NpgsqlConnection _connection;
     private readonly IIdentityProvider _identityProvider;
+    private readonly EventMetrics _eventMetrics;
     private readonly TimeProvider _timeProvider;
 
     public async ValueTask<HouseholdId> New(string name, CancellationToken cancellationToken)
@@ -142,6 +151,7 @@ public class HouseholdStore
             },
             cancellationToken
         );
+        _eventMetrics.Wrote(payload.EventKind);
     }
 
     public async IAsyncEnumerable<Household> List(

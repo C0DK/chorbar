@@ -82,6 +82,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<StaticFileVersion>();
 builder.Services.AddSingleton(Log.Logger);
 builder.Services.AddTransient<IIdentityProvider, ClaimsBasedIdentityProvider>();
+builder.Services.AddSingleton<EventMetrics>();
+builder.Services.AddSingleton<AuthMetrics>();
+builder.Services.AddSingleton<MailMetrics>();
 builder.Services.AddTransient<HouseholdStore>();
 var brevoApiClient = EnvironmentVariable.GetOrNull("BREVO_API_KEY");
 if (brevoApiClient is not null)
@@ -89,7 +92,8 @@ if (brevoApiClient is not null)
     builder.Services.AddTransient<IMailSender, BrevoClient>(s => new BrevoClient(
         s.GetRequiredService<IHttpClientFactory>().CreateClient(),
         brevoApiClient,
-        s.GetRequiredService<ILogger>()
+        s.GetRequiredService<ILogger>(),
+        s.GetRequiredService<MailMetrics>()
     ));
 }
 else
@@ -148,6 +152,7 @@ static Func<HttpContext, RateLimitPartition<string>> ClientPartition(
         );
 var app = builder.Build();
 
+app.UseHttpMetrics();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
