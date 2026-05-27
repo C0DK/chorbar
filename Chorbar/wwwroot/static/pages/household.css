@@ -2,13 +2,8 @@
   min-height: 70dvh;
   min-width: 80dvw;
   max-width: 99dvw;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--space-xl);
 
-  @media (max-width: 1200px) {
-    grid-template-columns: 2fr 3fr;
-  }
+/household/2/
 
   @media (max-width: 600px),
   (max-height: 600px) {
