@@ -42,7 +42,7 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
         if (string.IsNullOrEmpty(name))
             return new PageResult(new NewHousehold());
 
-        var id = await store.New(name, cancellationToken);
+        var id = await store.Create(name, cancellationToken);
         return new HxRedirectResult($"/household/{id.Value}/");
     }
 

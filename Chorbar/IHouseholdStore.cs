@@ -4,7 +4,7 @@ namespace Chorbar;
 
 public interface IHouseholdStore
 {
-    ValueTask<HouseholdId> New(string name, CancellationToken cancellationToken);
+    ValueTask<HouseholdId> Create(string name, CancellationToken cancellationToken);
     ValueTask Delete(HouseholdId id, CancellationToken cancellationToken);
     ValueTask<Household> Write(
         HouseholdId id,

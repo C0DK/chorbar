@@ -42,7 +42,7 @@ public class HouseholdStore : IHouseholdStore
     private readonly EventMetrics _eventMetrics;
     private readonly TimeProvider _timeProvider;
 
-    public async ValueTask<HouseholdId> New(string name, CancellationToken cancellationToken)
+    public async ValueTask<HouseholdId> Create(string name, CancellationToken cancellationToken)
     {
         using var activity = ActivitySource.StartActivity("HouseholdStore.New");
         await using var transaction = await _connection.BeginTransactionAsync(cancellationToken);
