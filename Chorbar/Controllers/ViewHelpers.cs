@@ -107,8 +107,15 @@ internal static class ViewHelpers
         var today = now.Date;
         var deadlineDate = deadlineLocal.Date;
 
+        if (deadlineDate < today)
+        {
+            var days = (today - deadlineDate).TotalDays;
+            return $"{days}d overdue";
+        }
         if (deadlineLocal < now)
+        {
             return "Overdue";
+        }
         if (deadlineDate == today)
             return "Today";
         if (deadlineDate == today.AddDays(1))
