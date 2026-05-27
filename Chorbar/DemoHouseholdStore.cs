@@ -149,10 +149,33 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         Goal: new Goal(2, DateUnit.Week)
                     )
                 ),
-            ShoppingListItems: [],
-            ShoppingListCategories: [],
-            Todos: [],
-            History: []
+            ShoppingListItems:
+            [
+                new ShoppingListItem(1, "Bananas", Category: "Produce", Order: 0),
+                new ShoppingListItem(2, "Spinach", Category: "Produce", Order: 1),
+                new ShoppingListItem(3, "Tomatoes", Category: "Produce", Order: 2),
+                new ShoppingListItem(4, "Milk", Category: "Dairy", Order: 0),
+                new ShoppingListItem(5, "Eggs", Category: "Dairy", Order: 1),
+                new ShoppingListItem(6, "Butter", Category: "Dairy", Order: 2),
+                new ShoppingListItem(7, "Rice", Category: "Pantry", Order: 0),
+                new ShoppingListItem(8, "Pasta", Category: "Pantry", Order: 1),
+                new ShoppingListItem(9, "Olive oil", Category: "Pantry", Order: 2),
+                new ShoppingListItem(10, "Paper towels", Order: 0),
+                new ShoppingListItem(11, "Dish soap", Order: 1),
+            ],
+            ShoppingListCategories: ["Produce", "Dairy", "Pantry"],
+            Todos:
+            [
+                new TodoItem(1, "Fix leaky kitchen faucet", null, 1),
+                new TodoItem(2, "Schedule dentist appointment", null, 2),
+                new TodoItem(3, "Renew car insurance", null, 3),
+                new TodoItem(4, "Organize garage", now.AddHours(-1), 4),
+                new TodoItem(5, "Call electrician about porch light", now.AddHours(-1), 5),
+            ],
+            History: [],
+            ShoppingListNextId: 12,
+            ShoppingListEnabled: true,
+            TodoListEnabled: true
         );
     }
 }

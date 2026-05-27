@@ -15,8 +15,8 @@ public class DemoController(DemoHouseholdStore store) : Controller
         HttpContext.UpdateHousehold(household);
         return new PageResult(
             new HouseholdPage(
-                shoppingListEnabled: false,
-                todoListEnabled: false,
+                shoppingListEnabled: household.ShoppingListEnabled,
+                todoListEnabled: household.TodoListEnabled,
                 chores: household
                     .Chores.OrderBy(c =>
                         c.Value.Deadline()
