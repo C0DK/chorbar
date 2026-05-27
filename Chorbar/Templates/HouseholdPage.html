@@ -4,8 +4,8 @@
     <summary>
       Shopping List
     </summary>
-    <ol id="shopping-list" hx-trigger="revealed" hx-get="shopping_list">
-    </ol>
+    <div hx-trigger="revealed" hx-get="shopping_list" hx-swap="outerHTML">
+    </div>
   </details>
   {% end %}
   {% if todoListEnabled %}
@@ -13,8 +13,8 @@
     <summary>
       Todo List
     </summary>
-    <ol id="todo-list" hx-trigger="revealed" hx-get="todo">
-    </ol>
+    <div hx-trigger="revealed" hx-get="todo" hx-swap="outerHTML">
+    </div>
   </details>
   {% end %}
   <details open>

@@ -1,6 +1,6 @@
 <li class="category {% unless hasLabel %}no-sort{% end %}">
   <input type='hidden' name='category' value='{{label?}}'>
-  <form hx-post="shopping_list/set-category" hx-target="#shopping-list" hx-trigger="add, update consume:true">
+  <form hx-post="shopping_list/set-category" hx-target="#shopping-list" hx-swap="outerHTML" hx-trigger="add, update consume:true">
     <details open>
       <summary>
         {% if hasLabel %}
