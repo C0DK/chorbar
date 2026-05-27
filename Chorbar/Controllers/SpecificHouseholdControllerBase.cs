@@ -1,13 +1,11 @@
 using Chorbar.Model;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chorbar.Controllers;
 
-[Authorize]
-public abstract class SpecificHouseholdControllerBase(HouseholdStore store) : Controller
+public abstract class SpecificHouseholdControllerBase(IHouseholdStore store) : Controller
 {
-    private readonly HouseholdStore _store = store;
+    private readonly IHouseholdStore _store = store;
 
     [FromRoute]
     public HouseholdId HouseholdId { get; set; }

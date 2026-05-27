@@ -41,7 +41,7 @@ public readonly record struct HouseholdId(int Value)
 
     public static implicit operator int(HouseholdId id) => id.Value;
 
-    static bool IsValid(int value) => value > 0;
+    static bool IsValid(int value) => value >= 0;
 
     public class DefaultJsonConverter : JsonConverter<HouseholdId>
     {

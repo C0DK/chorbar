@@ -10,7 +10,7 @@ namespace Chorbar.Controllers;
 
 [Authorize]
 [Route("household/")]
-public class HouseholdsController(HouseholdStore store, IIdentityProvider identityProvider)
+public class HouseholdsController(IHouseholdStore store, IIdentityProvider identityProvider)
     : Controller
 {
     [HttpGet("")]
@@ -46,6 +46,7 @@ public class HouseholdsController(HouseholdStore store, IIdentityProvider identi
         return new HxRedirectResult($"/household/{id.Value}/");
     }
 
+    [AllowAnonymous]
     [HttpGet("{householdId:int}/")]
     public async Task<IResult> View(HouseholdId householdId, CancellationToken cancellationToken)
     {

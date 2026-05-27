@@ -5,8 +5,9 @@ using Microsoft.Extensions.Caching.Memory;
 namespace Chorbar;
 
 public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpContextAccessor)
+    : IHouseholdStore
 {
-    private static readonly HouseholdId _demoId = new(0);
+    public static readonly HouseholdId DemoHouseholdId = new(0);
     private static readonly Email _demoEmail = new("demo@chor.bar");
     private static readonly MemoryCacheEntryOptions _cacheOptions = new()
     {
@@ -15,9 +16,9 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
 
     private string CacheKey => $"demo:{httpContextAccessor.HttpContext!.Session.Id}";
 
-    public Household Read()
+    public ValueTask<Household> Read(HouseholdId id, CancellationToken cancellationToken)
     {
-        return cache.GetOrCreate(
+        var household = cache.GetOrCreate(
             CacheKey,
             entry =>
             {
@@ -25,31 +26,22 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                 return CreateSeedHousehold();
             }
         )!;
+        return ValueTask.FromResult(household);
     }
 
-    public Household Write(HouseholdEventPayload payload)
-    {
-        var household = Read();
-        var now = DateTimeOffset.UtcNow;
-        if (!payload.IsValid(household, now))
-            throw new InvalidOperationException(
-                $"Event '{payload.EventKind}' not valid! ({payload})"
-            );
-        var evt = new HouseholdEvent(
-            HouseholdId: _demoId,
-            Version: household.History.Length + 1,
-            Timestamp: now,
-            Payload: payload,
-            CreatedBy: _demoEmail
-        );
-        household = evt.Apply(household);
-        cache.Set(CacheKey, household, _cacheOptions);
-        return household;
-    }
+    public ValueTask<Household> Write(
+        HouseholdId id,
+        HouseholdEventPayload payload,
+        CancellationToken cancellationToken
+    ) => Write(id, [payload], cancellationToken);
 
-    public Household Write(IEnumerable<HouseholdEventPayload> payloads)
+    public ValueTask<Household> Write(
+        HouseholdId id,
+        IEnumerable<HouseholdEventPayload> payloads,
+        CancellationToken cancellationToken
+    )
     {
-        var household = Read();
+        var household = Read(id, cancellationToken).Result;
         foreach (var payload in payloads)
         {
             var now = DateTimeOffset.UtcNow;
@@ -58,7 +50,7 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                     $"Event '{payload.EventKind}' not valid! ({payload})"
                 );
             var evt = new HouseholdEvent(
-                HouseholdId: _demoId,
+                HouseholdId: DemoHouseholdId,
                 Version: household.History.Length + 1,
                 Timestamp: now,
                 Payload: payload,
@@ -67,8 +59,17 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
             household = evt.Apply(household);
         }
         cache.Set(CacheKey, household, _cacheOptions);
-        return household;
+        return ValueTask.FromResult(household);
     }
+
+    public IAsyncEnumerable<Household> List(CancellationToken cancellationToken) =>
+        throw new NotSupportedException();
+
+    public ValueTask<HouseholdId> Create(string name, CancellationToken cancellationToken) =>
+        throw new NotSupportedException();
+
+    public ValueTask Delete(HouseholdId id, CancellationToken cancellationToken) =>
+        throw new NotSupportedException();
 
     private static Household CreateSeedHousehold()
     {
