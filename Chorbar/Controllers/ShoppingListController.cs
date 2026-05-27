@@ -2,14 +2,12 @@ using System.Collections.Immutable;
 using Chorbar.Model;
 using Chorbar.Templates;
 using Chorbar.Utils;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chorbar.Controllers;
 
-[Authorize]
 [Route("household/{householdId:int}/shopping_list/")]
-public class ShoppingListController(HouseholdStore store) : SpecificHouseholdControllerBase(store)
+public class ShoppingListController(IHouseholdStore store) : SpecificHouseholdControllerBase(store)
 {
     [HttpGet("")]
     public async Task<IResult> List(CancellationToken cancellationToken) =>

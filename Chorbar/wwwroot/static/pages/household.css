@@ -2,12 +2,25 @@
   min-height: 70dvh;
   min-width: 80dvw;
   max-width: 99dvw;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--space-xl);
 
-  @media (max-width: 1200px) {
-    grid-template-columns: 2fr 3fr;
+
+
+  &:has(> :nth-child(2)) {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-xl);
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 2fr 3fr;
+    }
+  }
+
+  &:has(> :nth-child(3)) {
+    grid-template-columns: 1fr 1fr 3fr;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 2fr 2fr;
+    }
   }
 
   @media (max-width: 600px),

@@ -39,7 +39,7 @@ public class IcalTest
     public async Task GenerateIcalTokenIsStoredInHousehold(CancellationToken ct)
     {
         var store = GetStore();
-        var id = await store.New("My House", ct);
+        var id = await store.Create("My House", ct);
         var token = Guid.NewGuid().ToString("N");
 
         var household = await store.Write(id, new GenerateIcalToken(token), ct);
@@ -51,7 +51,7 @@ public class IcalTest
     public async Task ReadForIcalReturnsHouseholdWithCorrectToken(CancellationToken ct)
     {
         var store = GetStore();
-        var id = await store.New("My House", ct);
+        var id = await store.Create("My House", ct);
         var token = Guid.NewGuid().ToString("N");
         await store.Write(id, new GenerateIcalToken(token), ct);
 
@@ -65,7 +65,7 @@ public class IcalTest
     public async Task ReadForIcalReturnsNullWithWrongToken(CancellationToken ct)
     {
         var store = GetStore();
-        var id = await store.New("My House", ct);
+        var id = await store.Create("My House", ct);
         var token = Guid.NewGuid().ToString("N");
         await store.Write(id, new GenerateIcalToken(token), ct);
 
@@ -87,7 +87,7 @@ public class IcalTest
     public async Task ReadForIcalReturnsNullWhenNoTokenGenerated(CancellationToken ct)
     {
         var store = GetStore();
-        var id = await store.New("My House", ct);
+        var id = await store.Create("My House", ct);
 
         var household = await store.ReadForIcal(id, "anytoken", ct);
 
@@ -98,7 +98,7 @@ public class IcalTest
     public async Task RegeneratingTokenOverridesPreviousToken(CancellationToken ct)
     {
         var store = GetStore();
-        var id = await store.New("My House", ct);
+        var id = await store.Create("My House", ct);
         var oldToken = Guid.NewGuid().ToString("N");
         var newToken = Guid.NewGuid().ToString("N");
 

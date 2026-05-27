@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -102,6 +103,8 @@ else
     builder.Services.AddTransient<IMailSender, LogMailer>();
 }
 builder.Services.AddTransient<HouseholdStore>();
+builder.Services.AddTransient<DemoHouseholdStore>();
+builder.Services.AddTransient<IHouseholdStore, RoutingHouseholdStore>();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<NpgsqlConnection>(s =>
     s.GetRequiredService<NpgsqlDataSource>().OpenConnection()
@@ -152,6 +155,12 @@ static Func<HttpContext, RateLimitPartition<string>> ClientPartition(
         );
 var app = builder.Build();
 
+app.UseForwardedHeaders(
+    new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    }
+);
 app.UseHttpMetrics();
 app.UseAuthentication();
 app.UseAuthorization();

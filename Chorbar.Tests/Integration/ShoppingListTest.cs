@@ -509,7 +509,7 @@ public class ShoppingListTest
         await using (var cmd = new NpgsqlCommand("TRUNCATE household_event", _conn))
             await cmd.ExecuteNonQueryAsync();
         var store = GetStore(_userA);
-        _householdId = (await store.New("Some Name", cancellationToken));
+        _householdId = (await store.Create("Some Name", cancellationToken));
     }
 
     [TearDown]
