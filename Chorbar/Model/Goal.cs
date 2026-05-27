@@ -3,14 +3,19 @@ namespace Chorbar.Model;
 public record Goal(int Numerator, DateUnit Unit)
 {
     public DateTimeOffset Deadline(DateTimeOffset lastDone) =>
-        Unit switch
-        {
-            DateUnit.Day => lastDone.AddDays(Numerator),
-            DateUnit.Week => lastDone.AddDays(Numerator * 7),
-            DateUnit.Month => lastDone.AddMonths(Numerator),
-            DateUnit.Year => lastDone.AddYears(Numerator),
-            _ => throw new NotImplementedException($"Cannot handle Unit '{Unit}'"),
-        };
+        (
+            Unit switch
+            {
+                DateUnit.Day => lastDone.AddDays(Numerator),
+                DateUnit.Week => lastDone.AddDays(Numerator * 7),
+                DateUnit.Month => lastDone.AddMonths(Numerator),
+                DateUnit.Year => lastDone.AddYears(Numerator),
+                _ => throw new NotImplementedException($"Cannot handle Unit '{Unit}'"),
+                // TODO: ideally it should be in user timezone
+            }
+        )
+            .GetMidnightUtc()
+            .AddDays(1);
 
     public int GetAllowedLatencyDays() =>
         int.Max(
@@ -26,5 +31,6 @@ public record Goal(int Numerator, DateUnit Unit)
         );
 
     public bool IsWithinInterval(DateTimeOffset lastTime, DateTimeOffset newTime) =>
-        newTime <= Deadline(lastTime).AddDays(GetAllowedLatencyDays());
+        newTime.GetCalendarDate()
+        <= Deadline(lastTime).GetCalendarDate().AddDays(GetAllowedLatencyDays());
 }
