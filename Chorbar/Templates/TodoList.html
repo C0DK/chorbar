@@ -1,5 +1,5 @@
 <div id="todo-list">
-  <form hx-post="todo/sort" hx-target="#todo-list" hx-trigger="update">
+  <form hx-post="todo/sort" hx-target="#todo-list" hx-swap="outerHTML" hx-trigger="update">
     <ol class="sortable" data-sortable-group="todo-list">
       {{..openItems}}
       <li class="no-sort">

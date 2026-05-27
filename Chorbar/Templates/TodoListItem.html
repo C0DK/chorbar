@@ -12,7 +12,7 @@
   <input type='hidden' name='itemId' value='{{id}}'>
   <form>
     <input type="checkbox" aria-label="{{Label}} check if done" hx-post="todo/{{id}}/checked" hx-target="#todo-list"
-      hx-trigger="change" name="isChecked" {% if isChecked %}checked{% end %}>
+      hx-swap="outerHTML" hx-trigger="change" name="isChecked" {% if isChecked %}checked{% end %}>
   </form>
   <span hx-get="todo/{{id}}/edit" hx-trigger="click consume" hx-target="this" hx-swap="outerHTML">
     {{Label}}
