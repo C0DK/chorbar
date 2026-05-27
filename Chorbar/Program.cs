@@ -102,6 +102,8 @@ else
     builder.Services.AddTransient<IMailSender, LogMailer>();
 }
 builder.Services.AddTransient<HouseholdStore>();
+builder.Services.AddTransient<DemoHouseholdStore>();
+builder.Services.AddTransient<IHouseholdStore, RoutingHouseholdStore>();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<NpgsqlConnection>(s =>
     s.GetRequiredService<NpgsqlDataSource>().OpenConnection()

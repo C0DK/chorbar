@@ -1,14 +1,12 @@
 using Chorbar.Model;
 using Chorbar.Templates;
 using Chorbar.Utils;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chorbar.Controllers;
 
-[Authorize]
 [Route("household/{householdId:int}/chore/")]
-public class ChoresController(HouseholdStore store) : SpecificHouseholdControllerBase(store)
+public class ChoresController(IHouseholdStore store) : SpecificHouseholdControllerBase(store)
 {
     [HttpGet("")]
     public async Task<IResult> Card([FromQuery] string label, CancellationToken cancellationToken)

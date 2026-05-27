@@ -7,7 +7,7 @@ using NpgsqlTypes;
 
 namespace Chorbar;
 
-public class HouseholdStore
+public class HouseholdStore : IHouseholdStore
 {
     public const string ActivitySourceName = "Chorbar.HouseholdStore";
     private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
@@ -42,7 +42,7 @@ public class HouseholdStore
     private readonly EventMetrics _eventMetrics;
     private readonly TimeProvider _timeProvider;
 
-    public async ValueTask<HouseholdId> New(string name, CancellationToken cancellationToken)
+    public async ValueTask<HouseholdId> Create(string name, CancellationToken cancellationToken)
     {
         using var activity = ActivitySource.StartActivity("HouseholdStore.New");
         await using var transaction = await _connection.BeginTransactionAsync(cancellationToken);

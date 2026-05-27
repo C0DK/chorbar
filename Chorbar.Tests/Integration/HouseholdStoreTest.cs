@@ -24,11 +24,11 @@ public class HouseholdStoreTest
             _timeProvider,
             new EventMetrics()
         );
-        _householdAId = (await store.New("Some Name", cancellationToken));
+        _householdAId = (await store.Create("Some Name", cancellationToken));
         _householdAInitialEvents = (
             await store.Write(_householdAId, new AddMember(_userB), cancellationToken)
         ).History;
-        _householdBId = (await store.New("Some Other name", CancellationToken.None));
+        _householdBId = (await store.Create("Some Other name", CancellationToken.None));
         _householdBInitialEvents = (
             await store.Write(_householdBId, new AddMember(_userB), cancellationToken)
         ).History;
@@ -42,7 +42,7 @@ public class HouseholdStoreTest
     {
         var store = GetStore(_userA);
         var name = "foob";
-        var id = await store.New(name, cancellationToken);
+        var id = await store.Create(name, cancellationToken);
 
         var household = await store.Read(id, cancellationToken);
         Assert.That(
@@ -312,12 +312,12 @@ public class HouseholdStoreTest
         var userB = new Email("b@test.com");
         var storeA = GetStore(userA);
         var storeB = GetStore(userB);
-        var householdAId = await storeA.New("householdA", cancellationToken);
+        var householdAId = await storeA.Create("householdA", cancellationToken);
         await storeA.Write(householdAId, new AddMember(userB), cancellationToken);
 
         var householdA = await storeA.Read(householdAId, cancellationToken);
         var householdB = await storeB.Read(
-            await storeB.New("householdB", cancellationToken),
+            await storeB.Create("householdB", cancellationToken),
             cancellationToken
         );
 
@@ -337,7 +337,7 @@ public class HouseholdStoreTest
     [Test, CancelAfter(10_000)]
     public async Task CannotEditIfNotMember(CancellationToken cancellationToken)
     {
-        var id = await GetStore(_userA).New("test", cancellationToken);
+        var id = await GetStore(_userA).Create("test", cancellationToken);
 
         Assert.ThrowsAsync<NotMemberOfHouseholdException>(async () =>
             await GetStore(_userB).Write(id, new DoChore("Sleep"), cancellationToken)
@@ -516,7 +516,7 @@ public class HouseholdStoreTest
     [Test, CancelAfter(10_000)]
     public async Task CannotReadIfNotMember(CancellationToken cancellationToken)
     {
-        var id = await GetStore(_userA).New("test", cancellationToken);
+        var id = await GetStore(_userA).Create("test", cancellationToken);
 
         Assert.ThrowsAsync<NotMemberOfHouseholdException>(async () =>
             await GetStore(_userB).Read(id, cancellationToken)
@@ -527,7 +527,7 @@ public class HouseholdStoreTest
     public async Task CanEditAndReadIfAdded(CancellationToken cancellationToken)
     {
         var name = "test";
-        var id = await GetStore(_userA).New(name, cancellationToken);
+        var id = await GetStore(_userA).Create(name, cancellationToken);
         await GetStore(_userA).Write(id, new AddMember(_userB), cancellationToken);
 
         await GetStore(_userB).Write(id, new AddChore("blah"), cancellationToken);
@@ -607,7 +607,7 @@ public class HouseholdStoreTest
     [Test, CancelAfter(10_000)]
     public async Task NonMemberCannotDeleteHousehold(CancellationToken cancellationToken)
     {
-        var id = await GetStore(_userA).New("to-delete", cancellationToken);
+        var id = await GetStore(_userA).Create("to-delete", cancellationToken);
 
         Assert.ThrowsAsync<NotMemberOfHouseholdException>(async () =>
             await GetStore(_userB).Delete(id, cancellationToken)
