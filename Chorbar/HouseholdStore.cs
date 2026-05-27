@@ -7,7 +7,7 @@ using NpgsqlTypes;
 
 namespace Chorbar;
 
-public class HouseholdStore
+public class HouseholdStore : IHouseholdStore
 {
     public const string ActivitySourceName = "Chorbar.HouseholdStore";
     private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
