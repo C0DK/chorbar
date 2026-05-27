@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Chorbar.Model;
@@ -16,6 +17,8 @@ public class AuthController : Controller
 {
     public const string SendPolicy = "auth-send";
     public const string VerifyPolicy = "auth-verify";
+    public const string ActivitySourceName = "Chorbar.Auth";
+    private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
 
     [HttpGet("")]
     public IResult Index([FromQuery] string? returnUrl = null)
@@ -38,6 +41,7 @@ public class AuthController : Controller
         CancellationToken cancellationToken
     )
     {
+        using var activity = ActivitySource.StartActivity("Auth.Send");
         var form = Request.Form;
         var returnUrl = form.GetString("returnUrl");
         if (!Email.TryParse(form.GetString("email"), out var email))
@@ -70,6 +74,7 @@ public class AuthController : Controller
         CancellationToken cancellationToken
     )
     {
+        using var activity = ActivitySource.StartActivity("Auth.VerifyCode");
         var form = Request.Form;
         var returnUrl = form.GetString("returnUrl");
         if (!Email.TryParse(form.GetString("email"), out var email))
@@ -112,6 +117,7 @@ public class AuthController : Controller
     [HttpGet("logout")]
     public IResult Logout([FromQuery] string? returnUrl = null)
     {
+        using var activity = ActivitySource.StartActivity("Auth.Logout");
         HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         HttpContext.ClearHousehold();
         return Results.Redirect(returnUrl ?? "/");

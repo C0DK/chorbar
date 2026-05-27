@@ -57,6 +57,7 @@
           DEV_MODE = "false";
           ASPNETCORE_FORWARDEDHEADERS_ENABLED = "true";
           DB_CONNECTION_STRING = "Host=host.containers.internal;Username=chorbar-pod;Database=chorbar";
+          OTEL_EXPORTER_OTLP_ENDPOINT = "http://host.containers.internal:4317";
         };
         environmentFiles = [ config.sops.templates."chorbar.env".path ];
         ports = [ "8080:8080" ];
