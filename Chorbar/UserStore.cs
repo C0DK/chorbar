@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Diagnostics;
 using Chorbar.Model;
 using Npgsql;
@@ -71,7 +70,7 @@ public class UserStore
             """
             INSERT INTO
               user_event(email, version, timestamp, payload)
-            VALUES($1, $2, $3, $4, $5)
+            VALUES($1, $2, $3, $4)
             """,
             p =>
             {
@@ -132,7 +131,7 @@ public class UserStore
               version,
               timestamp,
               payload
-            FROM household_event
+            FROM user_event
             WHERE email = $1
             ORDER BY timestamp
             """,
@@ -148,7 +147,7 @@ public class UserStore
                         Version: await reader.GetFieldValueAsync<int>(1, ct),
                         Timestamp: await reader.GetFieldValueAsync<DateTimeOffset>(2, ct),
                         Payload: UserEventPayload.Deserialize(
-                            await reader.GetFieldValueAsync<string>(4, ct)
+                            await reader.GetFieldValueAsync<string>(3, ct)
                         )
                     ),
                 cancellationToken

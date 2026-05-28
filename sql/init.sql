@@ -14,6 +14,15 @@ CREATE TABLE household_event (
   PRIMARY KEY (household_id, version)
 );
 
+CREATE TABLE user_event (
+  email     TEXT                     NOT NULL,
+  version   INTEGER                  NOT NULL CONSTRAINT positive_user_event_version CHECK (version > 0),
+  timestamp TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+  payload   JSONB                    NOT NULL,
+
+  PRIMARY KEY (email, version)
+);
+
 CREATE TABLE signin_otp (
   email TEXT NOT NULL,
   code TEXT NOT NULL,
