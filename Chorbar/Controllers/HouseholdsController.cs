@@ -108,6 +108,14 @@ public class HouseholdsController(IHouseholdStore store, IIdentityProvider ident
     )
     {
         var household = await store.Read(householdId, cancellationToken);
+
+        if (Request.Headers["HX-Target"].Contains("modal"))
+        {
+            Response.Headers.Append("HX-Push-Url", "false");
+            return new ModalResult(
+                ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl())
+            );
+        }
         return new PageResult(
             ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl()),
             household.Name

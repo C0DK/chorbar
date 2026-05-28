@@ -30,7 +30,7 @@
 
   <div class="ical-section">
     <h4>Calendar integration / Ical link:</h4>
-    <form hx-post="ical/generate">
+    <form hx-post="ical/generate" class="small">
       {% if hasIcalToken %}
       <code>{{icalUrl?}}</code>
       {% end %}

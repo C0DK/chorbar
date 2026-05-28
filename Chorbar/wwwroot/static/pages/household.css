@@ -18,13 +18,14 @@
   &:has(> :nth-child(3)) {
     grid-template-columns: 1fr 1fr 3fr;
 
-    @media (max-width: 1200px) {
-      grid-template-columns: 2fr 2fr;
+    @media (max-width: 800px),
+    (max-height: 800px) {
+      grid-template-columns: 1fr;
     }
   }
 
-  @media (max-width: 600px),
-  (max-height: 600px) {
+  @media (max-width: 800px),
+  (max-height: 800px) {
     grid-template-columns: 1fr;
   }
 
