@@ -48,7 +48,7 @@ internal static class ViewHelpers
             label: label,
             badges: ChoreBadges(chore),
             oobSwap: oob,
-            oobSwapId: oobSwapId
+            oobSwapId: oobSwapId ?? ChoreHtmlId(label)
         );
 
     public static string ChoreHtmlId(string label) => $"chore_{GenerateSlug(label)}";
