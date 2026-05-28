@@ -61,6 +61,13 @@
     function randomInRange(min, max) {
       return Math.random() * (max - min) + min;
     }
+
+    // error handling
+    document.body.addEventListener('htmx:syntax:error', function (e) {
+      console.error('htmx syntax error on element:', e.detail.elt);
+      console.error('error:', e.detail.error);
+      console.error('source:', e.detail.source);
+    });
     document.addEventListener("click", function (e) {
       var btn = e.target.closest(".do button[type=submit]");
       if (!btn) return;
