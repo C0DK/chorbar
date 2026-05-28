@@ -28,70 +28,10 @@
     integrity="sha256-v0JBvHP+9/EcWaKDpp/oBRzdMcbY/1orm6IZ54Mfz3Y=" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <script>
-    htmx.onLoad(function (content) {
-      var sortables = content.querySelectorAll(".sortable");
-      for (var i = 0; i < sortables.length; i++) {
-        var sortable = sortables[i];
-        var group = sortable.dataset.sortableGroup;
-        var sortableInstance = new Sortable(sortable, {
-          animation: 150,
-          group: group,
-          // Make the `.htmx-indicator` unsortable
-          filter: ".htmx-indicator, .no-sort",
-
-          preventOnFilter: false,
-          handle: ".sortable-handle",
-
-          // Disable sorting on the `end` event
-          onAdd: function (evt) {
-            this.option("disabled", true);
-          },
-          onUpdate: function (evt) {
-            this.option("disabled", true);
-          }
-        });
-
-        // Re-enable sorting on the `htmx:afterSwap` event
-        sortable.addEventListener("htmx:afterSwap", function () {
-          sortableInstance.option("disabled", false);
-        });
-      }
-    })
-    function randomInRange(min, max) {
-      return Math.random() * (max - min) + min;
-    }
-    document.addEventListener("click", function (e) {
-      var btn = e.target.closest(".do button[type=submit]");
-      if (!btn) return;
-      var rect = btn.getBoundingClientRect();
-      confetti({
-
-        angle: randomInRange(55, 125),
-        particleCount: randomInRange(50, 100),
-        spread: randomInRange(50, 70),
-        origin: {
-          x: (rect.left + rect.width / 2) / window.innerWidth,
-          y: (rect.top + rect.height / 2) / window.innerHeight
-        },
-        startVelocity: 25,
-        gravity: 1.2,
-        ticks: 150
-      });
-    });
-
-    document.addEventListener("toggle", function (e) {
-      if (!(e.target instanceof HTMLElement) || !e.target.hasAttribute("popover") || !e.target.id != 'modal') return;
-      var open = e.newState === "open";
-      var apply = function () {
-        document.querySelectorAll("body > :not([popover])").forEach(function (el) {
-          el.inert = open;
-        });
-      };
-      if (open) apply();
-      else setTimeout(apply, 30); // sometimes the touch thing is too quick and will click through.
-    }, true);
-  </script>
+  <script src="/static/js/sortable.js?v={{cssHash}}" defer></script>
+  <script src="/static/js/confetti.js?v={{cssHash}}" defer></script>
+  <script src="/static/js/errors.js?v={{cssHash}}" defer></script>
+  <script src="/static/js/modal.js?v={{cssHash}}" defer></script>
 
   <link rel="stylesheet" href="/static/style.css?v={{cssHash}}">
   <title>{{title}}</title>
