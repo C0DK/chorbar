@@ -51,7 +51,28 @@
     content="Agree on how often chores should get done, tick them off, and share the mental load. Open source.">
 </head>
 
-<body hx-ext="sse" hx-headers='{"X-CSRF-TOKEN": "{{csrfToken}}"}'>
+<body hx-ext="sse" hx-headers='{"X-CSRF-TOKEN": "{{csrfToken}}"}'
+  _="on every showToast(message)
+       if no #toasts
+         make a <div#toasts/> called c then put c at the end of body
+       end
+       make a <div.toast/> called t
+       put message into t
+       put t at the start of #toasts
+       if (the scrollHeight of #toasts) > ((the clientHeight of #toasts) + 4)
+         add .scrollable to #toasts
+       end
+       wait 4s
+       add .hide to t
+       wait 400ms
+       remove t
+       if (the scrollHeight of #toasts) <= ((the clientHeight of #toasts) + 4)
+         remove .scrollable from #toasts
+       end
+     on htmx:sendError or htmx:timeout
+       send showToast(message: 'Connection lost — check your network.') to me
+     on htmx:responseError
+       send showToast(message: 'Something went wrong. Please try again.') to me">
 
   {{nav}}
   <main>
