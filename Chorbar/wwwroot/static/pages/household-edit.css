@@ -2,6 +2,11 @@
   gap: var(--space-lg);
   display: grid;
 
+  li {
+    color: var(--color-primary);
+    text-indent: var(--space-sm);
+  }
+
   .ical-section {
     form {
       display: flex;
@@ -16,6 +21,7 @@
         text-overflow: ellipsis;
         border-radius: var(--radius-sm);
         padding: var(--space-sm);
+        max-width: 50dvw;
 
         flex: 1;
         border-top-right-radius: 0;

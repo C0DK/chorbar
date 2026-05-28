@@ -1,23 +1,24 @@
 .sortable-handle {
   cursor: move;
   cursor: -webkit-grabbing;
-  align-self: center;
-  margin-right: var(--space-xs);
 
-  @media (max-width: 600px),
-  (max-height: 600px) {
-    width: 20px;
-    height: 20px;
-    padding: 6px;
-    margin-right: 0;
-    box-sizing: content-box;
-  }
+  &svg {
 
-  @media (max-width: 240px) {
-    width: 22px;
-    height: 22px;
-    padding: 10px;
-    margin-right: 0;
+    @media (max-width: 600px),
+    (max-height: 600px) {
+      width: 20px;
+      height: 20px;
+      padding: 6px;
+      margin-right: 0;
+      box-sizing: content-box;
+    }
+
+    @media (max-width: 240px) {
+      width: 22px;
+      height: 22px;
+      padding: 10px;
+      margin-right: 0;
+    }
   }
 }
 
@@ -27,6 +28,59 @@
 
 #shopping-list,
 #todo-list {
+
+  li {
+    list-style: none;
+
+    &.item {
+      display: flex;
+      gap: var(--space-xs);
+
+      align-items: center;
+      line-height: 1.8;
+      font-size: 1.125rem;
+
+      @media (max-width: 600px),
+      (max-height: 600px) {
+        line-height: 1.5;
+        font-size: 1.1rem;
+      }
+
+      &:not(.checked) {
+
+        label,
+        span {
+          color: var(--color-primary);
+        }
+      }
+
+      span,
+      form.rename-item {
+        display: block;
+      }
+
+      >form {
+        display: contents;
+      }
+
+      &.checked {
+        input[type="checkbox"]:checked {
+          background: var(--color-muted);
+          border-color: var(--color-muted);
+        }
+
+        label,
+        span {
+          color: var(--color-muted);
+          text-decoration: line-through;
+
+        }
+      }
+
+    }
+
+  }
+
   ol .checked {
     max-height: 5rem;
     overflow-y: auto;
@@ -138,53 +192,5 @@
     }
   }
 
-  li {
-    list-style: none;
 
-    .item {
-      &:not(.checked) {
-
-        label,
-        span {
-          color: var(--color-primary);
-        }
-      }
-
-      span,
-      form.rename-item {
-        display: block;
-        margin-left: var(--space-sm);
-      }
-
-      >form {
-        display: contents;
-      }
-
-      &.checked {
-        input[type="checkbox"]:checked {
-          background: var(--color-muted);
-          border-color: var(--color-muted);
-        }
-
-        label,
-        span {
-          color: var(--color-muted);
-          text-decoration: line-through;
-
-        }
-      }
-
-      display: flex;
-      align-items: center;
-      line-height: 1.8;
-      font-size: 1.125rem;
-
-      @media (max-width: 600px),
-      (max-height: 600px) {
-        line-height: 1.5;
-        font-size: 1.1rem;
-      }
-    }
-
-  }
 }

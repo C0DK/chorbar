@@ -5,6 +5,8 @@
   box-shadow: var(--shadow-sm);
   padding: var(--space-lg);
   margin: auto;
+  max-height: 80dvh;
+  overflow-y: auto;
 
   @media (max-width: 600px),
   (max-height: 600px) {
@@ -30,6 +32,8 @@
     gap: var(--space-md);
   }
 }
-[inert], [inert] * {
+
+[inert],
+[inert] * {
   pointer-events: none !important;
 }
