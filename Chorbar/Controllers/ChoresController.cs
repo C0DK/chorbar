@@ -62,7 +62,7 @@ public class ChoresController(IHouseholdStore store) : SpecificHouseholdControll
         CancellationToken cancellationToken
     )
     {
-        if (string.IsNullOrWhiteSpace(newLabel) || newLabel == oldLabel)
+        if (string.IsNullOrWhiteSpace(newLabel) || newLabel.Trim() == oldLabel.Trim())
         {
             var current = await Get(cancellationToken);
             var chore = current.Chores.GetValueOrDefault(oldLabel);
@@ -70,7 +70,10 @@ public class ChoresController(IHouseholdStore store) : SpecificHouseholdControll
                 return Results.NotFound();
 
             // TODO: should get new old id!
-            return new PartialResult(ViewHelpers.ChoreCard(oldLabel, chore));
+            return new PartialResult(
+                new EditChoreRenameForm(label: newLabel)
+                    + ViewHelpers.ChoreCard(newLabel, chore, oob: true)
+            );
         }
 
         var household = await Write(new RenameChore(oldLabel, newLabel), cancellationToken);
