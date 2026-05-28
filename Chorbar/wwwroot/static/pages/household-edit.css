@@ -10,6 +10,7 @@
   .ical-section {
     form {
       display: flex;
+      max-width: 100%;
 
       code {
         display: block;
@@ -21,7 +22,7 @@
         text-overflow: ellipsis;
         border-radius: var(--radius-sm);
         padding: var(--space-sm);
-        max-width: 50dvw;
+        max-width: 70dvw;
 
         flex: 1;
         border-top-right-radius: 0;
