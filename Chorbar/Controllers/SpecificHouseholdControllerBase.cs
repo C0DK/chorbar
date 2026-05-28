@@ -5,21 +5,21 @@ namespace Chorbar.Controllers;
 
 public abstract class SpecificHouseholdControllerBase(IHouseholdStore store) : Controller
 {
-    private readonly IHouseholdStore _store = store;
+    protected IHouseholdStore Store { get; } = store;
 
     [FromRoute]
     public HouseholdId HouseholdId { get; set; }
 
     protected ValueTask<Household> Get(CancellationToken cancellationToken) =>
-        _store.Read(HouseholdId, cancellationToken);
+        Store.Read(HouseholdId, cancellationToken);
 
     protected ValueTask<Household> Write(
         HouseholdEventPayload payload,
         CancellationToken cancellationToken
-    ) => _store.Write(HouseholdId, payload, cancellationToken);
+    ) => Store.Write(HouseholdId, payload, cancellationToken);
 
     protected ValueTask<Household> Write(
         IEnumerable<HouseholdEventPayload> payloads,
         CancellationToken cancellationToken
-    ) => _store.Write(HouseholdId, payloads, cancellationToken);
+    ) => Store.Write(HouseholdId, payloads, cancellationToken);
 }

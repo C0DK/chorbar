@@ -1,0 +1,17 @@
+<h2> Select household </h2>
+
+<div id="householdSelector">
+  {{..households}}
+
+  <span class="createNew">
+    <a class="btn" href="/household/new" hx-boost="true">
+      Create new
+    </a>
+  </span>
+</div>
+<h2> Settings </h2>
+<label for="displayName">Set display name</label>
+<form class="inputWithButton" hx-post="chore/rename" hx-target="this" hx-swap="outerHTML">
+  <input type="text" name="displayName" id="displayName" Value="{{displayName?}}" placeholder="{{email}}" required>
+  <button type="submit" class="small" title="Save" aria-label="Save">Update</button>
+</form>

@@ -8,7 +8,8 @@ namespace Chorbar.Tests.Integration;
 public class DatabaseFixture
 {
     static PostgreSqlContainer? _container;
-    public static NpgsqlDataSource DataSource => NpgsqlDataSource.Create(ConnectionString);
+    static NpgsqlDataSource? _dataSource;
+    public static NpgsqlDataSource DataSource => _dataSource ?? throw new NullReferenceException();
 
     internal static string ConnectionString =>
         _container?.GetConnectionString()
@@ -18,12 +19,12 @@ public class DatabaseFixture
     public async Task StartContainer()
     {
         _container = new PostgreSqlBuilder().WithImage("postgres:16-alpine").Build();
-
         await _container.StartAsync();
-        var conn = new NpgsqlConnection(DatabaseFixture.ConnectionString);
+        await using var conn = new NpgsqlConnection(DatabaseFixture.ConnectionString);
         await conn.OpenAsync();
         await using var cmd = new NpgsqlCommand(Sql.init, conn);
         await cmd.ExecuteNonQueryAsync();
+        _dataSource = NpgsqlDataSource.Create(ConnectionString);
     }
 
     [OneTimeTearDown]
@@ -31,5 +32,7 @@ public class DatabaseFixture
     {
         if (_container is not null)
             await _container.DisposeAsync();
+        if (_dataSource is not null)
+            await _dataSource.DisposeAsync();
     }
 }

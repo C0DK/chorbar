@@ -103,6 +103,7 @@ else
     builder.Services.AddTransient<IMailSender, LogMailer>();
 }
 builder.Services.AddTransient<HouseholdStore>();
+builder.Services.AddTransient<UserStore>();
 builder.Services.AddTransient<DemoHouseholdStore>();
 builder.Services.AddTransient<IHouseholdStore, RoutingHouseholdStore>();
 builder.Services.AddHttpClient();
