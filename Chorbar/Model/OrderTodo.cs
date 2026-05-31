@@ -13,7 +13,7 @@ public record OrderTodo(ImmutableArray<int> ItemIds) : HouseholdEventPayload
     public override bool IsValid(Household household, DateTimeOffset now) =>
         ItemIds.All(itemId => household.Todos.Any(item => item.Id == itemId));
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             Todos = household

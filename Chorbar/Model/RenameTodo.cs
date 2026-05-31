@@ -13,7 +13,7 @@ public record RenameTodo(int Id, string NewLabel) : HouseholdEventPayload
     public override bool IsValid(Household household, DateTimeOffset now) =>
         household.TodoListEnabled && household.Todos.Any(todo => todo.Id == Id);
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             Todos = household

@@ -12,7 +12,7 @@ public record SetGoal(string Chore, int Numerator, DateUnit Unit) : HouseholdEve
     public override bool IsValid(Household household, DateTimeOffset now) =>
         household.Chores.ContainsKey(Chore);
 
-    public override Household Apply(Household household, DateTimeOffset timestamp)
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp)
     {
         var chore = household.Chores[Chore];
         return household with

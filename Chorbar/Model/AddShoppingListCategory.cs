@@ -13,7 +13,7 @@ public record AddShoppingListCategory(string Category) : HouseholdEventPayload
         !string.IsNullOrWhiteSpace(Category)
         && !household.ShoppingListCategories.Contains(Category);
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             ShoppingListCategories = household.ShoppingListCategories.Add(Category.Trim()),

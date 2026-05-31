@@ -14,7 +14,7 @@ public record SetShoppingListItemCategory(int ItemId, string? Category) : Househ
         household.ShoppingListItems.Any(item => item.Id == ItemId)
         && (Category is null || household.ShoppingListCategories.Contains(Category));
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             ShoppingListItems = household

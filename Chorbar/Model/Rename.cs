@@ -12,7 +12,7 @@ public record Rename(string NewName) : HouseholdEventPayload
     public override bool IsValid(Household household, DateTimeOffset now) =>
         !string.IsNullOrWhiteSpace(NewName);
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             Name = NewName.Trim(),

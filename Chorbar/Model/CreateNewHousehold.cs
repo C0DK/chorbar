@@ -14,6 +14,6 @@ public record CreateNewHousehold(string Name) : HouseholdEventPayload
     public override bool IsValid(Household household, DateTimeOffset now) =>
         throw new InvalidOperationException();
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         throw new InvalidOperationException();
 }

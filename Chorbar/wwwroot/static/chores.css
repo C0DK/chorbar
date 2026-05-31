@@ -136,6 +136,17 @@
 
 
 .chore-activity {
+  display: flex;
+  gap: var(--space-sm);
+
+  div {
+    color: var(--color-primary);
+  }
+
+  p {
+    margin: 0;
+  }
+
   form {
     display: inline;
 
@@ -147,6 +158,18 @@
       color: var(--color-primary);
       font-size: var(--font-size-xs);
     }
+  }
+
+  .date {
+    font-size: var(--font-size-xs);
+    color: var(--color-secondary);
+
+  }
+
+  .user {
+    font-size: var(--font-size-xs);
+    color: var(--color-secondary);
+
   }
 }
 
@@ -166,7 +189,7 @@
     max-height: 10dvh;
 
     @media (max-width: 800px) {
-      max-height: 5rem;
+      max-height: 7rem;
     }
 
     overflow-y: auto;

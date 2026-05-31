@@ -13,7 +13,7 @@ public record AddPastChoreCompletion(string Label, DateOnly When) : HouseholdEve
     public override bool IsValid(Household household, DateTimeOffset now) =>
         household.Chores.ContainsKey(Label) && MidnightOn(When) <= now;
 
-    public override Household Apply(Household household, DateTimeOffset timestamp)
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp)
     {
         var chore = household.Chores[Label];
         return household with
@@ -23,7 +23,7 @@ public record AddPastChoreCompletion(string Label, DateOnly When) : HouseholdEve
                 chore with
                 {
                     History = chore
-                        .History.Add(MidnightOn(When))
+                        .History.Add((MidnightOn(When), actor.Value))
                         .OrderBy(a => a)
                         .ToImmutableArray(),
                 }

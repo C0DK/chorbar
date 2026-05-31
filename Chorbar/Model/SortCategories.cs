@@ -13,7 +13,7 @@ public record SortCategories(ImmutableArray<string> Categories) : HouseholdEvent
     public override bool IsValid(Household household, DateTimeOffset now) =>
         Categories.All(category => household.ShoppingListCategories.Contains(category));
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             ShoppingListCategories = Categories,

@@ -11,7 +11,7 @@ public record AddMember(Email User) : HouseholdEventPayload
 
     public override bool IsValid(Household household, DateTimeOffset now) => true;
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             Members = household.Members.Add(User),

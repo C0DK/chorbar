@@ -7,7 +7,7 @@ public class FrequencyTests : TestFixture
     [Test]
     public void Simple()
     {
-        var subject = new Chore(t(0), [t(1), t(2)]);
+        var subject = new Chore(t(0), [ht(1), ht(2)]);
 
         Assert.That(subject.Frequency(), Is.EqualTo(TimeSpan.FromMinutes(1)));
     }
@@ -15,7 +15,7 @@ public class FrequencyTests : TestFixture
     [Test]
     public void Irregular()
     {
-        var subject = new Chore(t(0), [t(5), t(15), t(25)]);
+        var subject = new Chore(t(0), [ht(5), ht(15), ht(25)]);
 
         Assert.That(subject.Frequency(), Is.EqualTo(TimeSpan.FromMinutes(10)));
     }

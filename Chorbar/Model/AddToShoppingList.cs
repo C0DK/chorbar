@@ -13,7 +13,7 @@ public record AddToShoppingList(string Label, string? category = null) : Househo
         !string.IsNullOrWhiteSpace(Label)
         && (category is null || household.ShoppingListCategories.Contains(category));
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             ShoppingListNextId = household.ShoppingListNextId + 1,

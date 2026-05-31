@@ -111,7 +111,10 @@ public class HouseholdStoreTest
         Assert.Multiple(() =>
         {
             Assert.That(household.Chores.Keys, Is.EquivalentTo(["Sleep"]));
-            Assert.That(household.Chores["Sleep"], Is.EqualTo(new Chore(t(0), [t(1)])));
+            Assert.That(
+                household.Chores["Sleep"],
+                Is.EqualTo(new Chore(t(0), [(t(1), _userA.Value)]))
+            );
         });
     }
 
@@ -133,7 +136,10 @@ public class HouseholdStoreTest
         Assert.Multiple(() =>
         {
             Assert.That(household.Chores.Keys, Is.EquivalentTo(["Sleep"]));
-            Assert.That(household.Chores["Sleep"], Is.EqualTo(new Chore(t(0), [t(2)])));
+            Assert.That(
+                household.Chores["Sleep"],
+                Is.EqualTo(new Chore(t(0), [(t(2), _userA.Value)]))
+            );
         });
     }
 
@@ -157,8 +163,11 @@ public class HouseholdStoreTest
         Assert.Multiple(() =>
         {
             Assert.That(household.Chores.Keys, Is.EquivalentTo(["A", "B"]));
-            Assert.That(household.Chores["A"], Is.EqualTo(new Chore(t(0), [t(1), t(3)])));
-            Assert.That(household.Chores["B"], Is.EqualTo(new Chore(t(2), [t(4)])));
+            Assert.That(
+                household.Chores["A"],
+                Is.EqualTo(new Chore(t(0), [(t(1), _userA.Value), (t(3), _userA.Value)]))
+            );
+            Assert.That(household.Chores["B"], Is.EqualTo(new Chore(t(2), [(t(4), _userA.Value)])));
         });
     }
 
@@ -178,7 +187,7 @@ public class HouseholdStoreTest
             Assert.That(household.Chores.Keys, Is.EquivalentTo(["A"]));
             Assert.That(
                 household.Chores["A"],
-                Is.EqualTo(new Chore(t(0), [t(2)], Goal: new Goal(2, DateUnit.Day)))
+                Is.EqualTo(new Chore(t(0), [(t(2), _userA.Value)], Goal: new Goal(2, DateUnit.Day)))
             );
         });
     }
@@ -243,8 +252,14 @@ public class HouseholdStoreTest
         {
             Assert.That(householdA.Chores.Keys, Is.EquivalentTo(["A"]));
             Assert.That(householdB.Chores.Keys, Is.EquivalentTo(["A", "B"]));
-            Assert.That(householdA.Chores["A"], Is.EqualTo(new Chore(t(0), [t(1)])));
-            Assert.That(householdB.Chores["A"], Is.EqualTo(new Chore(t(2), [t(3)])));
+            Assert.That(
+                householdA.Chores["A"],
+                Is.EqualTo(new Chore(t(0), [(t(1), _userA.Value)]))
+            );
+            Assert.That(
+                householdB.Chores["A"],
+                Is.EqualTo(new Chore(t(2), [(t(3), _userB.Value)]))
+            );
             Assert.That(householdB.Chores["B"], Is.EqualTo(new Chore(t(4), [])));
         });
     }
@@ -640,7 +655,10 @@ public class HouseholdStoreTest
         );
 
         var expectedMidnight = new DateTimeOffset(yesterday, TimeOnly.MinValue, TimeSpan.Zero);
-        Assert.That(household.Chores["Sleep"].History, Is.EquivalentTo([expectedMidnight]));
+        Assert.That(
+            household.Chores["Sleep"].History,
+            Is.EquivalentTo([(expectedMidnight, _userA.Value)])
+        );
     }
 
     [Test, CancelAfter(10_000)]
@@ -695,7 +713,10 @@ public class HouseholdStoreTest
 
         var expectedMidnight = new DateTimeOffset(yesterday, TimeOnly.MinValue, TimeSpan.Zero);
         Assert.That(household.Chores["Sleep"].History, Has.Length.EqualTo(2));
-        Assert.That(household.Chores["Sleep"].History, Contains.Item(expectedMidnight));
+        Assert.That(
+            household.Chores["Sleep"].History,
+            Contains.Item((expectedMidnight, _userA.Value))
+        );
     }
 
     private static TimeSpan _timeStep = TimeSpan.FromMinutes(1);

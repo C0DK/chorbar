@@ -13,7 +13,7 @@ public record DeleteShoppingListCategory(string Category) : HouseholdEventPayloa
     public override bool IsValid(Household household, DateTimeOffset now) =>
         household.ShoppingListCategories.Contains(Category);
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             ShoppingListCategories = household.ShoppingListCategories.Remove(Category),

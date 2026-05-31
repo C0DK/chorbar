@@ -12,7 +12,7 @@ public record DoChore(string Label) : HouseholdEventPayload
     public override bool IsValid(Household household, DateTimeOffset now) =>
         household.Chores.ContainsKey(Label);
 
-    public override Household Apply(Household household, DateTimeOffset timestamp)
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp)
     {
         var chore = household.Chores[Label];
         return household with
@@ -21,7 +21,7 @@ public record DoChore(string Label) : HouseholdEventPayload
                 Label,
                 chore with
                 {
-                    History = chore.History.Add(timestamp),
+                    History = chore.History.Add((timestamp, actor)),
                 }
             ),
         };

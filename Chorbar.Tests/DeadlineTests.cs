@@ -14,8 +14,8 @@ public class DeadlineTests
         var subject = new Chore(
             new DateTimeOffset(2026, 01, 01, 00, 00, 00, TimeSpan.Zero),
             [
-                new DateTimeOffset(2026, 05, 19, 19, 00, 00, TimeSpan.Zero),
-                new DateTimeOffset(2026, 05, 22, 16, 00, 00, TimeSpan.Zero),
+                (new DateTimeOffset(2026, 05, 19, 19, 00, 00, TimeSpan.Zero), "test@test.dk"),
+                (new DateTimeOffset(2026, 05, 22, 16, 00, 00, TimeSpan.Zero), "test@test.dk"),
             ],
             new Goal(3, DateUnit.Day)
         );
