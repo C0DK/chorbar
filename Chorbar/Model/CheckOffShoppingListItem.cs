@@ -13,7 +13,7 @@ public record CheckOffShoppingListItem(int ItemId) : HouseholdEventPayload
     public override bool IsValid(Household household, DateTimeOffset now) =>
         household.ShoppingListItems.Any(item => item.Id == ItemId);
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             ShoppingListItems = household

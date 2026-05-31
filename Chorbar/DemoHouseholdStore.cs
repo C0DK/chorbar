@@ -87,12 +87,12 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         Created: now.AddDays(-42),
                         History:
                         [
-                            now.AddDays(-35),
-                            now.AddDays(-28),
-                            now.AddDays(-21),
-                            now.AddDays(-14),
-                            now.AddDays(-7),
-                            now.AddDays(-1),
+                            (now.AddDays(-35), "Bob"),
+                            (now.AddDays(-28), "Bob"),
+                            (now.AddDays(-21), "Alice"),
+                            (now.AddDays(-14), "Alice"),
+                            (now.AddDays(-7), "Alice"),
+                            (now.AddDays(-1), "Alice"),
                         ],
                         Goal: new Goal(1, DateUnit.Week)
                     )
@@ -101,7 +101,12 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                     "Clean bathroom",
                     new Chore(
                         Created: now.AddDays(-56),
-                        History: [now.AddDays(-42), now.AddDays(-28), now.AddDays(-14)],
+                        History:
+                        [
+                            (now.AddDays(-42), "Bob"),
+                            (now.AddDays(-28), "Alice"),
+                            (now.AddDays(-14), "Alice"),
+                        ],
                         Goal: new Goal(2, DateUnit.Week)
                     )
                 )
@@ -111,11 +116,11 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         Created: now.AddDays(-18),
                         History:
                         [
-                            now.AddDays(-15),
-                            now.AddDays(-12),
-                            now.AddDays(-9),
-                            now.AddDays(-6),
-                            now.AddDays(-3),
+                            (now.AddDays(-15), "Bob"),
+                            (now.AddDays(-12), "Bob"),
+                            (now.AddDays(-9), "Alice"),
+                            (now.AddDays(-6), "Alice"),
+                            (now.AddDays(-3), "Alice"),
                         ],
                         Goal: new Goal(3, DateUnit.Day)
                     )
@@ -124,7 +129,12 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                     "Water plants",
                     new Chore(
                         Created: now.AddDays(-28),
-                        History: [now.AddDays(-21), now.AddDays(-14), now.AddDays(-5)],
+                        History:
+                        [
+                            (now.AddDays(-21), "Bob"),
+                            (now.AddDays(-14), "Alice"),
+                            (now.AddDays(-5), "Alice"),
+                        ],
                         Goal: new Goal(1, DateUnit.Week)
                     )
                 )
@@ -132,7 +142,7 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                     "Mop kitchen floor",
                     new Chore(
                         Created: now.AddDays(-45),
-                        History: [now.AddDays(-30)],
+                        History: [(now.AddDays(-30), "Alice")],
                         Goal: new Goal(2, DateUnit.Week)
                     )
                 )
@@ -142,10 +152,10 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         Created: now.AddDays(-60),
                         History:
                         [
-                            now.AddDays(-46),
-                            now.AddDays(-32),
-                            now.AddDays(-18),
-                            now.AddDays(-4),
+                            (now.AddDays(-46), "Bob"),
+                            (now.AddDays(-32), "Alice"),
+                            (now.AddDays(-18), "Alice"),
+                            (now.AddDays(-4), "Bob"),
                         ],
                         Goal: new Goal(2, DateUnit.Week)
                     )

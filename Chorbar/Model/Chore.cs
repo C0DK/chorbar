@@ -4,7 +4,7 @@ namespace Chorbar.Model;
 
 public record Chore(
     DateTimeOffset Created,
-    ImmutableArray<DateTimeOffset> History,
+    ImmutableArray<(DateTimeOffset Timestamp, string User)> History,
     Goal? Goal = null
 )
 {
@@ -22,7 +22,7 @@ public record Chore(
     // TODO: set "do we achieve match goal"
     public IEnumerable<TimeSpan> Intervals()
     {
-        var sorted = History.Append(Created).OrderBy(t => t).ToList();
+        var sorted = History.Select(t => t.Timestamp).Append(Created).OrderBy(t => t).ToList();
         if (sorted.Count < 2)
             return [];
 
@@ -38,7 +38,8 @@ public record Chore(
         return intervals[intervals.Length / 2];
     }
 
-    public DateOnly? Deadline() => Goal?.Deadline(History.IsEmpty ? Created : History.Last());
+    public DateOnly? Deadline() =>
+        Goal?.Deadline(History.IsEmpty ? Created : History.Last().Timestamp);
 
     public TimeSpan WorstFrequency() => Intervals().LastOrDefault(TimeSpan.Zero);
 
@@ -50,8 +51,8 @@ public record Chore(
 
         foreach (var activity in History.OrderByDescending(a => a))
         {
-            if (Goal.IsWithinInterval(activity, streakStart))
-                streakStart = activity;
+            if (Goal.IsWithinInterval(activity.Timestamp, streakStart))
+                streakStart = activity.Timestamp;
             else
                 break;
         }

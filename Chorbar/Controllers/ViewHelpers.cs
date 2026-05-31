@@ -139,10 +139,12 @@ internal static class ViewHelpers
             label: label,
             actions: chore
                 .History.OrderByDescending(t => t)
-                .Select(timestamp => new ChoreActivity(
-                    timeAgo: TimeAgo(timestamp),
-                    timestamp: timestamp.ToString("O"),
-                    label: label
+                .Select(a => new ChoreActivity(
+                    timeAgo: TimeAgo(a.Timestamp),
+                    timestamp: a.Timestamp.ToString("O"),
+                    date: a.Timestamp.ToString("yyyy-MM-dd HH:mm"),
+                    label: label,
+                    user: a.User
                 )),
             // badges are annoying to update for the form..
             //badges: ChoreBadges(chore),
@@ -166,9 +168,9 @@ internal static class ViewHelpers
             { TotalMinutes: < 2 } => "a few seconds ago",
             { TotalMinutes: < 121 } => $"{span.TotalMinutes:N0} minutes ago",
             { TotalHours: < 4 } => $"{span.TotalHours:N0} hours ago",
-            _ when date == today.AddDays(-1) => $"Yesterday at {timestamp:HH:mm}",
+            _ when date == today.AddDays(-1) => $"Yesterday",
             { TotalHours: < 40 } => $"{span.TotalHours:N0} hours ago",
-            _ when date >= today.AddDays(-6) => $"{date:dddd} at {timestamp:HH:mm}",
+            _ when date >= today.AddDays(-6) => $"{date:dddd}",
 
             { TotalDays: < 14 } => $"{span.TotalDays:N0} days ago",
             { TotalDays: < 100 } when today.Year == date.Year => $"{timestamp.Value:d MMMM}",

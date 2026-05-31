@@ -40,7 +40,7 @@ public abstract record HouseholdEventPayload
 
     public abstract bool IsValid(Household household, DateTimeOffset now);
 
-    public abstract Household Apply(Household household, DateTimeOffset timestamp);
+    public abstract Household Apply(Household household, Email actor, DateTimeOffset timestamp);
 
     public string Serialize() => JsonSerializer.Serialize(this);
 

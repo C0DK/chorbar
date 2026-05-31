@@ -13,7 +13,7 @@ public record RemoveChore(string Label) : HouseholdEventPayload
     public override bool IsValid(Household household, DateTimeOffset now) =>
         household.Chores.ContainsKey(Label);
 
-    public override Household Apply(Household household, DateTimeOffset timestamp) =>
+    public override Household Apply(Household household, Email actor, DateTimeOffset timestamp) =>
         household with
         {
             Chores = household.Chores.Remove(Label),

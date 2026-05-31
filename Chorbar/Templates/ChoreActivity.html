@@ -1,9 +1,12 @@
 <li class="chore-activity">
-  <form hx-post="chore/undo"
-    hx-confirm="Are you sure you want to undo the {{timeAgo}} activity?">
+  <form hx-post="chore/undo" hx-confirm="Are you sure you want to undo the {{timeAgo}} activity?">
     <input type="hidden" Value="{{label}}" name="label" />
     <input type="hidden" Value="{{timestamp}}" name="timestamp" />
     <button type="submit">❌</button>
   </form>
-  {{timeAgo}}
+  <div>
+    {{timeAgo}}
+    <span class="user">by {{user}}</span>
+    <p class="date">{{date}}</p>
+  </div>
 </li>

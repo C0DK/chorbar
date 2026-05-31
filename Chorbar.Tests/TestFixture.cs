@@ -9,4 +9,8 @@ public class TestFixture
 
     public static DateTimeOffset d(int days) =>
         new DateTimeOffset(2024, 01, 01, 0, 0, 0, TimeSpan.Zero).AddDays(days);
+
+    public static (DateTimeOffset Timestamp, string User) h(int days) => (d(days), "test@test.dk");
+
+    public static (DateTimeOffset Timestamp, string User) ht(int i) => (t(i), "test@test.dk");
 }

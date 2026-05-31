@@ -15,7 +15,7 @@ public class StreakTests : TestFixture
     [Test]
     public void OneBefore2Streak()
     {
-        var subject = new Chore(d(0), [d(0), d(5)], Goal: new Goal(5, DateUnit.Day));
+        var subject = new Chore(d(0), [h(0), h(5)], Goal: new Goal(5, DateUnit.Day));
 
         Assert.That(subject.Streak(d(7)), Is.Null);
     }
@@ -23,7 +23,7 @@ public class StreakTests : TestFixture
     [Test]
     public void WithinGoal()
     {
-        var subject = new Chore(d(0), [d(0), d(5), d(10)], Goal: new Goal(5, DateUnit.Day));
+        var subject = new Chore(d(0), [h(0), h(5), h(10)], Goal: new Goal(5, DateUnit.Day));
 
         Assert.That(subject.Streak(d(11)), Is.EqualTo(new Streak(11, DateUnit.Day)));
     }
@@ -31,7 +31,7 @@ public class StreakTests : TestFixture
     [Test]
     public void WithinGoalByLatency()
     {
-        var subject = new Chore(d(0), [d(0), d(5), d(10)], Goal: new Goal(5, DateUnit.Day));
+        var subject = new Chore(d(0), [h(0), h(5), h(10)], Goal: new Goal(5, DateUnit.Day));
 
         Assert.That(subject.Streak(d(16)), Is.EqualTo(new Streak(16, DateUnit.Day)));
     }
@@ -39,7 +39,7 @@ public class StreakTests : TestFixture
     [Test]
     public void StreakBroken()
     {
-        var subject = new Chore(d(0), [d(0), d(5), d(10)], Goal: new Goal(5, DateUnit.Day));
+        var subject = new Chore(d(0), [h(0), h(5), h(10)], Goal: new Goal(5, DateUnit.Day));
 
         // a bit of leway
         Assert.That(subject.Streak(d(18)), Is.Null);
@@ -51,13 +51,13 @@ public class StreakTests : TestFixture
         var subject = new Chore(
             d(0),
             [
-                d(0),
-                d(5),
-                d(10),
+                h(0),
+                h(5),
+                h(10),
                 // broken!
-                d(20),
-                d(25),
-                d(30),
+                h(20),
+                h(25),
+                h(30),
             ],
             Goal: new Goal(5, DateUnit.Day)
         );
@@ -68,7 +68,7 @@ public class StreakTests : TestFixture
     [Test]
     public void GoalInWeeks_NumeratorInWeeks()
     {
-        var subject = new Chore(d(0), [d(7), d(14), d(21)], new Goal(1, DateUnit.Week));
+        var subject = new Chore(d(0), [h(7), h(14), h(21)], new Goal(1, DateUnit.Week));
 
         Assert.That(subject.Streak(d(21)), Is.EqualTo(new Streak(2, DateUnit.Week)));
     }
@@ -77,7 +77,7 @@ public class StreakTests : TestFixture
     public void GoalInMonths_NumeratorInMonths()
     {
         // streak started at d(30), now = d(90) → 60 days → 2m
-        var subject = new Chore(d(0), [d(30), d(60), d(90)], new Goal(1, DateUnit.Month));
+        var subject = new Chore(d(0), [h(30), h(60), h(90)], new Goal(1, DateUnit.Month));
 
         Assert.That(subject.Streak(d(90)), Is.EqualTo(new Streak(2, DateUnit.Month)));
     }
@@ -88,9 +88,9 @@ public class StreakTests : TestFixture
         var subject = new Chore(
             new DateTimeOffset(2026, 01, 01, 00, 00, 00, TimeSpan.Zero),
             [
-                new DateTimeOffset(2026, 05, 19, 19, 00, 00, TimeSpan.Zero),
-                new DateTimeOffset(2026, 05, 22, 16, 00, 00, TimeSpan.Zero),
-                new DateTimeOffset(2026, 05, 26, 19, 00, 00, TimeSpan.Zero),
+                (new DateTimeOffset(2026, 05, 19, 19, 00, 00, TimeSpan.Zero), "test@test.dk"),
+                (new DateTimeOffset(2026, 05, 22, 16, 00, 00, TimeSpan.Zero), "test@test.dk"),
+                (new DateTimeOffset(2026, 05, 26, 19, 00, 00, TimeSpan.Zero), "test@test.dk"),
             ],
             new Goal(3, DateUnit.Day)
         );

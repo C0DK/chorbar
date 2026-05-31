@@ -9,7 +9,7 @@ public record HouseholdEvent(
 )
 {
     public Household Apply(Household household) =>
-        Payload.Apply(household, Timestamp) with
+        Payload.Apply(household, CreatedBy, Timestamp) with
         {
             History = household.History.Add(this),
         };
