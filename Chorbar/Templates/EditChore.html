@@ -1,4 +1,4 @@
-<article id="chore-editor">
+<article id="chore-editor" hx-target="#modal" hx-swap="outerHTML">
   <h2> Edit Chore</h2>
   {{renameForm}}
   <h3>History</h3>
@@ -6,7 +6,7 @@
     {{..actions}}
   </ol>
 
-  <form hx-post="chore/do_past" hx-target="#chore-editor" hx-swap="outerHTML">
+  <form hx-post="chore/do_past">
     <h3>Add past activity</h3>
     <input type="hidden" Value="{{label}}" name="label" />
     <fieldset class="inputWithButton small">

@@ -113,7 +113,11 @@ public class ChoresController(IHouseholdStore store) : SpecificHouseholdControll
     {
         var household = await Write(new UndoChore(label, timestamp), cancellationToken);
         var chore = household.Chores[label];
-        return new PageResult(ViewHelpers.ChoreCard(label, chore));
+
+        return new ModalResult(
+            ViewHelpers.EditChore(label, chore),
+            ViewHelpers.ChoreCard(label, chore, oob: true)
+        );
     }
 
     [HttpPost("do_past")]
@@ -125,7 +129,10 @@ public class ChoresController(IHouseholdStore store) : SpecificHouseholdControll
     {
         var household = await Write(new AddPastChoreCompletion(label, when), cancellationToken);
         var chore = household.Chores[label];
-        return new PartialResult(ViewHelpers.EditChore(label, chore));
+        return new ModalResult(
+            ViewHelpers.EditChore(label, chore),
+            ViewHelpers.ChoreCard(label, chore, oob: true)
+        );
     }
 
     // TODO: swap is janky..

@@ -2,7 +2,7 @@ using Chorbar.Templates;
 
 namespace Chorbar.Utils;
 
-public class ModalResult(string content) : IResult
+public class ModalResult(string content, string? oob = null) : IResult
 {
     public Task ExecuteAsync(HttpContext httpContext)
     {
@@ -13,6 +13,7 @@ public class ModalResult(string content) : IResult
         response.StatusCode = StatusCodes.Status200OK;
         response.ContentType = "text/html";
 
-        return response.WriteAsync(new Modal(content: content));
+        // if already modal, then do an inner maybe? .. :)
+        return response.WriteAsync(new Modal(content: content) + (oob ?? ""));
     }
 }
