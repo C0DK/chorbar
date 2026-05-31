@@ -1,12 +1,16 @@
-<article id="chore-editor">
-  <h2> Edit Chore</h2>
-  {{renameForm}}
+<article id="chore-editor" hx-target="#modal" hx-swap="outerHTML">
+  <h2> {{label}}</h2>
+  <form class="inputWithButton" hx-post="chore/rename" hx-target="this" hx-swap="outerHTML">
+    <input type="hidden" name="oldLabel" Value="{{label}}">
+    <input type="text" name="newLabel" Value="{{label}}" required>
+    <button type="submit" class="small" title="Save" aria-label="Save">Update</button>
+  </form>
   <h3>History</h3>
   <ol class="activities">
     {{..actions}}
   </ol>
 
-  <form hx-post="chore/do_past" hx-target="#chore-editor" hx-swap="outerHTML">
+  <form hx-post="chore/do_past">
     <h3>Add past activity</h3>
     <input type="hidden" Value="{{label}}" name="label" />
     <fieldset class="inputWithButton small">

@@ -46,6 +46,8 @@ public static class IcalBuilder
 
     private static string FormatDate(DateTimeOffset dt) => dt.UtcDateTime.ToString("yyyyMMdd");
 
+    private static string FormatDate(DateOnly dt) => dt.ToString("yyyyMMdd");
+
     private static string EscapeText(string text) =>
         text.Replace("\\", "\\\\", StringComparison.InvariantCultureIgnoreCase)
             .Replace(";", "\\;", StringComparison.InvariantCultureIgnoreCase)

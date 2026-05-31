@@ -40,7 +40,7 @@ internal static class ViewHelpers
             order: Convert
                 .ToInt32(
                     (
-                        (chore.Deadline() ?? (DateTimeOffset.UtcNow.AddDays(3)))
+                        (chore.Deadline()?.GetMidnightUtc() ?? DateTimeOffset.UtcNow.AddDays(3))
                         - DateTimeOffset.UtcNow
                     ).TotalMinutes
                 )
@@ -73,7 +73,7 @@ internal static class ViewHelpers
             var deadline = chore.Deadline();
             yield return new ChoreBadge(
                 content: $"📅 {DeadlineText(deadline)}",
-                additionalClasses: (deadline - DateTimeOffset.UtcNow) < TimeSpan.FromHours(30)
+                additionalClasses: (deadline?.DaysUntil(DateTimeOffset.Now.GetCalendarDate())) < 3
                     ? ["emphasis"]
                     : Array.Empty<string>()
             );
@@ -98,43 +98,38 @@ internal static class ViewHelpers
         }
     }
 
-    public static string DeadlineText(DateTimeOffset? deadline)
+    public static string DeadlineText(DateOnly? deadline) =>
+        DeadlineText(deadline, TimeProvider.System);
+
+    public static string DeadlineText(DateOnly? deadline, TimeProvider provider)
     {
         if (deadline is null)
             return "never";
-        var now = DateTimeOffset.Now;
-        var deadlineLocal = deadline.Value.ToLocalTime();
-        var today = now.Date;
-        var deadlineDate = deadlineLocal.Date;
+        var today = provider.Today();
 
-        if (deadlineDate < today)
+        var overdue = deadline.Value.DaysUntil(today);
+        if (overdue > 1)
         {
-            var days = (today - deadlineDate).TotalDays;
-            return $"{days}d overdue";
+            return $"{overdue}d overdue";
         }
-        if (deadlineLocal < now)
+        if (overdue > 0)
         {
             return "Overdue";
         }
-        if (deadlineDate == today)
+        if (deadline == today)
             return "Today";
-        if (deadlineDate == today.AddDays(1))
+        if (deadline == today.AddDays(1))
             return "Tomorrow";
-        if (deadlineDate <= today.AddDays(6))
-            return $"{deadlineLocal:dddd}";
+        if (deadline <= today.AddDays(6))
+            return $"{deadline:dddd}";
 
-        var span = (deadline.Value - DateTimeOffset.UtcNow);
+        var daysUntil = -overdue;
 
-        return span switch
+        return daysUntil switch
         {
-            { TotalSeconds: < 0 } => "now",
-            { TotalSeconds: < 60 } => "now",
-            { TotalMinutes: < 2 } => "in a few seconds",
-            { TotalMinutes: < 121 } => $"in {span.TotalMinutes:N0} minutes",
-            { TotalHours: < 49 } => $"in {span.TotalHours:N0} hours",
-            { TotalDays: < 20 } => $"in {span.TotalDays:N0} days",
-            { TotalDays: < 200 } => deadline.Value.ToString("d MMMM"),
-            _ => $"on {deadline.Value:d MMMM yyyy}",
+            < 20 => $"In {daysUntil:N0} days",
+            < 300 => deadline.Value.ToString("d MMMM"),
+            _ => deadline.Value.ToString("d MMMM yyyy"),
         };
     }
 
@@ -142,7 +137,6 @@ internal static class ViewHelpers
         new EditChore(
             htmlId: ChoreHtmlId(label),
             label: label,
-            renameForm: new EditChoreRenameForm(label: label),
             actions: chore
                 .History.OrderByDescending(t => t)
                 .Select(timestamp => new ChoreActivity(

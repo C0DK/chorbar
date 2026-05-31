@@ -1,10 +1,13 @@
 using Chorbar.Controllers;
 using Chorbar.Model;
+using Microsoft.Extensions.Time.Testing;
 
 namespace Chorbar.Tests;
 
 public class DeadlineTests
 {
+    private static DateOnly Today => DateTimeOffset.Now.GetCalendarDate();
+
     [Test]
     public void DeadlineIsEndOfDay()
     {
@@ -17,70 +20,97 @@ public class DeadlineTests
             new Goal(3, DateUnit.Day)
         );
 
-        Assert.That(
-            subject.Deadline(),
-            Is.EqualTo(new DateTimeOffset(2026, 05, 26, 00, 00, 00, TimeSpan.Zero))
-        );
+        Assert.That(subject.Deadline(), Is.EqualTo(new DateOnly(2026, 05, 25)));
     }
 
     [Test]
-    public void Overdue()
-    {
-        var past = DateTimeOffset.Now.AddHours(-1);
-
-        Assert.That(ViewHelpers.DeadlineText(past), Is.EqualTo("Overdue"));
-    }
+    public void Overdue() =>
+        Assert.That(ViewHelpers.DeadlineText(Today.AddDays(-1)), Is.EqualTo("Overdue"));
 
     [Test]
-    public void OverdueMultipleDays()
-    {
-        var past = DateTimeOffset.Now.AddDays(-5);
-
-        Assert.That(ViewHelpers.DeadlineText(past), Is.EqualTo("5d overdue"));
-    }
+    public void OverdueMultipleDays() =>
+        Assert.That(ViewHelpers.DeadlineText(Today.AddDays(-5)), Is.EqualTo("5d overdue"));
 
     [Test]
-    public void DueToday_BeforeMidnight()
-    {
-        var endOfToday = DateTimeOffset.Now.Date.AddDays(1).AddMinutes(-1);
-        var deadline = new DateTimeOffset(endOfToday, DateTimeOffset.Now.Offset);
-
-        Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("Today"));
-    }
+    public void DueToday() => Assert.That(ViewHelpers.DeadlineText(Today), Is.EqualTo("Today"));
 
     [Test]
-    public void DueTomorrow_JustAfterMidnight()
-    {
-        var startOfTomorrow = DateTimeOffset.Now.Date.AddDays(1).AddMinutes(1);
-        var deadline = new DateTimeOffset(startOfTomorrow, DateTimeOffset.Now.Offset);
-
-        Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("Tomorrow"));
-    }
-
-    [Test]
-    public void DueTomorrow_EndOfTomorrow()
-    {
-        var endOfTomorrow = DateTimeOffset.Now.Date.AddDays(2).AddMinutes(-1);
-        var deadline = new DateTimeOffset(endOfTomorrow, DateTimeOffset.Now.Offset);
-
-        Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo("Tomorrow"));
-    }
+    public void DueTomorrow() =>
+        Assert.That(ViewHelpers.DeadlineText(Today.AddDays(1)), Is.EqualTo("Tomorrow"));
 
     [Test]
     public void DueWithinSixDays_ShowsWeekday()
     {
         var fourDaysFromNow = DateTimeOffset.Now.Date.AddDays(4);
         var deadline = new DateTimeOffset(fourDaysFromNow, DateTimeOffset.Now.Offset);
+        var provider = new FakeTimeProvider(
+            new DateTimeOffset(2026, 05, 31, 20, 00, 00, TimeSpan.Zero)
+        );
 
-        Assert.That(ViewHelpers.DeadlineText(deadline), Is.EqualTo(deadline.ToString("dddd")));
+        Assert.That(
+            ViewHelpers.DeadlineText(new DateOnly(2026, 06, 03), provider),
+            Is.EqualTo("Wednesday")
+        );
+    }
+
+    [Test]
+    public void DueWithinSixDays_ShowsWeekday2()
+    {
+        var fourDaysFromNow = DateTimeOffset.Now.Date.AddDays(6);
+        var deadline = new DateTimeOffset(fourDaysFromNow, DateTimeOffset.Now.Offset);
+        var provider = new FakeTimeProvider(
+            new DateTimeOffset(2026, 05, 31, 20, 00, 00, TimeSpan.Zero)
+        );
+
+        Assert.That(
+            ViewHelpers.DeadlineText(new DateOnly(2026, 06, 06), provider),
+            Is.EqualTo("Saturday")
+        );
     }
 
     [Test]
     public void DueInMoreThanSixDays_ShowsTimeUntil()
     {
-        var future = DateTimeOffset.Now.AddDays(10);
+        var fourDaysFromNow = DateTimeOffset.Now.Date.AddDays(6);
+        var deadline = new DateTimeOffset(fourDaysFromNow, DateTimeOffset.Now.Offset);
+        var provider = new FakeTimeProvider(
+            new DateTimeOffset(2026, 05, 31, 20, 00, 00, TimeSpan.Zero)
+        );
 
-        Assert.That(ViewHelpers.DeadlineText(future), Does.StartWith("in "));
+        Assert.That(
+            ViewHelpers.DeadlineText(new DateOnly(2026, 06, 10), provider),
+            Is.EqualTo("In 10 days")
+        );
+    }
+
+    [Test]
+    public void DueIn6Months()
+    {
+        var fourDaysFromNow = DateTimeOffset.Now.Date.AddDays(6);
+        var deadline = new DateTimeOffset(fourDaysFromNow, DateTimeOffset.Now.Offset);
+        var provider = new FakeTimeProvider(
+            new DateTimeOffset(2026, 05, 31, 20, 00, 00, TimeSpan.Zero)
+        );
+
+        Assert.That(
+            ViewHelpers.DeadlineText(new DateOnly(2026, 12, 24), provider),
+            Is.EqualTo("24 December")
+        );
+    }
+
+    [Test]
+    public void DueIn11Months()
+    {
+        var fourDaysFromNow = DateTimeOffset.Now.Date.AddDays(6);
+        var deadline = new DateTimeOffset(fourDaysFromNow, DateTimeOffset.Now.Offset);
+        var provider = new FakeTimeProvider(
+            new DateTimeOffset(2026, 05, 31, 20, 00, 00, TimeSpan.Zero)
+        );
+
+        Assert.That(
+            ViewHelpers.DeadlineText(new DateOnly(2027, 05, 01), provider),
+            Is.EqualTo("1 May 2027")
+        );
     }
 
     [Test]
