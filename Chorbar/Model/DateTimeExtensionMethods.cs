@@ -41,6 +41,8 @@ public static class DateTimeExtensionMethods
     public static DateOnly GetCalendarDate(this DateTimeOffset value) =>
         new(value.Year, value.Month, value.Day);
 
+    public static DateOnly Today(this TimeProvider value) => value.GetLocalNow().GetCalendarDate();
+
     public static DateOnly StartOfMonth(this DateOnly value) => new(value.Year, value.Month, 1);
 
     public static TimeOnly GetTime(this DateTimeOffset value) =>
@@ -51,4 +53,6 @@ public static class DateTimeExtensionMethods
 
     public static DateTimeOffset GetMidnightUtc(this DateOnly value) =>
         new(value.Year, value.Month, value.Day, 0, 0, 0, TimeSpan.Zero);
+
+    public static int DaysUntil(this DateOnly from, DateOnly to) => to.DayNumber - from.DayNumber;
 }

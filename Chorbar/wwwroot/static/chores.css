@@ -126,8 +126,10 @@
     h2,
     h3 {
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      overflow-x: auto;
+
+      -webkit-mask-image: linear-gradient(to left, transparent 0, black 1.5rem);
+      mask-image: linear-gradient(to left, transparent 0, black 1.5rem);
     }
   }
 }

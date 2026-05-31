@@ -70,22 +70,23 @@ public class ChoresController(IHouseholdStore store) : SpecificHouseholdControll
                 return Results.NotFound();
 
             // TODO: should get new old id!
-            return new PartialResult(
-                new EditChoreRenameForm(label: newLabel)
-                    + ViewHelpers.ChoreCard(newLabel, chore, oob: true)
+            //
+            return new ModalResult(
+                ViewHelpers.EditChore(newLabel, chore),
+                ViewHelpers.ChoreCard(newLabel, chore, oob: true)
             );
         }
 
         var household = await Write(new RenameChore(oldLabel, newLabel), cancellationToken);
         var renamed = household.Chores[newLabel];
-        return new PartialResult(
-            new EditChoreRenameForm(label: newLabel)
-                + ViewHelpers.ChoreCard(
-                    newLabel,
-                    renamed,
-                    oob: true,
-                    oobSwapId: ViewHelpers.ChoreHtmlId(oldLabel)
-                )
+        return new ModalResult(
+            ViewHelpers.EditChore(newLabel, renamed),
+            ViewHelpers.ChoreCard(
+                newLabel,
+                renamed,
+                oob: true,
+                oobSwapId: ViewHelpers.ChoreHtmlId(oldLabel)
+            )
         );
     }
 

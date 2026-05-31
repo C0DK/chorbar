@@ -56,12 +56,7 @@ public class HouseholdsController(IHouseholdStore store, IIdentityProvider ident
             new HouseholdPage(
                 shoppingListEnabled: household.ShoppingListEnabled,
                 todoListEnabled: household.TodoListEnabled,
-                chores: household
-                    .Chores.OrderBy(c =>
-                        c.Value.Deadline()
-                        ?? (c.Value.History.IsEmpty ? c.Value.Created : c.Value.History.Last())
-                    )
-                    .Select(ViewHelpers.ChoreCard)
+                chores: household.Chores.Select(ViewHelpers.ChoreCard)
             ),
             household.Name
         );

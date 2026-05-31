@@ -38,7 +38,7 @@ public record Chore(
         return intervals[intervals.Length / 2];
     }
 
-    public DateTimeOffset? Deadline() => Goal?.Deadline(History.IsEmpty ? Created : History.Last());
+    public DateOnly? Deadline() => Goal?.Deadline(History.IsEmpty ? Created : History.Last());
 
     public TimeSpan WorstFrequency() => Intervals().LastOrDefault(TimeSpan.Zero);
 
