@@ -171,13 +171,15 @@ The matcher fires before `reverse_proxy`, so the request never reaches
 the app from the public side. Local Prometheus keeps scraping
 `127.0.0.1:8080/metrics` directly, bypassing Caddy entirely.
 
-## Agentbox (isolated opencode sandbox)
+## Agentbox (isolated opencode sandbox, behind tailscale)
 
-`chorbar.nixosModules.agentbox` declares a systemd-nspawn container
-named `agentbox` that runs [opencode](https://opencode.ai) with the
-.NET 10 SDK preinstalled. opencode's web UI is forwarded to the VPS
-host, but the container itself is networked into its own namespace and
-firewalled off from the rest of the VPS.
+`chorbar.nixosModules.agentbox` (defined in `infra/agentbox.nix`)
+declares a systemd-nspawn container named `agentbox` that runs
+[opencode](https://opencode.ai) with the .NET 10 SDK preinstalled.
+The container has its own network namespace, joins your tailnet as a
+discrete node, and exposes opencode's web UI **only over
+tailscale0** — nothing about it is reachable from the public internet
+or from the rest of the VPS.
 
 Enable it from your host config:
 
@@ -192,56 +194,108 @@ chorbar.agentbox = {
   enable = true;
   externalInterface = "eth0";          # the VPS's WAN interface
   workDir = "/var/lib/agentbox/work";
+  tailnetHostname = "agentbox";
+
+  # Map opencode provider env-var names → sops secret keys.
+  envSecrets = {
+    ANTHROPIC_API_KEY = "anthropic_api_key";
+    # OPENAI_API_KEY  = "openai_api_key";
+  };
+
+  # Defaults to "agentbox_tailscale_authkey"; override if you named it
+  # something else in secrets.yaml.
+  # tailscaleAuthKeySecret = "agentbox_tailscale_authkey";
 };
 ```
 
-Provider keys (Anthropic, OpenAI, etc.) go in
-`/etc/agentbox/opencode.env` on the host — the file is bind-mounted
-into the container read-only and loaded via systemd
-`EnvironmentFile=`. Example:
+### Secrets — where to wire sops
+
+Two things need to come out of sops on the host (the chorbar app
+already uses the same sops setup — see the sops bootstrap section
+above for the keyfile/encryption flow):
+
+1. **Tailscale auth key** — generated at
+   <https://login.tailscale.com/admin/settings/keys>. Reusable +
+   pre-approved + tagged `tag:agentbox` is the cleanest combo so the
+   container can re-auth on rebuilds without manual approval.
+2. **Opencode provider keys** — one entry per provider you want
+   opencode to talk to (Anthropic, OpenAI, …).
+
+Add them to your encrypted `secrets.yaml`:
 
 ```sh
-sudo install -m 0600 /dev/stdin /etc/agentbox/opencode.env <<'EOF'
-ANTHROPIC_API_KEY=sk-ant-...
-EOF
+nix shell nixpkgs#sops -c sops secrets.yaml
 ```
 
-The web UI binds to the container's veth IP (`10.231.0.2:4096` by
-default) — the VPS host reaches it directly over the veth, but the
-port is never exposed on any public interface. From the VPS:
-
-```sh
-curl http://10.231.0.2:4096/
+```yaml
+# secrets.yaml (decrypted view)
+agentbox_tailscale_authkey: tskey-auth-xxxxxxxxxxxxxxxxxxxxxxxxx
+anthropic_api_key:          sk-ant-...
+# openai_api_key:           sk-...
 ```
 
-From your laptop, SSH-tunnel to that veth IP:
+The module declares the matching `sops.secrets` entries automatically
+based on `tailscaleAuthKeySecret` + `envSecrets`. At boot:
+
+| sops key                       | Rendered to (host)                              | Visible inside container as                            |
+|--------------------------------|--------------------------------------------------|--------------------------------------------------------|
+| `agentbox_tailscale_authkey`   | `/run/agentbox-secrets/tailscale_authkey`        | `services.tailscale.authKeyFile` (same path, bind-mt)  |
+| `envSecrets` (rendered template) | `/run/agentbox-secrets/opencode.env`           | `EnvironmentFile=` on the `opencode-web.service` unit  |
+
+No keys are ever baked into the nix store, copied to disk inside the
+container's writable layer, or visible to non-root host users.
+
+### Reaching opencode
+
+After `nixos-rebuild switch`, the container comes up, tailscaled
+authenticates with the sops-provided key, and opencode starts. From
+any tailnet device:
 
 ```sh
-ssh -L 4096:10.231.0.2:4096 root@your-vps
-# → http://localhost:4096
+# Get the tailnet IP (or just use the MagicDNS name)
+tailscale ip -4 agentbox
+
+# Browse to it
+open http://agentbox:4096
+```
+
+You can lock this down further in your tailnet ACLs, e.g.:
+
+```jsonc
+{
+  "tagOwners": { "tag:agentbox": ["autogroup:admin"] },
+  "acls": [
+    { "action": "accept", "src": ["autogroup:admin"], "dst": ["tag:agentbox:4096"] }
+  ]
+}
 ```
 
 ### What's isolated
 
-- **Network namespace**: container has its own `veth` pair. It cannot
-  see the host's `lo` (so postgres on 127.0.0.1, grafana on
-  127.0.0.1:3000, etc. are unreachable).
+- **Network namespace**: container has its own `veth` pair + its own
+  `tailscale0`. It cannot see the host's `lo`, so postgres on
+  127.0.0.1, grafana on 127.0.0.1:3000, etc. are unreachable.
+- **Public exposure**: zero. opencode binds inside the container; the
+  container firewall only opens `4096/tcp` on `tailscale0`. There is
+  no DNAT, no `forwardPorts`, no public listener.
 - **DNS**: container uses public resolvers (1.1.1.1, 9.9.9.9), never
   the host's resolver.
-- **Host services**: an `INPUT -i ve-agentbox -j DROP` rule blocks
-  every packet from the container destined for the host itself
-  (including the veth gateway).
-- **LAN egress**: `FORWARD` drops cover RFC1918 + loopback + link-local
-  so a misbehaving session can't pivot to other machines on the VPS's
-  internal network.
+- **Host services**: `INPUT -i ve-agentbox -j DROP` blocks every
+  packet from the container aimed at the host itself.
+- **LAN egress**: `FORWARD` drops cover RFC1918 + loopback +
+  link-local so a misbehaving session can't pivot to other VPS LAN
+  hosts or hit the cloud metadata service at 169.254.169.254.
 - **Public egress**: NAT'd through the configured external interface
-  so opencode can still reach Anthropic/OpenAI/npm/nuget.
-- **Filesystem**: only `${workDir}` is bind-mounted (read-write). The
-  rest of the host FS is invisible to the container.
+  so tailscale can reach login.tailscale.com / DERP, and opencode can
+  reach Anthropic / OpenAI / npm / nuget.
+- **Filesystem**: only `${workDir}` (rw) and `/run/agentbox-secrets`
+  (ro) are bind-mounted. The rest of the host FS is invisible.
+- **Capabilities**: container gets `CAP_NET_ADMIN` + `CAP_NET_RAW`
+  plus `/dev/net/tun` — the minimum tailscale needs. No
+  `CAP_SYS_ADMIN`, no `--privileged`.
 
-To make the workspace useful, drop the chorbar source into
-`/var/lib/agentbox/work` on the host — the container sees it at
-`/work` and opencode runs there by default.
+Drop the chorbar source into `/var/lib/agentbox/work` on the host and
+the container sees it at `/work`, where opencode runs by default.
 
 ### Hardening checklist
 
