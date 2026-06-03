@@ -171,6 +171,78 @@ The matcher fires before `reverse_proxy`, so the request never reaches
 the app from the public side. Local Prometheus keeps scraping
 `127.0.0.1:8080/metrics` directly, bypassing Caddy entirely.
 
+## Agentbox (isolated opencode sandbox)
+
+`chorbar.nixosModules.agentbox` declares a systemd-nspawn container
+named `agentbox` that runs [opencode](https://opencode.ai) with the
+.NET 10 SDK preinstalled. opencode's web UI is forwarded to the VPS
+host, but the container itself is networked into its own namespace and
+firewalled off from the rest of the VPS.
+
+Enable it from your host config:
+
+```nix
+modules = [
+  ./your-existing-config.nix
+  chorbar.nixosModules.default
+  chorbar.nixosModules.agentbox
+];
+
+chorbar.agentbox = {
+  enable = true;
+  externalInterface = "eth0";          # the VPS's WAN interface
+  workDir = "/var/lib/agentbox/work";
+};
+```
+
+Provider keys (Anthropic, OpenAI, etc.) go in
+`/etc/agentbox/opencode.env` on the host — the file is bind-mounted
+into the container read-only and loaded via systemd
+`EnvironmentFile=`. Example:
+
+```sh
+sudo install -m 0600 /dev/stdin /etc/agentbox/opencode.env <<'EOF'
+ANTHROPIC_API_KEY=sk-ant-...
+EOF
+```
+
+The web UI binds to the container's veth IP (`10.231.0.2:4096` by
+default) — the VPS host reaches it directly over the veth, but the
+port is never exposed on any public interface. From the VPS:
+
+```sh
+curl http://10.231.0.2:4096/
+```
+
+From your laptop, SSH-tunnel to that veth IP:
+
+```sh
+ssh -L 4096:10.231.0.2:4096 root@your-vps
+# → http://localhost:4096
+```
+
+### What's isolated
+
+- **Network namespace**: container has its own `veth` pair. It cannot
+  see the host's `lo` (so postgres on 127.0.0.1, grafana on
+  127.0.0.1:3000, etc. are unreachable).
+- **DNS**: container uses public resolvers (1.1.1.1, 9.9.9.9), never
+  the host's resolver.
+- **Host services**: an `INPUT -i ve-agentbox -j DROP` rule blocks
+  every packet from the container destined for the host itself
+  (including the veth gateway).
+- **LAN egress**: `FORWARD` drops cover RFC1918 + loopback + link-local
+  so a misbehaving session can't pivot to other machines on the VPS's
+  internal network.
+- **Public egress**: NAT'd through the configured external interface
+  so opencode can still reach Anthropic/OpenAI/npm/nuget.
+- **Filesystem**: only `${workDir}` is bind-mounted (read-write). The
+  rest of the host FS is invisible to the container.
+
+To make the workspace useful, drop the chorbar source into
+`/var/lib/agentbox/work` on the host — the container sees it at
+`/work` and opencode runs there by default.
+
 ### Hardening checklist
 
 - [ ] Change Grafana admin password on first login (`/profile`).

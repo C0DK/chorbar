@@ -118,5 +118,16 @@
         {
           imports = [ ./infra/observability.nix ];
         };
+
+      # Optional: an isolated systemd-nspawn container ("agentbox") that
+      # runs opencode + the .NET SDK. opencode's web UI is forwarded to
+      # the host, but the container has its own network namespace, public
+      # DNS, and firewall rules that block it from reaching host services
+      # or the VPS LAN. See infra/agentbox.nix.
+      nixosModules.agentbox =
+        { ... }:
+        {
+          imports = [ ./infra/agentbox.nix ];
+        };
     };
 }
