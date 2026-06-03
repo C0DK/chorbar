@@ -200,6 +200,7 @@ chorbar.agentbox = {
   envSecrets = {
     ANTHROPIC_API_KEY = "anthropic_api_key";
     # OPENAI_API_KEY  = "openai_api_key";
+    GH_TOKEN          = "github_token";   # so the agent can push + open PRs
   };
 
   # Defaults to "agentbox_tailscale_authkey"; override if you named it
@@ -232,7 +233,18 @@ nix shell nixpkgs#sops -c sops secrets.yaml
 agentbox_tailscale_authkey: tskey-auth-xxxxxxxxxxxxxxxxxxxxxxxxx
 anthropic_api_key:          sk-ant-...
 # openai_api_key:           sk-...
+github_token:               github_pat_11ABCDE...
 ```
+
+The GitHub token should be a **fine-grained PAT** scoped to just this
+repository, with `Contents: read & write`, `Pull requests: read &
+write`, and `Metadata: read`. Generate at
+<https://github.com/settings/personal-access-tokens>. `gh` reads
+`GH_TOKEN` automatically; git is configured with a credential helper
+in `/etc/gitconfig` so `git push` over HTTPS also uses it. The agent
+can therefore `git push` + `gh pr create` without any interactive
+prompt, and the blast radius is limited to whichever repos you
+selected.
 
 The module declares the matching `sops.secrets` entries automatically
 based on `tailscaleAuthKeySecret` + `envSecrets`. At boot:

@@ -216,6 +216,20 @@ in
         environment.etc."resolv.conf".text =
           lib.concatMapStrings (s: "nameserver ${s}\n") cfg.dnsServers;
 
+        # System-wide gitconfig. Lets `git push` over HTTPS authenticate
+        # with $GH_TOKEN (loaded into opencode-web.service's env from
+        # sops), so the agent can push branches without any interactive
+        # prompt. `gh` reads $GH_TOKEN natively.
+        environment.etc."gitconfig".text = ''
+          [credential "https://github.com"]
+            helper = "!f() { echo username=x-access-token; echo password=$GH_TOKEN; }; f"
+          [user]
+            name = agentbox
+            email = agentbox@chor.bar
+          [init]
+            defaultBranch = main
+        '';
+
         networking = {
           hostName = cfg.tailnetHostname;
           useHostResolvConf = lib.mkForce false;
@@ -250,6 +264,7 @@ in
           opencode
           dotnet-sdk_10
           git
+          gh
           gnumake
           nodejs_22
           coreutils
