@@ -283,6 +283,20 @@ in
           uid = 1000;
         };
 
+        # opencode config — declarative, lands at the user-config path
+        # opencode reads (~/.config/opencode/opencode.json) via a tmpfiles
+        # symlink to a nix-store JSON file.
+        systemd.tmpfiles.rules = [
+          "d /home/agent/.config            0755 agent users - -"
+          "d /home/agent/.config/opencode   0755 agent users - -"
+          "L+ /home/agent/.config/opencode/opencode.json - - - - ${
+            pkgs.writeText "opencode.json" (builtins.toJSON {
+              "$schema" = "https://opencode.ai/config.json";
+              lsp = true;
+            })
+          }"
+        ];
+
         # opencode's web server. Binds 0.0.0.0:${cfg.port} inside the
         # container, but the container firewall only opens that port on
         # tailscale0 — so the only way in is from the tailnet. Default
