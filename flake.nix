@@ -101,33 +101,35 @@
     {
       packages.${system}.dockerImage = dockerImage;
 
-      nixosModules.default =
-        { ... }:
-        {
-          imports = [
-            sops-nix.nixosModules.sops
-            ./infra/app.nix
-          ];
-          virtualisation.oci-containers.containers.chorbar-web.imageFile = dockerImage;
-        };
+      nixosModules = {
+        default =
+          { ... }:
+          {
+            imports = [
+              sops-nix.nixosModules.sops
+              ./infra/app.nix
+            ];
+            virtualisation.oci-containers.containers.chorbar-web.imageFile = dockerImage;
+          };
 
-      # Optional: add this module alongside nixosModules.default to enable
-      # Grafana + Loki + Alloy log collection. See README for setup.
-      nixosModules.observability =
-        { ... }:
-        {
-          imports = [ ./infra/observability.nix ];
-        };
+        # Optional: add this module alongside nixosModules.default to enable
+        # Grafana + Loki + Alloy log collection. See README for setup.
+        observability =
+          { ... }:
+          {
+            imports = [ ./infra/observability.nix ];
+          };
 
-      # Optional: an isolated systemd-nspawn container ("agentbox") that
-      # runs opencode + the .NET SDK. opencode's web UI is forwarded to
-      # the host, but the container has its own network namespace, public
-      # DNS, and firewall rules that block it from reaching host services
-      # or the VPS LAN. See infra/agentbox.nix.
-      nixosModules.agentbox =
-        { ... }:
-        {
-          imports = [ ./infra/agentbox.nix ];
-        };
+        # Optional: an isolated systemd-nspawn container ("agentbox") that
+        # runs opencode + the .NET SDK. opencode's web UI is forwarded to
+        # the host, but the container has its own network namespace, public
+        # DNS, and firewall rules that block it from reaching host services
+        # or the VPS LAN. See infra/agentbox.nix.
+        agentbox =
+          { ... }:
+          {
+            imports = [ ./infra/agentbox.nix ];
+          };
+      };
     };
 }

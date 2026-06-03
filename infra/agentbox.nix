@@ -132,39 +132,42 @@ in
       "d ${hostSecretDir}  0750 root root - -"
     ];
 
-    # NAT the container's egress through the VPS WAN so tailscale can phone
-    # home (login.tailscale.com, DERP relays) and opencode can reach AI APIs.
-    networking.nat = {
-      enable = true;
-      internalInterfaces = [ "ve-agentbox" ];
-      externalInterface = cfg.externalInterface;
-    };
-
-    # Lock the container off from the rest of the VPS.
+    # Container networking:
     #
-    #   INPUT  drop: container → host services (postgres, grafana, ssh, …).
-    #   FORWARD drops: container → RFC1918 / loopback / link-local — so a
-    #     rogue session can't pivot to other LAN hosts or the cloud
-    #     metadata service at 169.254.169.254.
+    # - NAT: egress through the VPS WAN so tailscale can phone home
+    #   (login.tailscale.com, DERP relays) and opencode can reach AI APIs.
+    # - INPUT drop: container → host services (postgres, grafana, ssh, …).
+    # - FORWARD drops: container → RFC1918 / loopback / link-local — so a
+    #   rogue session can't pivot to other LAN hosts or the cloud metadata
+    #   service at 169.254.169.254.
     #
     # Public egress + tailscale traffic still flow (they don't match any
     # drop rule and get SNAT'd through cfg.externalInterface).
-    networking.firewall.extraCommands = ''
-      iptables -I INPUT   -i ve-agentbox -j DROP
-      iptables -I FORWARD -i ve-agentbox -d 10.0.0.0/8     -j DROP
-      iptables -I FORWARD -i ve-agentbox -d 172.16.0.0/12  -j DROP
-      iptables -I FORWARD -i ve-agentbox -d 192.168.0.0/16 -j DROP
-      iptables -I FORWARD -i ve-agentbox -d 127.0.0.0/8    -j DROP
-      iptables -I FORWARD -i ve-agentbox -d 169.254.0.0/16 -j DROP
-    '';
-    networking.firewall.extraStopCommands = ''
-      iptables -D INPUT   -i ve-agentbox -j DROP                       2>/dev/null || true
-      iptables -D FORWARD -i ve-agentbox -d 10.0.0.0/8     -j DROP     2>/dev/null || true
-      iptables -D FORWARD -i ve-agentbox -d 172.16.0.0/12  -j DROP     2>/dev/null || true
-      iptables -D FORWARD -i ve-agentbox -d 192.168.0.0/16 -j DROP     2>/dev/null || true
-      iptables -D FORWARD -i ve-agentbox -d 127.0.0.0/8    -j DROP     2>/dev/null || true
-      iptables -D FORWARD -i ve-agentbox -d 169.254.0.0/16 -j DROP     2>/dev/null || true
-    '';
+    networking = {
+      nat = {
+        enable = true;
+        internalInterfaces = [ "ve-agentbox" ];
+        externalInterface = cfg.externalInterface;
+      };
+      firewall = {
+        extraCommands = ''
+          iptables -I INPUT   -i ve-agentbox -j DROP
+          iptables -I FORWARD -i ve-agentbox -d 10.0.0.0/8     -j DROP
+          iptables -I FORWARD -i ve-agentbox -d 172.16.0.0/12  -j DROP
+          iptables -I FORWARD -i ve-agentbox -d 192.168.0.0/16 -j DROP
+          iptables -I FORWARD -i ve-agentbox -d 127.0.0.0/8    -j DROP
+          iptables -I FORWARD -i ve-agentbox -d 169.254.0.0/16 -j DROP
+        '';
+        extraStopCommands = ''
+          iptables -D INPUT   -i ve-agentbox -j DROP                       2>/dev/null || true
+          iptables -D FORWARD -i ve-agentbox -d 10.0.0.0/8     -j DROP     2>/dev/null || true
+          iptables -D FORWARD -i ve-agentbox -d 172.16.0.0/12  -j DROP     2>/dev/null || true
+          iptables -D FORWARD -i ve-agentbox -d 192.168.0.0/16 -j DROP     2>/dev/null || true
+          iptables -D FORWARD -i ve-agentbox -d 127.0.0.0/8    -j DROP     2>/dev/null || true
+          iptables -D FORWARD -i ve-agentbox -d 169.254.0.0/16 -j DROP     2>/dev/null || true
+        '';
+      };
+    };
 
     containers.agentbox = {
       autoStart = true;
