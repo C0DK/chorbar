@@ -20,6 +20,17 @@ in
       description = "Host directory bind-mounted into the container as /work.";
     };
 
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 80;
+      description = ''
+        Port opencode listens on inside the container. Defaults to 80 so
+        the tailnet URL is bare-hostname (http://<tailnetHostname>).
+        Binding 80 as the non-root agent user requires
+        CAP_NET_BIND_SERVICE, which is granted on the systemd unit.
+      '';
+    };
+
     externalInterface = lib.mkOption {
       type = lib.types.str;
       default = "eth0";
@@ -212,7 +223,7 @@ in
           firewall = {
             enable = true;
             # opencode is reachable ONLY over tailscale0 — not the veth.
-            interfaces.tailscale0.allowedTCPPorts = [ 4096 ];
+            interfaces.tailscale0.allowedTCPPorts = [ cfg.port ];
             # tailscale itself
             allowedUDPPorts = [ 41641 ];
             checkReversePath = "loose"; # tailscale recommends loose rpfilter
@@ -230,7 +241,7 @@ in
             "--ssh=false"
             "--accept-routes=false"
             # Optional: tag the node so you can write tailnet ACLs like
-            #   "src": ["tag:admin"], "dst": ["tag:agentbox:4096"]
+            #   "src": ["tag:admin"], "dst": ["tag:agentbox:*"]
             "--advertise-tags=tag:agentbox"
           ];
         };
@@ -257,9 +268,10 @@ in
           uid = 1000;
         };
 
-        # opencode's web server. Binds 0.0.0.0:4096 inside the container,
-        # but the container firewall only opens 4096 on tailscale0 — so
-        # the only way in is from the tailnet.
+        # opencode's web server. Binds 0.0.0.0:${cfg.port} inside the
+        # container, but the container firewall only opens that port on
+        # tailscale0 — so the only way in is from the tailnet. Default
+        # port is 80 so the URL is bare-hostname: http://agentbox.
         systemd.services.opencode-web = {
           description = "opencode web server (sandboxed, tailnet-only)";
           wantedBy = [ "multi-user.target" ];
@@ -278,12 +290,14 @@ in
             User = "agent";
             Group = "users";
             WorkingDirectory = "/work";
-            ExecStart = "${pkgs.opencode}/bin/opencode serve --hostname 0.0.0.0 --port 4096";
-            # The sops-rendered env file. The `-` prefix means "ok if missing"
-            # — but once you wire envSecrets the file will exist.
+            ExecStart = "${pkgs.opencode}/bin/opencode serve --hostname 0.0.0.0 --port ${toString cfg.port}";
             EnvironmentFile = "-${opencodeEnvPath}";
             Restart = "on-failure";
             RestartSec = "5s";
+            # Let the non-root `agent` user bind privileged ports (<1024)
+            # — needed when cfg.port is 80. Harmless when it isn't.
+            AmbientCapabilities  = [ "CAP_NET_BIND_SERVICE" ];
+            CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
           };
         };
       };

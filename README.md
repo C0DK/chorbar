@@ -248,16 +248,17 @@ container's writable layer, or visible to non-root host users.
 ### Reaching opencode
 
 After `nixos-rebuild switch`, the container comes up, tailscaled
-authenticates with the sops-provided key, and opencode starts. From
-any tailnet device:
+authenticates with the sops-provided key, and opencode starts. Default
+port is `80` so from any tailnet device:
 
 ```sh
-# Get the tailnet IP (or just use the MagicDNS name)
-tailscale ip -4 agentbox
-
-# Browse to it
-open http://agentbox:4096
+open http://agentbox
 ```
+
+(tailscale MagicDNS resolves `agentbox` to the container's tailnet IP.
+If you want a different port, set `chorbar.agentbox.port`; opencode
+runs as a non-root user with `CAP_NET_BIND_SERVICE` so binding 80 is
+fine.)
 
 You can lock this down further in your tailnet ACLs, e.g.:
 
@@ -265,7 +266,7 @@ You can lock this down further in your tailnet ACLs, e.g.:
 {
   "tagOwners": { "tag:agentbox": ["autogroup:admin"] },
   "acls": [
-    { "action": "accept", "src": ["autogroup:admin"], "dst": ["tag:agentbox:4096"] }
+    { "action": "accept", "src": ["autogroup:admin"], "dst": ["tag:agentbox:80"] }
   ]
 }
 ```
@@ -276,8 +277,8 @@ You can lock this down further in your tailnet ACLs, e.g.:
   `tailscale0`. It cannot see the host's `lo`, so postgres on
   127.0.0.1, grafana on 127.0.0.1:3000, etc. are unreachable.
 - **Public exposure**: zero. opencode binds inside the container; the
-  container firewall only opens `4096/tcp` on `tailscale0`. There is
-  no DNAT, no `forwardPorts`, no public listener.
+  container firewall only opens `${cfg.port}/tcp` (default `80`) on
+  `tailscale0`. There is no DNAT, no `forwardPorts`, no public listener.
 - **DNS**: container uses public resolvers (1.1.1.1, 9.9.9.9), never
   the host's resolver.
 - **Host services**: `INPUT -i ve-agentbox -j DROP` blocks every
