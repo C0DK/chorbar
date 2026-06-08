@@ -40,6 +40,12 @@ POST /household/{id}/chore/add|remove|do|undo|goal
 ## Tests
 `Chorbar.Tests/` — uses real DB via `DatabaseFixture`. No mocking.
 
+## Code Style
+Run `csharpier` before committing. CI enforces it.
+```bash
+csharpier format .
+```
+
 ## Known Gotchas
 - `HouseholdId.TryParse(string)` — inverted logic bug was fixed (missing `!` on `int.TryParse`)
 - `string.IsNullOrEmpty("name")` in router = always checks literal, not variable (latent bug)
