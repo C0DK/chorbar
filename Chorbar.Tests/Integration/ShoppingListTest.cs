@@ -46,10 +46,9 @@ public class ShoppingListTest
         );
         Assert.That(
             household.ShoppingListItems,
-            Is.EquivalentTo<ShoppingListItem>([
-                new(1, label, null, Order: 0),
-                new(2, label, null, Order: 1),
-            ])
+            Is.EquivalentTo<ShoppingListItem>(
+                [new(1, label, null, Order: 0), new(2, label, null, Order: 1)]
+            )
         );
     }
 
@@ -70,10 +69,9 @@ public class ShoppingListTest
         );
         Assert.That(
             household.ShoppingListItems,
-            Is.EquivalentTo<ShoppingListItem>([
-                new(1, label, t(2), Order: 0),
-                new(2, label, null, Order: 1),
-            ])
+            Is.EquivalentTo<ShoppingListItem>(
+                [new(1, label, t(2), Order: 0), new(2, label, null, Order: 1)]
+            )
         );
     }
 
