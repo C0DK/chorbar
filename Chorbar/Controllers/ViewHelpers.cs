@@ -85,10 +85,8 @@ internal static class ViewHelpers
 
         if (chore.History.Length > 0)
         {
-            var freq = chore.Frequency();
-            var unit = chore.Goal?.Unit ?? DateUnit.Day;
             yield return new ChoreBadge(
-                content: $"⏱ {freq:F1}/{unit.Letter()}",
+                content: $"⏱ {chore.Frequency()}",
                 additionalClasses: Array.Empty<string>()
             );
             /* Show last?
