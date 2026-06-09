@@ -19,29 +19,38 @@ public record Chore(
     public override string ToString() =>
         $"Chore {{ Created = {Created}, History = [{string.Join(", ", History)}], Goal = {Goal} }}";
 
-    // TODO: set "do we achieve match goal"
-    public IEnumerable<TimeSpan> Intervals()
+    public decimal Frequency(DateTimeOffset startDate, DateUnit unit)
     {
-        var sorted = History.Select(t => t.Timestamp).Append(Created).OrderBy(t => t).ToList();
-        if (sorted.Count < 2)
-            return [];
+        if (History.IsEmpty)
+            return 0m;
 
-        return sorted.Zip(sorted.Skip(1), (a, b) => b - a).OrderBy(t => t);
+        var lastDone = History.Last().Timestamp;
+        if (lastDone <= startDate)
+            return 0m;
+
+        var count = History.Count(h => h.Timestamp > startDate && h.Timestamp <= lastDone);
+        var totalDays = (lastDone - startDate).TotalDays;
+
+        var divisor = unit switch
+        {
+            DateUnit.Day => totalDays,
+            DateUnit.Week => totalDays / 7,
+            DateUnit.Month => totalDays / (365.25 / 12),
+            DateUnit.Year => totalDays / 365.25,
+            _ => throw new NotImplementedException($"Cannot handle Unit '{unit}'"),
+        };
+
+        if (divisor == 0)
+            return 0m;
+
+        return (decimal)(count / divisor);
     }
 
-    public TimeSpan Frequency()
-    {
-        var intervals = Intervals().ToArray();
-        if (intervals.Length == 0)
-            return TimeSpan.Zero;
-
-        return intervals[intervals.Length / 2];
-    }
+    public decimal Frequency() =>
+        Frequency(Created, Goal?.Unit ?? DateUnit.Day);
 
     public DateOnly? Deadline() =>
         Goal?.Deadline(History.IsEmpty ? Created : History.Last().Timestamp);
-
-    public TimeSpan WorstFrequency() => Intervals().LastOrDefault(TimeSpan.Zero);
 
     public Streak? Streak(DateTimeOffset now)
     {
