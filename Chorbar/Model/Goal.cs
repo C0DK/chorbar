@@ -2,6 +2,8 @@ namespace Chorbar.Model;
 
 public record Goal(int Numerator, DateUnit Unit)
 {
+    public override string ToString() => $"{Numerator:0.#}{Unit.Letter()}";
+
     public DateOnly Deadline(DateTimeOffset lastDone) =>
         (
             Unit switch
