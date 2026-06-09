@@ -89,7 +89,7 @@ internal static class ViewHelpers
             var unit = chore.Goal?.Unit ?? DateUnit.Day;
             yield return new ChoreBadge(
                 content: $"⏱ {freq:F1}/{unit.Letter()}",
-                additionalClasses: Array.Empty<string>()
+                additionalClasses: ["emphasis"]
             );
             /* Show last?
             yield return new ChoreBadge(
