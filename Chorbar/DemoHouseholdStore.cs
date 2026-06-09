@@ -104,7 +104,8 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         History:
                         [
                             (now.AddDays(-42), "Bob"),
-                            (now.AddDays(-28), "Alice"),
+                            (now.AddDays(-30), "Bob"),
+                            (now.AddDays(-23), "Alice"),
                             (now.AddDays(-14), "Alice"),
                         ],
                         Goal: new Goal(2, DateUnit.Week)
