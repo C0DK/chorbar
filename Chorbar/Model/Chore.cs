@@ -46,8 +46,7 @@ public record Chore(
         return new Frequency((decimal)(count / divisor), unit);
     }
 
-    public Frequency? Frequency() =>
-        Frequency(Created, Goal?.Unit ?? DateUnit.Day);
+    public Frequency? Frequency() => Frequency(Created, Goal?.Unit ?? DateUnit.Day);
 
     public DateOnly? Deadline() =>
         Goal?.Deadline(History.IsEmpty ? Created : History.Last().Timestamp);

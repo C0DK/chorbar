@@ -21,6 +21,7 @@
 
 :root {
   /* Spacing rhythm */
+  --space-2xs: 0.1rem;
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 0.875rem;

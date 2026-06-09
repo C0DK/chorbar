@@ -70,35 +70,37 @@ internal static class ViewHelpers
     {
         if (chore.Goal is not null)
         {
-            var deadline = chore.Deadline();
+            var deadline = chore.Deadline()!.Value;
             yield return new ChoreBadge(
-                content: $"📅 {DeadlineText(deadline)}",
-                additionalClasses: (deadline?.DaysUntil(DateTimeOffset.Now.GetCalendarDate())) < 3
-                    ? ["emphasis"]
-                    : Array.Empty<string>()
+                content: $"📅  {DeadlineText(deadline)}",
+                additionalClasses:
+                [
+                    DateTimeOffset.Now.GetCalendarDate().DaysUntil(deadline) <= 1
+                        ? "emphasis"
+                        : "muted",
+                ]
             );
+            yield return new ChoreBadge(content: $"🎯 {chore.Goal}", additionalClasses: ["muted"]);
         }
 
         var streak = chore.Streak(DateTimeOffset.UtcNow);
         if (streak is not null)
-            yield return new ChoreBadge(content: $"🔥 {streak}", additionalClasses: ["emphasis"]);
+            yield return new ChoreBadge(
+                content: $"🔥 {streak}",
+                additionalClasses: Array.Empty<string>()
+            );
 
         var frequency = chore.Frequency();
         if (frequency is not null)
         {
             yield return new ChoreBadge(
-                content: $"⏱ {frequency}",
-                additionalClasses: ["emphasis"]
-            );
-            /* Show last?
-            yield return new ChoreBadge(
-                content: $"📅 {TimeAgo(chore.History.Last())}",
-                additionalClasses: Array.Empty<string>()
-            );
-            */
-            yield return new ChoreBadge(
                 content: $"x{chore.History.Length}",
-                additionalClasses: Array.Empty<string>()
+                additionalClasses: ["muted"]
+            );
+            yield return new ChoreBadge(content: $"⏱  {frequency}", additionalClasses: ["muted"]);
+            yield return new ChoreBadge(
+                content: $"⌛ {TimeAgo(chore.History.Last().Timestamp)}",
+                additionalClasses: ["muted"]
             );
         }
     }

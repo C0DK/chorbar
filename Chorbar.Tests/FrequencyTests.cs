@@ -94,6 +94,6 @@ public class FrequencyTests : TestFixture
     {
         var freq = new Frequency(0.5m, DateUnit.Day);
 
-        Assert.That(freq.ToString(), Is.EqualTo("0.5/d"));
+        Assert.That(freq.ToString(), Is.EqualTo("2d"));
     }
 }
