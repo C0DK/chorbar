@@ -87,7 +87,7 @@ internal static class ViewHelpers
         {
             yield return new ChoreBadge(
                 content: $"⏱ {chore.Frequency()}",
-                additionalClasses: Array.Empty<string>()
+                additionalClasses: ["emphasis"]
             );
             /* Show last?
             yield return new ChoreBadge(
