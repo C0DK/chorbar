@@ -83,10 +83,11 @@ internal static class ViewHelpers
         if (streak is not null)
             yield return new ChoreBadge(content: $"🔥 {streak}", additionalClasses: ["emphasis"]);
 
-        if (chore.History.Length > 0)
+        var frequency = chore.Frequency();
+        if (frequency is not null)
         {
             yield return new ChoreBadge(
-                content: $"⏱ {chore.Frequency()}",
+                content: $"⏱ {frequency}",
                 additionalClasses: ["emphasis"]
             );
             /* Show last?

@@ -19,14 +19,14 @@ public record Chore(
     public override string ToString() =>
         $"Chore {{ Created = {Created}, History = [{string.Join(", ", History)}], Goal = {Goal} }}";
 
-    public Frequency Frequency(DateTimeOffset startDate, DateUnit unit)
+    public Frequency? Frequency(DateTimeOffset startDate, DateUnit unit)
     {
         if (History.IsEmpty)
-            return new Frequency(0m, unit);
+            return null;
 
         var lastDone = History.Last().Timestamp;
         if (lastDone <= startDate)
-            return new Frequency(0m, unit);
+            return null;
 
         var count = History.Count(h => h.Timestamp > startDate && h.Timestamp <= lastDone);
         var totalDays = (lastDone - startDate).TotalDays;
@@ -41,12 +41,12 @@ public record Chore(
         };
 
         if (divisor == 0)
-            return new Frequency(0m, unit);
+            return null;
 
         return new Frequency((decimal)(count / divisor), unit);
     }
 
-    public Frequency Frequency() =>
+    public Frequency? Frequency() =>
         Frequency(Created, Goal?.Unit ?? DateUnit.Day);
 
     public DateOnly? Deadline() =>

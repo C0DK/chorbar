@@ -5,11 +5,11 @@ namespace Chorbar.Tests;
 public class FrequencyTests : TestFixture
 {
     [Test]
-    public void EmptyHistory_ReturnsZero()
+    public void EmptyHistory_ReturnsNull()
     {
         var subject = new Chore(d(0), []);
 
-        Assert.That(subject.Frequency(d(0), DateUnit.Day), Is.EqualTo(new Frequency(0m, DateUnit.Day)));
+        Assert.That(subject.Frequency(d(0), DateUnit.Day), Is.Null);
     }
 
     [Test]
@@ -19,8 +19,8 @@ public class FrequencyTests : TestFixture
 
         var result = subject.Frequency(d(0), DateUnit.Day);
 
-        Assert.That(result.Numerator, Is.EqualTo(0.5m).Within(0.001m));
-        Assert.That(result.Unit, Is.EqualTo(DateUnit.Day));
+        Assert.That(result!.Numerator, Is.EqualTo(0.5m).Within(0.001m));
+        Assert.That(result!.Unit, Is.EqualTo(DateUnit.Day));
     }
 
     [Test]
@@ -30,8 +30,8 @@ public class FrequencyTests : TestFixture
 
         var result = subject.Frequency(d(0), DateUnit.Week);
 
-        Assert.That(result.Numerator, Is.EqualTo(1.0m).Within(0.001m));
-        Assert.That(result.Unit, Is.EqualTo(DateUnit.Week));
+        Assert.That(result!.Numerator, Is.EqualTo(1.0m).Within(0.001m));
+        Assert.That(result!.Unit, Is.EqualTo(DateUnit.Week));
     }
 
     [Test]
@@ -44,16 +44,16 @@ public class FrequencyTests : TestFixture
         var expectedDays = 90.0;
         var months = expectedDays / (365.25 / 12);
         var expected = 3.0 / months;
-        Assert.That((double)result.Numerator, Is.EqualTo(expected).Within(0.001));
-        Assert.That(result.Unit, Is.EqualTo(DateUnit.Month));
+        Assert.That((double)result!.Numerator, Is.EqualTo(expected).Within(0.001));
+        Assert.That(result!.Unit, Is.EqualTo(DateUnit.Month));
     }
 
     [Test]
-    public void StartDateAfterLastDone_ReturnsZero()
+    public void StartDateAfterLastDone_ReturnsNull()
     {
         var subject = new Chore(d(0), [h(2), h(4)]);
 
-        Assert.That(subject.Frequency(d(10), DateUnit.Day), Is.EqualTo(new Frequency(0m, DateUnit.Day)));
+        Assert.That(subject.Frequency(d(10), DateUnit.Day), Is.Null);
     }
 
     [Test]
@@ -63,8 +63,8 @@ public class FrequencyTests : TestFixture
 
         var result = subject.Frequency();
 
-        Assert.That(result.Numerator, Is.EqualTo(1.0m).Within(0.001m));
-        Assert.That(result.Unit, Is.EqualTo(DateUnit.Week));
+        Assert.That(result!.Numerator, Is.EqualTo(1.0m).Within(0.001m));
+        Assert.That(result!.Unit, Is.EqualTo(DateUnit.Week));
     }
 
     [Test]
@@ -74,8 +74,8 @@ public class FrequencyTests : TestFixture
 
         var result = subject.Frequency();
 
-        Assert.That(result.Numerator, Is.EqualTo(0.5m).Within(0.001m));
-        Assert.That(result.Unit, Is.EqualTo(DateUnit.Day));
+        Assert.That(result!.Numerator, Is.EqualTo(0.5m).Within(0.001m));
+        Assert.That(result!.Unit, Is.EqualTo(DateUnit.Day));
     }
 
     [Test]
@@ -85,8 +85,8 @@ public class FrequencyTests : TestFixture
 
         var result = subject.Frequency(d(0), DateUnit.Day);
 
-        Assert.That(result.Numerator, Is.EqualTo(0.1m).Within(0.001m));
-        Assert.That(result.Unit, Is.EqualTo(DateUnit.Day));
+        Assert.That(result!.Numerator, Is.EqualTo(0.1m).Within(0.001m));
+        Assert.That(result!.Unit, Is.EqualTo(DateUnit.Day));
     }
 
     [Test]
