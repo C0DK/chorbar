@@ -7,18 +7,13 @@ namespace Chorbar.Controllers;
 
 [Authorize]
 [Route("household/")]
-public class MenuController(IHouseholdStore householdStore, UserStore userStore) : Controller
+public class MenuController(IHouseholdStore householdStore) : Controller
 {
     [HttpGet("")]
     public async Task<IResult> List(CancellationToken cancellationToken)
     {
-        var households = await householdStore
-            .List(cancellationToken)
-            .ToArrayAsync(cancellationToken);
-        var settings = await userStore.ReadSettings(cancellationToken);
+        var households = await householdStore.List(cancellationToken).ToArrayAsync(cancellationToken);
         var selector = new Menu(
-            email: settings.Email,
-            displayName: settings.DisplayName,
             households: households.Select(h => new HouseholdSelectorOption(
                 id: h.Id.ToString() ?? "id",
                 name: h.Name ?? "name"

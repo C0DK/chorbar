@@ -27,9 +27,7 @@ public class HouseholdController(IHouseholdStore store, IIdentityProvider identi
             new HouseholdPage(
                 shoppingListEnabled: household.ShoppingListEnabled,
                 todoListEnabled: household.TodoListEnabled,
-                chores: household
-                    .Chores
-                    .Select(ViewHelpers.ChoreCard)
+                chores: household.Chores.Select(ViewHelpers.ChoreCard)
             ),
             household.Name
         );

@@ -1,0 +1,6 @@
+<h2> Settings </h2>
+<label for="displayName">Set display name</label>
+<form class="inputWithButton" hx-post="/settings/display_name" hx-target="main" hx-swap="outerHTML">
+  <input type="text" name="displayName" id="displayName" Value="{{displayName?}}" placeholder="{{email}}" required>
+  <button type="submit" class="small" title="Save" aria-label="Save">Update</button>
+</form>

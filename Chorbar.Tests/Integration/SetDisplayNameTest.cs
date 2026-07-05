@@ -23,8 +23,7 @@ public class SetDisplayNameTest
     [Test, CancelAfter(10_000)]
     public async Task SetsDisplayName(CancellationToken cancellationToken)
     {
-        var settings = await GetStore(_userA)
-            .Write(new SetDisplayName("Alice"), cancellationToken);
+        var settings = await GetStore(_userA).Write(new SetDisplayName("Alice"), cancellationToken);
 
         Assert.That(settings.DisplayName, Is.EqualTo("Alice"));
     }

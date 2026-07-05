@@ -8,28 +8,42 @@ namespace Chorbar.Controllers;
 
 [Authorize]
 [Route("settings/")]
-public class SettingsController(IHouseholdStore householdStore, UserStore userStore) : Controller
+public class SettingsController(UserStore userStore) : Controller
 {
+    [HttpGet("")]
+    public async Task<IResult> Page(CancellationToken cancellationToken)
+    {
+        var settings = await userStore.ReadSettings(cancellationToken);
+
+        return RenderSettingsPage(settings);
+    }
+
     [HttpPost("display_name")]
-    public async Task<IResult> SetDisplayName(
+    public ValueTask<IResult> SetDisplayName(
         [FromForm] string displayName,
+        CancellationToken cancellationToken
+    ) => Apply(new SetDisplayName(displayName), cancellationToken);
+
+    private async ValueTask<IResult> Apply(
+        UserEventPayload payload,
         CancellationToken cancellationToken
     )
     {
-        await userStore.Write(new SetDisplayName(displayName), cancellationToken);
-        var settings = await userStore.ReadSettings(cancellationToken);
-        var households = await householdStore
-            .List(cancellationToken)
-            .ToArrayAsync(cancellationToken);
-        return new PartialResult(
-            new Menu(
-                email: settings.Email,
-                displayName: settings.DisplayName,
-                households: households.Select(h => new HouseholdSelectorOption(
-                    id: h.Id.ToString() ?? "id",
-                    name: h.Name ?? "name"
-                ))
-            )
-        );
+        var settings = await userStore.Write(payload, cancellationToken);
+
+        return RenderSettingsPage(settings);
+    }
+
+    private IResult RenderSettingsPage(UserSettings settings)
+    {
+        var page = new SettingsPage(email: settings.Email, displayName: settings.DisplayName);
+
+        if (Request.Headers["HX-Target"].Contains("modal"))
+        {
+            Response.Headers.Append("HX-Push-Url", "false");
+            return new ModalResult(page);
+        }
+
+        return new PageResult(page);
     }
 }
