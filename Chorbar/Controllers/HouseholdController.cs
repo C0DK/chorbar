@@ -114,14 +114,20 @@ public class HouseholdController(
         if (email == identityProvider.GetIdentity())
             throw new InvalidOperationException("You cannot remove yourself from the household.");
 
-        return await EditPage(await Write(new RemoveMember(email), cancellationToken), cancellationToken);
+        return await EditPage(
+            await Write(new RemoveMember(email), cancellationToken),
+            cancellationToken
+        );
     }
 
     [HttpPost("ical/generate")]
     public async Task<IResult> GenerateIcal(CancellationToken cancellationToken)
     {
         var token = Guid.NewGuid().ToString("N");
-        return await EditPage(await Write(new GenerateIcalToken(token), cancellationToken), cancellationToken);
+        return await EditPage(
+            await Write(new GenerateIcalToken(token), cancellationToken),
+            cancellationToken
+        );
     }
 
     [HttpPost("delete")]
@@ -131,7 +137,10 @@ public class HouseholdController(
         return new HxRedirectResult("/household/");
     }
 
-    private async ValueTask<IResult> EditPage(Household household, CancellationToken cancellationToken)
+    private async ValueTask<IResult> EditPage(
+        Household household,
+        CancellationToken cancellationToken
+    )
     {
         var page = await ViewHelpers.EditPage(
             userReader,
