@@ -1,6 +1,13 @@
 .sortable-handle {
   cursor: move;
   cursor: -webkit-grabbing;
+<<<<<<< HEAD
+||||||| parent of 4063ba6 (chore: Make own controller)
+  align-self: center;
+  margin-right: var(--space-xs);
+=======
+  align-self: center;
+>>>>>>> 4063ba6 (chore: Make own controller)
 
   &svg {
 

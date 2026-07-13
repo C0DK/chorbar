@@ -23,7 +23,7 @@ public record AddPastChoreCompletion(string Label, DateOnly When) : HouseholdEve
                 chore with
                 {
                     History = chore
-                        .History.Add((MidnightOn(When), actor.Value))
+                        .History.Add((MidnightOn(When), actor))
                         .OrderBy(a => a)
                         .ToImmutableArray(),
                 }

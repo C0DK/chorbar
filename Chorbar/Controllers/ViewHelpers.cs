@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Chorbar.Model;
 using Chorbar.Templates;
+using Chorbar.Utils;
 using Strongbars.Abstractions;
 
 namespace Chorbar.Controllers;
@@ -18,6 +19,27 @@ internal static class ViewHelpers
             todoListEnabled: household.TodoListEnabled,
             members: household.Members.Select(m => new HouseholdMemberEntity(
                 email: m.ToString(),
+                removable: m != household.Creator && m != currentUser
+            )),
+            hasIcalToken: household.IcalToken is not null,
+            icalUrl: household.IcalToken is not null && baseUrl is not null
+                ? $"{baseUrl}/ical/{household.Id.Value}/{household.IcalToken}"
+                : null
+        );
+
+    public static async ValueTask<EditHousehold> EditPage(
+        UserReader userReader,
+        Household household,
+        Email currentUser,
+        string? baseUrl = null,
+        CancellationToken cancellationToken = default
+    ) =>
+        new EditHousehold(
+            name: household.Name,
+            shoppingListEnabled: household.ShoppingListEnabled,
+            todoListEnabled: household.TodoListEnabled,
+            members: await household.Members.SelectAsync(async m => new HouseholdMemberEntity(
+                email: await userReader.DisplayName(m, cancellationToken),
                 removable: m != household.Creator && m != currentUser
             )),
             hasIcalToken: household.IcalToken is not null,
@@ -139,6 +161,31 @@ internal static class ViewHelpers
             _ => deadline.Value.ToString("d MMMM yyyy"),
         };
     }
+
+    public static async ValueTask<EditChore> EditChore(
+        UserReader userReader,
+        string label,
+        Chore chore,
+        CancellationToken cancellationToken
+    ) =>
+        new EditChore(
+            htmlId: ChoreHtmlId(label),
+            label: label,
+            actions: await chore
+                .History.OrderByDescending(t => t)
+                .SelectAsync(async a => new ChoreActivity(
+                    timeAgo: TimeAgo(a.Timestamp),
+                    timestamp: a.Timestamp.ToString("O"),
+                    date: a.Timestamp.ToString("yyyy-MM-dd HH:mm"),
+                    label: label,
+                    user: await userReader.DisplayName(a.User, cancellationToken)
+                )),
+            // badges are annoying to update for the form..
+            //badges: ChoreBadges(chore),
+            goalNumerator: chore.Goal?.Numerator,
+            goalUnit: chore?.Goal?.Unit.ToString(),
+            today: DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")
+        );
 
     public static EditChore EditChore(string label, Chore chore) =>
         new EditChore(

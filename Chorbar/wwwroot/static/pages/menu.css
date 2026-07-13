@@ -1,0 +1,37 @@
+#menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  & h2 {
+    margin-bottom: 0;
+  }
+
+
+  span {
+    display: flex;
+    gap: var(--space-xs);
+
+    :first-child {
+      flex: 1;
+
+    }
+
+    :not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left-width: 0;
+    }
+
+    :not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .createNewHousehold {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-xs);
+  }
+}

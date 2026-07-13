@@ -86,6 +86,7 @@ builder.Services.AddTransient<IIdentityProvider, ClaimsBasedIdentityProvider>();
 builder.Services.AddSingleton<EventMetrics>();
 builder.Services.AddSingleton<AuthMetrics>();
 builder.Services.AddSingleton<MailMetrics>();
+builder.Services.AddSingleton<IAsyncLazyCache<Email, UserInfo>, AsyncLazyCache<Email, UserInfo>>();
 builder.Services.AddTransient<HouseholdStore>();
 var brevoApiClient = EnvironmentVariable.GetOrNull("BREVO_API_KEY");
 if (brevoApiClient is not null)
@@ -103,6 +104,8 @@ else
     builder.Services.AddTransient<IMailSender, LogMailer>();
 }
 builder.Services.AddTransient<HouseholdStore>();
+builder.Services.AddTransient<UserStore>();
+builder.Services.AddTransient<UserReader>();
 builder.Services.AddTransient<DemoHouseholdStore>();
 builder.Services.AddTransient<IHouseholdStore, RoutingHouseholdStore>();
 builder.Services.AddHttpClient();

@@ -51,8 +51,7 @@
     content="Agree on how often chores should get done, tick them off, and share the mental load. Open source.">
 </head>
 
-<body hx-ext="sse" hx-headers='{"X-CSRF-TOKEN": "{{csrfToken}}"}'
-  _="on every showToast(message)
+<body hx-ext="sse" hx-headers='{"X-CSRF-TOKEN": "{{csrfToken}}"}' _="on every showToast(message)
        if no #toasts
          make a <div#toasts/> called c then put c at the end of body
        end
@@ -80,7 +79,7 @@
   </main>
   <div id="modal"></div>
   <footer>
-    <span><em class="brand">Chor.bar</em> - A very unfinished product by <a href="https://cwb.dk">cwb.dk</a></span>
+    <p><em class="brand">Chor.bar</em> - made with ❤️ by <a href="https://cwb.dk">cwb.dk</a></p>
   </footer>
 </body>
 

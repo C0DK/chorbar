@@ -74,6 +74,8 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
     private static Household CreateSeedHousehold()
     {
         var now = DateTimeOffset.UtcNow;
+        var bob = new Email("bob@chor.bar");
+        var alice = new Email("alice@chor.bar");
 
         return new Household(
             Id: DemoHouseholdId,
@@ -87,12 +89,12 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         Created: now.AddDays(-42),
                         History:
                         [
-                            (now.AddDays(-35), "Bob"),
-                            (now.AddDays(-28), "Bob"),
-                            (now.AddDays(-21), "Alice"),
-                            (now.AddDays(-14), "Alice"),
-                            (now.AddDays(-7), "Alice"),
-                            (now.AddDays(-1), "Alice"),
+                            (now.AddDays(-35), bob),
+                            (now.AddDays(-28), bob),
+                            (now.AddDays(-21), alice),
+                            (now.AddDays(-14), alice),
+                            (now.AddDays(-7), alice),
+                            (now.AddDays(-1), alice),
                         ],
                         Goal: new Goal(1, DateUnit.Week)
                     )
@@ -103,10 +105,10 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         Created: now.AddDays(-56),
                         History:
                         [
-                            (now.AddDays(-42), "Bob"),
-                            (now.AddDays(-30), "Bob"),
-                            (now.AddDays(-23), "Alice"),
-                            (now.AddDays(-14), "Alice"),
+                            (now.AddDays(-42), bob),
+                            (now.AddDays(-30), bob),
+                            (now.AddDays(-23), alice),
+                            (now.AddDays(-14), alice),
                         ],
                         Goal: new Goal(2, DateUnit.Week)
                     )
@@ -117,11 +119,11 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         Created: now.AddDays(-18),
                         History:
                         [
-                            (now.AddDays(-15), "Bob"),
-                            (now.AddDays(-12), "Bob"),
-                            (now.AddDays(-9), "Alice"),
-                            (now.AddDays(-6), "Alice"),
-                            (now.AddDays(-3), "Alice"),
+                            (now.AddDays(-15), bob),
+                            (now.AddDays(-12), bob),
+                            (now.AddDays(-9), alice),
+                            (now.AddDays(-6), alice),
+                            (now.AddDays(-3), alice),
                         ],
                         Goal: new Goal(3, DateUnit.Day)
                     )
@@ -132,9 +134,9 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         Created: now.AddDays(-28),
                         History:
                         [
-                            (now.AddDays(-21), "Bob"),
-                            (now.AddDays(-14), "Alice"),
-                            (now.AddDays(-5), "Alice"),
+                            (now.AddDays(-21), bob),
+                            (now.AddDays(-14), alice),
+                            (now.AddDays(-5), alice),
                         ],
                         Goal: new Goal(1, DateUnit.Week)
                     )
@@ -143,7 +145,7 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                     "Mop kitchen floor",
                     new Chore(
                         Created: now.AddDays(-45),
-                        History: [(now.AddDays(-30), "Alice")],
+                        History: [(now.AddDays(-30), alice)],
                         Goal: new Goal(2, DateUnit.Week)
                     )
                 )
@@ -153,10 +155,10 @@ public class DemoHouseholdStore(IMemoryCache cache, IHttpContextAccessor httpCon
                         Created: now.AddDays(-60),
                         History:
                         [
-                            (now.AddDays(-46), "Bob"),
-                            (now.AddDays(-32), "Alice"),
-                            (now.AddDays(-18), "Alice"),
-                            (now.AddDays(-4), "Bob"),
+                            (now.AddDays(-46), bob),
+                            (now.AddDays(-32), alice),
+                            (now.AddDays(-18), alice),
+                            (now.AddDays(-4), bob),
                         ],
                         Goal: new Goal(2, DateUnit.Week)
                     )

@@ -8,6 +8,7 @@
     <AnalysisLevel>latest-all</AnalysisLevel>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <StrongbarsVisibility>public</StrongbarsVisibility>
+    <BaseIntermediateOutputPath>obj/</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">

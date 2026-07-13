@@ -1,13 +1,15 @@
 using Chorbar.Model;
-using Chorbar.Templates;
 using Chorbar.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chorbar.Controllers;
 
 [Route("household/{householdId:int}/chore/")]
-public class ChoresController(IHouseholdStore store) : SpecificHouseholdControllerBase(store)
+public class ChoresController(IHouseholdStore store, UserReader userReader)
+    : SpecificHouseholdControllerBase(store)
 {
+    private readonly UserReader _userReader = userReader;
+
     [HttpGet("")]
     public async Task<IResult> Card([FromQuery] string label, CancellationToken cancellationToken)
     {
@@ -30,7 +32,9 @@ public class ChoresController(IHouseholdStore store) : SpecificHouseholdControll
         if (chore is null)
             return Results.NotFound();
 
-        return new ModalResult(ViewHelpers.EditChore(label, chore));
+        return new ModalResult(
+            await ViewHelpers.EditChore(_userReader, label, chore, cancellationToken)
+        );
     }
 
     // todo: return modal + oob
