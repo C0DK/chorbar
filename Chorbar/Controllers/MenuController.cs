@@ -12,7 +12,9 @@ public class MenuController(IHouseholdStore householdStore) : Controller
     [HttpGet("")]
     public async Task<IResult> List(CancellationToken cancellationToken)
     {
-        var households = await householdStore.List(cancellationToken).ToArrayAsync(cancellationToken);
+        var households = await householdStore
+            .List(cancellationToken)
+            .ToArrayAsync(cancellationToken);
         var selector = new Menu(
             households: households.Select(h => new HouseholdSelectorOption(
                 id: h.Id.ToString() ?? "id",

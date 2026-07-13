@@ -1,4 +1,5 @@
 using Chorbar.Model;
+using Chorbar.Utils;
 using Microsoft.Extensions.Time.Testing;
 using Npgsql;
 
@@ -109,7 +110,22 @@ public class UserStoreTest
     private FakeTimeProvider _timeProvider = null!;
 
     private UserStore GetStore(Email identity) =>
-        new UserStore(_conn, new StaticIdentityProvider(identity), _timeProvider);
+        new UserStore(
+            _conn,
+            new StaticIdentityProvider(identity),
+            _timeProvider,
+            new AsyncLazyCache<Email, UserInfo>()
+        );
+
+    [Test, CancelAfter(10_000)]
+    public async Task ReadInfoCachesResult(CancellationToken cancellationToken)
+    {
+        var store = GetStore(_emailAlice);
+        var info1 = await store.ReadInfo(cancellationToken);
+        var info2 = await store.ReadInfo(cancellationToken);
+
+        Assert.That(ReferenceEquals(info1, info2), Is.True);
+    }
 
     private static readonly TimeSpan _timeStep = TimeSpan.FromMinutes(1);
 

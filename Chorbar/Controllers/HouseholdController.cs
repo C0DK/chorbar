@@ -3,14 +3,16 @@ using System.Text.Json.Serialization;
 using Chorbar.Model;
 using Chorbar.Templates;
 using Chorbar.Utils;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chorbar.Controllers;
 
 [Route("household/{householdId:int}/")]
-public class HouseholdController(IHouseholdStore store, IIdentityProvider identityProvider)
-    : SpecificHouseholdControllerBase(store)
+public class HouseholdController(
+    IHouseholdStore store,
+    UserReader userReader,
+    IIdentityProvider identityProvider
+) : SpecificHouseholdControllerBase(store)
 {
     private readonly JsonSerializerOptions exportOptions = new()
     {
@@ -40,7 +42,7 @@ public class HouseholdController(IHouseholdStore store, IIdentityProvider identi
             new EnableShoppingList(Request.Form.GetCheckbox("enabled")),
             cancellationToken
         );
-        return EditPage(household);
+        return await EditPage(household, cancellationToken);
     }
 
     [HttpPost("enable_todo_list")]
@@ -50,20 +52,20 @@ public class HouseholdController(IHouseholdStore store, IIdentityProvider identi
             new EnableTodoList(Request.Form.GetCheckbox("enabled")),
             cancellationToken
         );
-        return EditPage(household);
+        return await EditPage(household, cancellationToken);
     }
 
     [HttpGet("edit")]
     public async Task<IResult> EditForm(CancellationToken cancellationToken) =>
-        EditPage(await Get(cancellationToken));
+        await EditPage(await Get(cancellationToken), cancellationToken);
 
     [HttpPost("edit")]
     public async Task<IResult> Edit([FromForm] string name, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(name))
-            return EditPage(await Get(cancellationToken));
+            return await EditPage(await Get(cancellationToken), cancellationToken);
 
-        return EditPage(await Write(new Rename(name), cancellationToken));
+        return await EditPage(await Write(new Rename(name), cancellationToken), cancellationToken);
     }
 
     [HttpGet("export.json")]
@@ -101,7 +103,7 @@ public class HouseholdController(IHouseholdStore store, IIdentityProvider identi
     public async Task<IResult> Invite(
         [FromForm] Email email,
         CancellationToken cancellationToken
-    ) => EditPage(await Write(new AddMember(email), cancellationToken));
+    ) => await EditPage(await Write(new AddMember(email), cancellationToken), cancellationToken);
 
     [HttpPost("remove_member")]
     public async Task<IResult> RemoveMember(
@@ -112,14 +114,14 @@ public class HouseholdController(IHouseholdStore store, IIdentityProvider identi
         if (email == identityProvider.GetIdentity())
             throw new InvalidOperationException("You cannot remove yourself from the household.");
 
-        return EditPage(await Write(new RemoveMember(email), cancellationToken));
+        return await EditPage(await Write(new RemoveMember(email), cancellationToken), cancellationToken);
     }
 
     [HttpPost("ical/generate")]
     public async Task<IResult> GenerateIcal(CancellationToken cancellationToken)
     {
         var token = Guid.NewGuid().ToString("N");
-        return EditPage(await Write(new GenerateIcalToken(token), cancellationToken));
+        return await EditPage(await Write(new GenerateIcalToken(token), cancellationToken), cancellationToken);
     }
 
     [HttpPost("delete")]
@@ -129,9 +131,15 @@ public class HouseholdController(IHouseholdStore store, IIdentityProvider identi
         return new HxRedirectResult("/household/");
     }
 
-    private IResult EditPage(Household household)
+    private async ValueTask<IResult> EditPage(Household household, CancellationToken cancellationToken)
     {
-        var page = ViewHelpers.EditPage(household, identityProvider.GetIdentity(), BaseUrl());
+        var page = await ViewHelpers.EditPage(
+            userReader,
+            household,
+            identityProvider.GetIdentity(),
+            BaseUrl(),
+            cancellationToken
+        );
         if (Request.Headers["HX-Target"].Contains("modal"))
         {
             Response.Headers.Append("HX-Push-Url", "false");

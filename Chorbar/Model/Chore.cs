@@ -4,7 +4,7 @@ namespace Chorbar.Model;
 
 public record Chore(
     DateTimeOffset Created,
-    ImmutableArray<(DateTimeOffset Timestamp, string User)> History,
+    ImmutableArray<(DateTimeOffset Timestamp, Email User)> History,
     Goal? Goal = null
 )
 {

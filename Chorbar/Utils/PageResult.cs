@@ -31,11 +31,7 @@ public class PageResult(string content, string? title = null) : IResult
             && httpContext.User.GetEmailOrNull() is not null;
 
         // TODO: only if changed
-        var nav = new Nav(
-            inHousehold: !string.IsNullOrWhiteSpace(householdName),
-            householdName: httpContext.GetHouseholdName(),
-            authed: authed
-        );
+        var nav = new Nav(authed: authed);
         if (!headers.ContainsKey("HX-Request")) // this also includes boosted
             await response.WriteAsync(
                 new Layout(

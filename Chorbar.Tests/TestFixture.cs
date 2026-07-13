@@ -1,3 +1,5 @@
+using Chorbar.Model;
+
 namespace Chorbar.Tests;
 
 public class TestFixture
@@ -10,7 +12,9 @@ public class TestFixture
     public static DateTimeOffset d(int days) =>
         new DateTimeOffset(2024, 01, 01, 0, 0, 0, TimeSpan.Zero).AddDays(days);
 
-    public static (DateTimeOffset Timestamp, string User) h(int days) => (d(days), "test@test.dk");
+    public static (DateTimeOffset Timestamp, Email User) h(int days) =>
+        (d(days), new Email("test@test.dk"));
 
-    public static (DateTimeOffset Timestamp, string User) ht(int i) => (t(i), "test@test.dk");
+    public static (DateTimeOffset Timestamp, Email User) ht(int i) =>
+        (t(i), new Email("test@test.dk"));
 }

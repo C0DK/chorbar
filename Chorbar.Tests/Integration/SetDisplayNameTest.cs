@@ -1,4 +1,5 @@
 using Chorbar.Model;
+using Chorbar.Utils;
 using Microsoft.Extensions.Time.Testing;
 using Npgsql;
 
@@ -117,7 +118,12 @@ public class SetDisplayNameTest
     private FakeTimeProvider _timeProvider = null!;
 
     private UserStore GetStore(Email identity) =>
-        new UserStore(_conn, new StaticIdentityProvider(identity), _timeProvider);
+        new UserStore(
+            _conn,
+            new StaticIdentityProvider(identity),
+            _timeProvider,
+            new AsyncLazyCache<Email, UserInfo>()
+        );
 
     private static readonly TimeSpan _timeStep = TimeSpan.FromMinutes(1);
 

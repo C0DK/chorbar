@@ -1,15 +1,13 @@
 <div id="menu">
   <h2> Select household </h2>
 
-  <div id="householdSelector">
-    {{..households}}
+  {{..households}}
 
-    <span class="createNew">
-      <a class="btn" href="/household/new" hx-boost="true">
-        Create new
-      </a>
-    </span>
-  </div>
+  <span class="createNewHousehold">
+    <a class="btn small" href="/household/new" hx-boost="true">
+      Create new
+    </a>
+  </span>
 
   <a class="btn small outline" href="/settings/" hx-boost="true">
     Settings

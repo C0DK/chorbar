@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Chorbar.Model;
+using Chorbar.Utils;
 using Npgsql;
 using NpgsqlTypes;
 
@@ -10,22 +11,37 @@ public class UserStore
     public const string ActivitySourceName = "Chorbar.UserStore";
     private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
 
-    public UserStore(NpgsqlConnection connection, IIdentityProvider identityProvider)
+    private readonly NpgsqlConnection _connection;
+    private readonly IIdentityProvider _identityProvider;
+    private readonly TimeProvider _timeProvider;
+    private readonly UserReader _reader;
+    private readonly IAsyncLazyCache<Email, UserInfo> _infoCache;
+
+    public UserStore(
+        NpgsqlConnection connection,
+        IIdentityProvider identityProvider,
+        IAsyncLazyCache<Email, UserInfo> infoCache
+    )
     {
         _connection = connection;
         _identityProvider = identityProvider;
         _timeProvider = TimeProvider.System;
+        _infoCache = infoCache;
+        _reader = new UserReader(connection, infoCache);
     }
 
     public UserStore(
         NpgsqlConnection connection,
         IIdentityProvider identityProvider,
-        TimeProvider timeProvider
+        TimeProvider timeProvider,
+        IAsyncLazyCache<Email, UserInfo> infoCache
     )
     {
         _connection = connection;
         _identityProvider = identityProvider;
         _timeProvider = timeProvider;
+        _infoCache = infoCache;
+        _reader = new UserReader(connection, infoCache);
     }
 
     public ValueTask<UserSettings> Write(
@@ -42,13 +58,21 @@ public class UserStore
         var identity = _identityProvider.GetIdentity();
         activity?.SetTag("email", identity.Value);
         await using var transaction = await _connection.BeginTransactionAsync(cancellationToken);
+        var clearCache = false;
         foreach (var payload in payloads)
         {
             await WriteEvent(payload, cancellationToken);
+            if (payload is SetDisplayName)
+                clearCache = true;
         }
         var updatedEntity = await ReadSettings(cancellationToken);
 
         await transaction.CommitAsync(cancellationToken);
+
+        // Eventually this should be cleared via a database trigger / NOTIFY
+        // so that other processes also invalidate their caches.
+        if (clearCache)
+            _infoCache?.Remove(identity);
 
         return updatedEntity;
     }
@@ -87,10 +111,9 @@ public class UserStore
     {
         using var activity = ActivitySource.StartActivity("HouseholdStore.Read");
 
-        // TODO: precheck to save resources?
         var identity = _identityProvider.GetIdentity();
         activity?.SetTag("email", identity.Value);
-        await using var enumerator = ReadEvents(cancellationToken);
+        await using var enumerator = _reader.ReadEvents(identity, cancellationToken);
 
         var entity = UserSettings.Create(identity);
 
@@ -102,66 +125,6 @@ public class UserStore
         return entity;
     }
 
-    public async ValueTask<UserInfo> ReadInfo(CancellationToken cancellationToken)
-    {
-        using var activity = ActivitySource.StartActivity("HouseholdStore.Read");
-
-        // TODO: precheck to save resources?
-        var identity = _identityProvider.GetIdentity();
-        activity?.SetTag("email", identity.Value);
-        await using var enumerator = ReadEvents(cancellationToken);
-
-        var entity = UserInfo.Create(identity);
-
-        while (await enumerator.MoveNextAsync())
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            entity = enumerator.Current.Apply(entity);
-        }
-        return entity;
-    }
-
-    private async IAsyncEnumerator<UserEvent> ReadEvents(CancellationToken cancellationToken)
-    {
-        using var command = new NpgsqlCommand(
-            //language=sql
-            """
-            SELECT
-              email,
-              version,
-              timestamp,
-              payload
-            FROM user_event
-            WHERE email = $1
-            ORDER BY timestamp
-            """,
-            _connection
-        );
-        var identity = _identityProvider.GetIdentity();
-        command.Parameters.AddWithValue(identity.Value);
-        await using var enumerator = command
-            .ReadAllAsync(
-                async (reader, ct) =>
-                    new UserEvent(
-                        Email: identity,
-                        Version: await reader.GetFieldValueAsync<int>(1, ct),
-                        Timestamp: await reader.GetFieldValueAsync<DateTimeOffset>(2, ct),
-                        Payload: UserEventPayload.Deserialize(
-                            await reader.GetFieldValueAsync<string>(3, ct)
-                        )
-                    ),
-                cancellationToken
-            )
-            .GetAsyncEnumerator(cancellationToken);
-
-        while (await enumerator.MoveNextAsync())
-        {
-            yield return enumerator.Current;
-            cancellationToken.ThrowIfCancellationRequested();
-        }
-    }
-
-    private readonly NpgsqlConnection _connection;
-    private readonly IIdentityProvider _identityProvider;
-    private readonly TimeProvider _timeProvider;
+    public ValueTask<UserInfo> ReadInfo(CancellationToken cancellationToken) =>
+        _reader.Info(_identityProvider.GetIdentity(), cancellationToken);
 }
