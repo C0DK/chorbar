@@ -22,31 +22,6 @@
       ) config.chorbar.envSecrets
     );
 
-    services.postgresql = {
-      enable = true;
-      ensureDatabases = [ "chorbar" ];
-      ensureUsers = [
-        {
-          name = "chorbar-pod";
-          ensureClauses.login = true;
-        }
-      ];
-      enableTCPIP = true;
-      # 10.88.0.0/16 is podman's default bridge network — that's where the
-      # chorbar-web container lives. Keep this tight; using `samenet` here
-      # would also match the host's external interface, which on a VPS
-      # means anyone in the same datacenter subnet.
-      authentication = lib.mkOverride 10 ''
-        #type database DBuser        origin-address  auth-method
-        local all      all                           trust
-        host  chorbar  chorbar-pod   127.0.0.1/32    trust
-        host  chorbar  grafana       127.0.0.1/32    trust
-        host  chorbar  chorbar-pod   ::1/128         trust
-        host  chorbar  grafana       ::1/128         trust
-        host  chorbar  chorbar-pod   10.88.0.0/16    trust
-      '';
-    };
-
     # https://bkiran.com/blog/deploying-containers-nixos
     virtualisation.podman.enable = true;
     virtualisation.oci-containers = {
@@ -63,11 +38,5 @@
         ports = [ "8080:8080" ];
       };
     };
-
-    # The default NixOS firewall blocks 5432 inbound, including from the podman
-    # bridge — so the chorbar-web container can't reach the host's postgres.
-    # Trust the bridge: pg_hba.conf still gates auth at the postgres layer.
-    # If you use a non-default podman network name, add it here.
-    networking.firewall.trustedInterfaces = [ "podman0" ];
   };
 }
