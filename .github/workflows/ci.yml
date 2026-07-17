@@ -1,6 +1,6 @@
 name: CI
 
-on:
+'on':
   push:
 
 jobs:
@@ -39,3 +39,36 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v14
       - run: nix run nixpkgs#statix -- check .
       - run: nix flake check --no-build
+
+  sql-validate:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install psqldef
+        run: |
+          set -euo pipefail
+          url=$(curl -fsSL https://api.github.com/repos/sqldef/sqldef/releases/latest \
+            | jq -r '.assets[] | select(.name == "psqldef_linux_amd64.tar.gz") | .browser_download_url')
+          curl -fsSL "$url" | tar xz -C /usr/local/bin psqldef
+          psqldef --version
+      - name: Apply sql/schema.sql and sql/grants.sql against a real postgres
+        run: |
+          set -euo pipefail
+          PGPASSWORD= psql -h localhost -U postgres -v ON_ERROR_STOP=1 \
+            -d postgres -c "CREATE DATABASE chorbar"
+          PGPASSWORD= psql -h localhost -U postgres -v ON_ERROR_STOP=1 \
+            -d chorbar -f sql/schema.sql
+          PGPASSWORD= psql -h localhost -U postgres -v ON_ERROR_STOP=1 \
+            -d chorbar -f sql/grants.sql
