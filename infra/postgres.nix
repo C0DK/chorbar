@@ -9,6 +9,19 @@
           name = "chorbar-pod";
           ensureClauses.login = true;
         }
+        {
+          # Used by `nix run .#db-migrate` and similar ops scripts. Has
+          # CREATEDB so it can create the chorbar database on a fresh
+          # cluster. The chorbar-init-schema unit below grants CREATE
+          # on schema public so it can run init.sql's CREATE TABLE /
+          # SEQUENCE statements. Trusts pg_hba for TCP from localhost
+          # only — never reachable from the podman bridge.
+          name = "chorbar-migrator";
+          ensureClauses = {
+            login = true;
+            createdb = true;
+          };
+        }
       ];
       enableTCPIP = true;
       # 10.88.0.0/16 is podman's default bridge network — that's where the
@@ -16,13 +29,15 @@
       # would also match the host's external interface, which on a VPS
       # means anyone in the same datacenter subnet.
       authentication = lib.mkOverride 10 ''
-        #type database DBuser        origin-address  auth-method
-        local all      all                           trust
-        host  chorbar  chorbar-pod   127.0.0.1/32    trust
-        host  chorbar  grafana       127.0.0.1/32    trust
-        host  chorbar  chorbar-pod   ::1/128         trust
-        host  chorbar  grafana       ::1/128         trust
-        host  chorbar  chorbar-pod   10.88.0.0/16    trust
+        #type database DBuser             origin-address  auth-method
+        local all      all                                 trust
+        host  chorbar  chorbar-pod       127.0.0.1/32    trust
+        host  chorbar  chorbar-migrator  127.0.0.1/32    trust
+        host  chorbar  grafana           127.0.0.1/32    trust
+        host  chorbar  chorbar-pod       ::1/128         trust
+        host  chorbar  chorbar-migrator  ::1/128         trust
+        host  chorbar  grafana           ::1/128         trust
+        host  chorbar  chorbar-pod       10.88.0.0/16    trust
       '';
     };
 
@@ -59,6 +74,21 @@
           if psql -d postgres -tAc 'SELECT 1' >/dev/null 2>&1; then break; fi
           sleep 1
         done
+        # Grant chorbar-migrator the rights it needs to run init.sql as a
+        # non-owner. Idempotent: GRANT is no-op when the privilege is
+        # already held.
+        psql -d postgres -tAc \
+          "SELECT 1 FROM pg_roles WHERE rolname='chorbar-migrator'" | grep -q 1 || exit 0
+        psql -d chorbar <<'SQL'
+        GRANT CREATE ON SCHEMA public TO chorbar-migrator;
+        GRANT USAGE  ON SCHEMA public TO chorbar-pod;
+        SQL
+        # Silence the "collation version mismatch" warning that fires
+        # whenever NixOS upgrades glibc. The data hasn't been reindexed,
+        # but we accept that — string-comparison semantics may shift for
+        # rows that haven't been touched, which is the trade-off
+        # recommended by the postgres docs for non-critical workloads.
+        psql -v ON_ERROR_STOP=1 -d chorbar -c 'ALTER DATABASE chorbar REFRESH COLLATION VERSION;' 2>/dev/null || true
         psql -v ON_ERROR_STOP=1 -d chorbar -f ${../sql/init.sql}
       '';
     };
