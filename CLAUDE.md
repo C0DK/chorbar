@@ -49,3 +49,6 @@ csharpier format .
 ## Known Gotchas
 - `HouseholdId.TryParse(string)` — inverted logic bug was fixed (missing `!` on `int.TryParse`)
 - `string.IsNullOrEmpty("name")` in router = always checks literal, not variable (latent bug)
+
+## Working with the agent
+- **Never merge a PR or push to `main` without explicit, per-PR approval from the user.** Open PRs, wait for the user to say "merge" or equivalent, and confirm CI is green before doing so. If CI is failing or ambiguous, ask first.
