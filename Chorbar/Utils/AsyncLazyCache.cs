@@ -16,12 +16,46 @@ public class AsyncLazyCache<TKey, TValue> : IAsyncLazyCache<TKey, TValue>
         var lazy = _cache.GetOrAdd(
             key,
             k => new Lazy<Task<TValue>>(
-                () => factory(k, cancellationToken),
+                () =>
+                {
+                    Task<TValue> task;
+                    try
+                    {
+                        task = factory(k, cancellationToken);
+                    }
+                    catch
+                    {
+                        _cache.TryRemove(k, out _);
+                        throw;
+                    }
+                    return EvictOnFailure(k, task);
+                },
                 LazyThreadSafetyMode.ExecutionAndPublication
             )
         );
-        return lazy.Value;
+        try
+        {
+            return lazy.Value;
+        }
+        catch
+        {
+            _cache.TryRemove(key, out _);
+            throw;
+        }
     }
 
     public void Remove(TKey key) => _cache.TryRemove(key, out _);
+
+    private async Task<TValue> EvictOnFailure(TKey key, Task<TValue> task)
+    {
+        try
+        {
+            return await task;
+        }
+        catch
+        {
+            _cache.TryRemove(key, out _);
+            throw;
+        }
+    }
 }
