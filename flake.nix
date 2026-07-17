@@ -101,38 +101,12 @@
     {
       packages.${system}.dockerImage = dockerImage;
 
-      # CI / manual entry point: apply sql/init.sql to the chorbar database.
-      # Pass a libpq conninfo string as the first arg; defaults assume the
-      # local host (the same machine the module's postgres runs on). The
-      # database is created if it doesn't exist yet.
-      # Usage: nix run .#db-migrate -- "host=localhost user=postgres dbname=chorbar"
-      apps.${system}.db-migrate = {
-        type = "app";
-        program = toString (pkgs.writeShellScript "db-migrate" ''
-          set -euo pipefail
-          conn="''${1:-host=/run/postgresql user=postgres dbname=chorbar}"
-          psql_root() { ${pkgs.postgresql}/bin/psql -v ON_ERROR_STOP=1 -d postgres "$@"; }
-          psql_root -tAc "SELECT 1 FROM pg_database WHERE datname='chorbar'" | grep -q 1 \
-            || psql_root -c "CREATE DATABASE chorbar"
-          exec ${pkgs.postgresql}/bin/psql -v ON_ERROR_STOP=1 "$conn" -f ${./sql/init.sql}
-        '');
-        meta = {
-          description = "Apply sql/init.sql to the chorbar database (idempotent).";
-          longDescription = ''
-            Pass a libpq conninfo string as the first arg to target a
-            remote host. Defaults to the local postgres unix socket as
-            the postgres superuser.
-          '';
-        };
-      };
-
       nixosModules.default =
         { ... }:
         {
           imports = [
             sops-nix.nixosModules.sops
             ./infra/app.nix
-            ./infra/postgres.nix
           ];
           virtualisation.oci-containers.containers.chorbar-web.imageFile = dockerImage;
         };
