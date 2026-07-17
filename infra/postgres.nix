@@ -1,4 +1,15 @@
 { config, lib, ... }:
+let
+  # GRANT statements to run as the postgres superuser after the standard
+  # ensureDatabases / ensureUsers setup. Idempotent. Lets chorbar-migrator
+  # CREATE TABLE / SEQUENCE on the chorbar database without owning it.
+  grantScript = ''
+    psql -d chorbar <<'SQL'
+    GRANT CREATE ON SCHEMA public TO chorbar-migrator;
+    GRANT USAGE  ON SCHEMA public TO chorbar-pod;
+    SQL
+  '';
+in
 {
   config = {
     services.postgresql = {
@@ -10,9 +21,11 @@
           ensureClauses.login = true;
         }
         {
-          # Used by `nix run .#db-migrate` and similar ops scripts. Has
-          # CREATEDB so the migration can create the chorbar database on
-          # a fresh cluster; trusts pg_hba for TCP from localhost only.
+          # Used by `nix run .#db-migrate`. Has CREATEDB so it can create
+          # the chorbar database on a fresh cluster. The GRANTS that let
+          # it CREATE on schema public are applied as part of the standard
+          # postgresql-setup service below. Trusts pg_hba for TCP from
+          # localhost only — never reachable from the podman bridge.
           name = "chorbar-migrator";
           ensureClauses = {
             login = true;
@@ -44,35 +57,14 @@
     # If you use a non-default podman network name, add it here.
     networking.firewall.trustedInterfaces = [ "podman0" ];
 
-    # Apply sql/init.sql against the chorbar database on every boot.
-    # init.sql uses CREATE ... IF NOT EXISTS so this is safe to re-run on
-    # existing clusters, and on a fresh cluster it just creates everything.
-    # We don't use services.postgresql.initialScript: nixpkgs only fires
-    # that on the cluster's first startup, and it targets the `postgres`
-    # database — not `chorbar`.
-    systemd.services.chorbar-init-schema = {
-      description = "Chorbar DB schema (idempotent)";
-      wantedBy = [ "multi-user.target" ];
-      # postgresql-setup creates the chorbar database and users; we must
-      # run after it so the DB exists when we connect.
-      after = [ "postgresql.service" "postgresql-setup.service" ];
-      requires = [ "postgresql.service" "postgresql-setup.service" ];
-      serviceConfig = {
-        Type = "oneshot";
-        User = "postgres";
-        Group = "postgres";
-        RemainAfterExit = true;
-      };
-      path = [ config.services.postgresql.finalPackage ];
-      script = ''
-        # postgresql.service transitions to active before the cluster
-        # is fully accepting connections; wait briefly.
-        for i in 1 2 3 4 5 6 7 8 9 10; do
-          if psql -d postgres -tAc 'SELECT 1' >/dev/null 2>&1; then break; fi
-          sleep 1
-        done
-        psql -v ON_ERROR_STOP=1 -d chorbar -f ${../sql/init.sql}
-      '';
-    };
+    # Append the chorbar GRANTS to the standard postgresql-setup script.
+    # That service already runs as the postgres superuser after the
+    # ensureDatabases / ensureUsers steps, so we get the privileges in
+    # place before any other service can connect. We don't run init.sql
+    # here — `nix run .#db-migrate` (or a manual `psql -f`) applies the
+    # schema, and CREATE ... IF NOT EXISTS makes the apply idempotent.
+    systemd.services.postgresql-setup.serviceConfig.ExecStartPost = [
+      "/bin/sh" "-c" grantScript
+    ];
   };
 }
