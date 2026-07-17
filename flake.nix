@@ -104,7 +104,9 @@
       # CI / manual entry point: apply sql/init.sql to the chorbar database.
       # Pass a libpq conninfo string as the first arg; defaults connect over
       # TCP to localhost as the chorbar-migrator role, which has CREATEDB
-      # and is trusted on 127.0.0.1/::1 by the postgres module.
+      # and CREATE on schema public (granted by infra/postgres.nix's
+      # postgresql-setup extension). Trusts pg_hba for TCP from
+      # 127.0.0.1/::1.
       # Usage: nix run .#db-migrate -- "host=localhost user=chorbar-migrator dbname=chorbar"
       apps.${system}.db-migrate = {
         type = "app";
@@ -114,6 +116,15 @@
           psql_chorbar() { ${pkgs.postgresql}/bin/psql -v ON_ERROR_STOP=1 "$conn" "$@"; }
           psql_chorbar -tAc "SELECT 1 FROM pg_database WHERE datname='chorbar'" | grep -q 1 \
             || psql_chorbar -c "CREATE DATABASE chorbar"
+<<<<<<< HEAD
+=======
+          # Silence the "collation version mismatch" warning on NixOS.
+          # The data isn't reindexed, but the trade-off is fine for the
+          # workload — string-comparison semantics may shift for rows
+          # that haven't been touched, which is what postgres docs
+          # recommend for non-critical workloads.
+          psql_chorbar -c 'ALTER DATABASE chorbar REFRESH COLLATION VERSION;' 2>/dev/null || true
+>>>>>>> 7a86117 (fix: grant chorbar-migrator schema privileges via postgresql-setup ExecStartPost)
           exec ${pkgs.postgresql}/bin/psql -v ON_ERROR_STOP=1 "$conn" -f ${./sql/init.sql}
         '');
         meta = {
@@ -121,8 +132,14 @@
           longDescription = ''
             Pass a libpq conninfo string as the first arg to target a
             remote host. Defaults to TCP localhost as the chorbar-migrator
+<<<<<<< HEAD
             role, which the postgres module grants CREATEDB and trusts
             on 127.0.0.1/::1.
+=======
+            role. The infra/postgres.nix module grants chorbar-migrator
+            CREATE on schema public as part of the postgresql-setup
+            service, so it can run init.sql without owning the database.
+>>>>>>> 7a86117 (fix: grant chorbar-migrator schema privileges via postgresql-setup ExecStartPost)
           '';
         };
       };
