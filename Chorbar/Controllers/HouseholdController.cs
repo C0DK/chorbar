@@ -11,7 +11,8 @@ namespace Chorbar.Controllers;
 public class HouseholdController(
     IHouseholdStore store,
     UserReader userReader,
-    IIdentityProvider identityProvider
+    IIdentityProvider identityProvider,
+    IMailSender mailer
 ) : SpecificHouseholdControllerBase(store)
 {
     private readonly JsonSerializerOptions exportOptions = new()
@@ -100,10 +101,21 @@ public class HouseholdController(
     }
 
     [HttpPost("invite")]
-    public async Task<IResult> Invite(
-        [FromForm] Email email,
-        CancellationToken cancellationToken
-    ) => await EditPage(await Write(new AddMember(email), cancellationToken), cancellationToken);
+    public async Task<IResult> Invite([FromForm] Email email, CancellationToken cancellationToken)
+    {
+        var household = await Write(new AddMember(email), cancellationToken);
+        var inviter = identityProvider.GetIdentity();
+        var inviterName = await userReader.DisplayName(inviter, cancellationToken);
+        var householdUrl = $"{BaseUrl()}/household/{household.Id.Value}/";
+        await mailer.SendHouseholdInvite(
+            email,
+            household.Name,
+            householdUrl,
+            inviterName,
+            cancellationToken
+        );
+        return await EditPage(household, cancellationToken);
+    }
 
     [HttpPost("remove_member")]
     public async Task<IResult> RemoveMember(
