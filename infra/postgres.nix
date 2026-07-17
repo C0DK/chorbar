@@ -9,6 +9,16 @@
           name = "chorbar-pod";
           ensureClauses.login = true;
         }
+        {
+          # Used by `nix run .#db-migrate` and similar ops scripts. Has
+          # CREATEDB so the migration can create the chorbar database on
+          # a fresh cluster; trusts pg_hba for TCP from localhost only.
+          name = "chorbar-migrator";
+          ensureClauses = {
+            login = true;
+            createdb = true;
+          };
+        }
       ];
       enableTCPIP = true;
       # 10.88.0.0/16 is podman's default bridge network — that's where the
@@ -16,13 +26,15 @@
       # would also match the host's external interface, which on a VPS
       # means anyone in the same datacenter subnet.
       authentication = lib.mkOverride 10 ''
-        #type database DBuser        origin-address  auth-method
-        local all      all                           trust
-        host  chorbar  chorbar-pod   127.0.0.1/32    trust
-        host  chorbar  grafana       127.0.0.1/32    trust
-        host  chorbar  chorbar-pod   ::1/128         trust
-        host  chorbar  grafana       ::1/128         trust
-        host  chorbar  chorbar-pod   10.88.0.0/16    trust
+        #type database DBuser             origin-address  auth-method
+        local all      all                                 trust
+        host  chorbar  chorbar-pod       127.0.0.1/32    trust
+        host  chorbar  chorbar-migrator  127.0.0.1/32    trust
+        host  chorbar  grafana           127.0.0.1/32    trust
+        host  chorbar  chorbar-pod       ::1/128         trust
+        host  chorbar  chorbar-migrator  ::1/128         trust
+        host  chorbar  grafana           ::1/128         trust
+        host  chorbar  chorbar-pod       10.88.0.0/16    trust
       '';
     };
 

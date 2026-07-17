@@ -102,26 +102,27 @@
       packages.${system}.dockerImage = dockerImage;
 
       # CI / manual entry point: apply sql/init.sql to the chorbar database.
-      # Pass a libpq conninfo string as the first arg; defaults assume the
-      # local host (the same machine the module's postgres runs on). The
-      # database is created if it doesn't exist yet.
-      # Usage: nix run .#db-migrate -- "host=localhost user=postgres dbname=chorbar"
+      # Pass a libpq conninfo string as the first arg; defaults connect over
+      # TCP to localhost as the chorbar-migrator role, which has CREATEDB
+      # and is trusted on 127.0.0.1/::1 by the postgres module.
+      # Usage: nix run .#db-migrate -- "host=localhost user=chorbar-migrator dbname=chorbar"
       apps.${system}.db-migrate = {
         type = "app";
         program = toString (pkgs.writeShellScript "db-migrate" ''
           set -euo pipefail
-          conn="''${1:-host=/run/postgresql user=postgres dbname=chorbar}"
-          psql_root() { ${pkgs.postgresql}/bin/psql -v ON_ERROR_STOP=1 -d postgres "$@"; }
-          psql_root -tAc "SELECT 1 FROM pg_database WHERE datname='chorbar'" | grep -q 1 \
-            || psql_root -c "CREATE DATABASE chorbar"
+          conn="''${1:-host=localhost user=chorbar-migrator dbname=chorbar}"
+          psql_chorbar() { ${pkgs.postgresql}/bin/psql -v ON_ERROR_STOP=1 "$conn" "$@"; }
+          psql_chorbar -tAc "SELECT 1 FROM pg_database WHERE datname='chorbar'" | grep -q 1 \
+            || psql_chorbar -c "CREATE DATABASE chorbar"
           exec ${pkgs.postgresql}/bin/psql -v ON_ERROR_STOP=1 "$conn" -f ${./sql/init.sql}
         '');
         meta = {
           description = "Apply sql/init.sql to the chorbar database (idempotent).";
           longDescription = ''
             Pass a libpq conninfo string as the first arg to target a
-            remote host. Defaults to the local postgres unix socket as
-            the postgres superuser.
+            remote host. Defaults to TCP localhost as the chorbar-migrator
+            role, which the postgres module grants CREATEDB and trusts
+            on 127.0.0.1/::1.
           '';
         };
       };
