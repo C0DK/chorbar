@@ -27,8 +27,8 @@ PR_NUMBER = int(os.environ["PR_NUMBER"])
 SHA = os.environ["SHA"]
 DIFF_PATH = Path(os.environ["DIFF_PATH"])
 META_PATH = Path(os.environ["META_PATH"])
-API_BASE = os.environ.get("OPENCODE_API_BASE", "https://api.opencode.ai/v1").rstrip("/")
-MODEL = os.environ.get("OPENCODE_MODEL", "opencode-go/glm-5.2")
+API_BASE = os.environ.get("OPENCODE_API_BASE", "https://opencode.ai/zen/v1").rstrip("/")
+MODEL = os.environ.get("OPENCODE_MODEL", "glm-5.2")
 API_KEY = os.environ["OPENCODE_API_KEY"]
 AGENTS_MD_PATH = Path(os.environ.get("AGENTS_MD_PATH", "AGENTS.md"))
 
@@ -119,11 +119,13 @@ def call_llm(prompt: str, system: str) -> dict:
     )
     try:
         with urllib.request.urlopen(req, timeout=180) as resp:
+            status = resp.status
             raw = resp.read().decode("utf-8")
     except urllib.error.HTTPError as e:
-        die(f"opencode-go API {e.code}: {e.read().decode('utf-8', 'replace')[:500]}")
+        body = e.read().decode("utf-8", "replace")[:800]
+        die(f"opencode-go API HTTP {e.code} at {url}\nresponse body:\n{body}")
     except urllib.error.URLError as e:
-        die(f"could not reach opencode-go API: {e}")
+        die(f"could not reach opencode-go API at {url}: {e}")
 
     try:
         data = json.loads(raw)

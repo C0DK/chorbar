@@ -50,8 +50,8 @@ jobs:
         id: review
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
-          OPENCODE_API_BASE: ${{ vars.OPENCODE_API_BASE || 'https://api.opencode.ai/v1' }}
-          OPENCODE_MODEL: ${{ vars.OPENCODE_MODEL || 'opencode-go/glm-5.2' }}
+          OPENCODE_API_BASE: ${{ vars.OPENCODE_API_BASE || 'https://opencode.ai/zen/v1' }}
+          OPENCODE_MODEL: ${{ vars.OPENCODE_MODEL || 'glm-5.2' }}
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
