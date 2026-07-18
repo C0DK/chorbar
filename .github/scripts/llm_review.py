@@ -109,6 +109,11 @@ def call_llm(prompt: str, system: str) -> dict:
             "Authorization": f"Bearer {API_KEY}",
             "Content-Type": "application/json",
             "Accept": "application/json",
+            # Cloudflare in front of the opencode-go endpoint rejects the
+            # default Python-urllib UA with HTTP 1010 (browser_signature_banned).
+            # Send a conventional browser-like UA so the request reaches the API.
+            "User-Agent": "opencode-go-review/1.0 (github-actions; +https://opencode.ai)",
+            "Accept-Language": "en-US,en;q=0.9",
         },
         method="POST",
     )
