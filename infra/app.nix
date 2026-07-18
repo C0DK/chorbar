@@ -1,27 +1,19 @@
 { config, lib, ... }:
 {
-  options.chorbar.envSecrets = lib.mkOption {
-    type = lib.types.attrsOf lib.types.str;
-    default = { };
-    example = { BREVO_API_KEY = "brevo_api_key"; };
+  options.chorbar.envFile = lib.mkOption {
+    type = lib.types.nullOr lib.types.path;
+    default = null;
+    example = "/run/secrets/testmaxing.env";
     description = ''
-      Map env-var name → sops secret key. Each entry becomes a line in
-      the env file rendered to /run/secrets/rendered/chorbar.env and
-      injected into the chorbar-web container at boot.
+      Path to an env file (KEY=VALUE lines) injected into the
+      chorbar-web container at boot, or null to skip. Use this for
+      app-level secrets (Brevo API key, etc.); produce the file with
+      whatever secret manager your host config uses (sops-nix
+      `sops.templates`, agenix, …). The module itself is agnostic.
     '';
   };
 
   config = {
-    sops.secrets = lib.mapAttrs' (
-      _: secretName: lib.nameValuePair secretName { }
-    ) config.chorbar.envSecrets;
-
-    sops.templates."chorbar.env".content = lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (
-        envKey: secretName: "${envKey}=${config.sops.placeholder.${secretName}}"
-      ) config.chorbar.envSecrets
-    );
-
     services.postgresql = {
       enable = true;
       ensureDatabases = [ "chorbar" ];
@@ -68,7 +60,7 @@
           DB_CONNECTION_STRING = "Host=host.containers.internal;Username=chorbar-pod;Database=chorbar";
           OTEL_EXPORTER_OTLP_ENDPOINT = "http://host.containers.internal:4317";
         };
-        environmentFiles = [ config.sops.templates."chorbar.env".path ];
+        environmentFiles = lib.optional (config.chorbar.envFile != null) config.chorbar.envFile;
         ports = [ "8080:8080" ];
       };
     };

@@ -165,10 +165,7 @@
       nixosModules.default =
         { ... }:
         {
-          imports = [
-            sops-nix.nixosModules.sops
-            ./infra/app.nix
-          ];
+          imports = [ ./infra/app.nix ];
           virtualisation.oci-containers.containers.chorbar-web.imageFile = dockerImage;
         };
 
@@ -177,7 +174,10 @@
       nixosModules.observability =
         { ... }:
         {
-          imports = [ ./infra/observability.nix ];
+          imports = [
+            sops-nix.nixosModules.sops
+            ./infra/observability.nix
+          ];
         };
     };
 }
