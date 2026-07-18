@@ -28,7 +28,7 @@ SHA = os.environ["SHA"]
 DIFF_PATH = Path(os.environ["DIFF_PATH"])
 META_PATH = Path(os.environ["META_PATH"])
 API_BASE = os.environ.get("OPENCODE_API_BASE", "https://opencode.ai/zen/v1").rstrip("/")
-MODEL = os.environ.get("OPENCODE_MODEL", "glm-5.2")
+MODEL = os.environ.get("OPENCODE_MODEL", "big-pickle")
 API_KEY = os.environ["OPENCODE_API_KEY"]
 AGENTS_MD_PATH = Path(os.environ.get("AGENTS_MD_PATH", "AGENTS.md"))
 

@@ -51,7 +51,9 @@ jobs:
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
           OPENCODE_API_BASE: ${{ vars.OPENCODE_API_BASE || 'https://opencode.ai/zen/v1' }}
-          OPENCODE_MODEL: ${{ vars.OPENCODE_MODEL || 'glm-5.2' }}
+          # Free-tier Zen model. Override with the `OPENCODE_MODEL` repo
+          # variable to switch to a paid model (e.g. glm-5.2, claude-sonnet-5).
+          OPENCODE_MODEL: ${{ vars.OPENCODE_MODEL || 'big-pickle' }}
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
