@@ -91,7 +91,7 @@
         psql -v ON_ERROR_STOP=1 -d chorbar -f ${../sql/grants.sql}
         psql -d postgres -tAc \
           "SELECT 1 FROM pg_roles WHERE rolname='chorbar-migrator'" | grep -q 1 || exit 0
-        psql -d chorbar -c "GRANT CREATE ON SCHEMA public TO chorbar-migrator;" >/dev/null
+        psql -d chorbar -c "GRANT CREATE ON SCHEMA public TO \"chorbar-migrator\";" >/dev/null
       '';
     };
   };
