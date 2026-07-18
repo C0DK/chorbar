@@ -1,4 +1,4 @@
-name: LLM PR Review
+name: AgentBox PR Review
 
 'on':
   pull_request:
@@ -11,12 +11,12 @@ permissions:
   checks: write
 
 concurrency:
-  group: llm-review-${{ github.event.pull_request.number }}
+  group: agentbox-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   review:
-    name: opencode-go review
+    name: AgentBox review
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false || github.event_name == 'workflow_dispatch'
     steps:
@@ -46,7 +46,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
         shell: bash
 
-      - name: Run opencode-go review
+      - name: Run AgentBox review
         id: review
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
@@ -72,7 +72,7 @@ jobs:
           count="${CRITICAL_COUNT:-0}"
           echo "Critical issues found: $count"
           if [ "${count}" -gt 0 ]; then
-            echo "::error::opencode-go review found $count critical issue(s). See PR comments."
+            echo "::error::AgentBox review found $count critical issue(s). See PR comments."
             exit 1
           fi
           echo "::notice::No critical issues found."

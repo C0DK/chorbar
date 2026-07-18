@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-LLM-assisted PR review.
+AgentBox — LLM-assisted PR review.
 
-Calls an OpenAI-compatible chat-completions endpoint (opencode-go by default)
+Calls an OpenAI-compatible chat-completions endpoint (opencode Zen by default)
 and posts severity-tagged inline review comments on the pull request.
 
 Severity levels:
@@ -20,21 +20,66 @@ import subprocess
 import sys
 import urllib.error
 import urllib.request
+from dataclasses import dataclass
 from pathlib import Path
 
-REPO = os.environ["REPO"]
-PR_NUMBER = int(os.environ["PR_NUMBER"])
-SHA = os.environ["SHA"]
-DIFF_PATH = Path(os.environ["DIFF_PATH"])
-META_PATH = Path(os.environ["META_PATH"])
-API_BASE = os.environ.get("OPENCODE_API_BASE", "https://opencode.ai/zen/v1").rstrip("/")
-MODEL = os.environ.get("OPENCODE_MODEL", "big-pickle")
-API_KEY = os.environ["OPENCODE_API_KEY"]
-AGENTS_MD_PATH = Path(os.environ.get("AGENTS_MD_PATH", "AGENTS.md"))
-
+# Env reads happen lazily in `Config.from_env()` so a missing secret produces
+# a friendly `die()` message from `main()` instead of a KeyError traceback at
+# module import time.
 SEVERITY_ORDER = {"suggestion": 0, "warning": 1, "critical": 2}
 SEVERITY_EMOJI = {"suggestion": "💡", "warning": "⚠️", "critical": "🛑"}
-REVIEW_MARKER = "<!-- llm-review sha:{sha} -->"
+REVIEW_MARKER = "<!-- agentbox sha:{sha} -->"
+REVIEWER_NAME = "AgentBox"
+DEFAULT_API_BASE = "https://opencode.ai/zen/v1"
+DEFAULT_MODEL = "big-pickle"
+
+
+@dataclass
+class Config:
+    repo: str
+    pr_number: int
+    sha: str
+    diff_path: Path
+    meta_path: Path
+    api_base: str
+    model: str
+    api_key: str
+    agents_md_path: Path
+
+    @classmethod
+    def from_env(cls) -> "Config":
+        def required(name: str) -> str:
+            val = os.environ.get(name)
+            if not val:
+                die(
+                    f"required environment variable '{name}' is not set; "
+                    f"check the workflow job env/secret configuration."
+                )
+            return val
+
+        repo = required("REPO")
+        pr_number = int(required("PR_NUMBER"))
+        sha = required("SHA")
+        diff_path = Path(required("DIFF_PATH"))
+        meta_path = Path(required("META_PATH"))
+        api_base = (
+            os.environ.get("OPENCODE_API_BASE", DEFAULT_API_BASE).rstrip("/")
+            or DEFAULT_API_BASE
+        )
+        model = os.environ.get("OPENCODE_MODEL") or DEFAULT_MODEL
+        api_key = required("OPENCODE_API_KEY")
+        agents_md_path = Path(os.environ.get("AGENTS_MD_PATH", "AGENTS.md"))
+        return cls(
+            repo,
+            pr_number,
+            sha,
+            diff_path,
+            meta_path,
+            api_base,
+            model,
+            api_key,
+            agents_md_path,
+        )
 
 
 def die(msg: str, code: int = 1) -> None:
@@ -90,10 +135,10 @@ def parse_diff(diff: str) -> dict[str, set[int]]:
     return {p: s for p, s in files.items() if s}
 
 
-def call_llm(prompt: str, system: str) -> dict:
-    url = f"{API_BASE}/chat/completions"
+def call_llm(cfg: Config, prompt: str, system: str) -> dict:
+    url = f"{cfg.api_base}/chat/completions"
     payload = {
-        "model": MODEL,
+        "model": cfg.model,
         "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": prompt},
@@ -106,13 +151,13 @@ def call_llm(prompt: str, system: str) -> dict:
         url,
         data=body,
         headers={
-            "Authorization": f"Bearer {API_KEY}",
+            "Authorization": f"Bearer {cfg.api_key}",
             "Content-Type": "application/json",
             "Accept": "application/json",
-            # Cloudflare in front of the opencode-go endpoint rejects the
+            # Cloudflare in front of the opencode Zen endpoint rejects the
             # default Python-urllib UA with HTTP 1010 (browser_signature_banned).
             # Send a conventional browser-like UA so the request reaches the API.
-            "User-Agent": "opencode-go-review/1.0 (github-actions; +https://opencode.ai)",
+            "User-Agent": "agentbox/1.0 (github-actions; +https://opencode.ai)",
             "Accept-Language": "en-US,en;q=0.9",
         },
         method="POST",
@@ -123,9 +168,9 @@ def call_llm(prompt: str, system: str) -> dict:
             raw = resp.read().decode("utf-8")
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", "replace")[:800]
-        die(f"opencode-go API HTTP {e.code} at {url}\nresponse body:\n{body}")
+        die(f"AgentBox: Zen API HTTP {e.code} at {url}\nresponse body:\n{body}")
     except urllib.error.URLError as e:
-        die(f"could not reach opencode-go API at {url}: {e}")
+        die(f"AgentBox: could not reach Zen API at {url}: {e}")
 
     try:
         data = json.loads(raw)
@@ -242,17 +287,18 @@ def _lenient_clean_json(s: str) -> str:
     return "".join(out)
 
 
-def build_prompt(diff: str, meta: dict, agents_md: str) -> tuple[str, str]:
+def build_prompt(cfg: Config, diff: str, meta: dict, agents_md: str) -> tuple[str, str]:
     title = meta.get("title", "")
     body = meta.get("body", "") or ""
     files = [f.get("path") for f in meta.get("files", []) if f.get("path")]
     stats = f"+{meta.get('additions', 0)} -{meta.get('deletions', 0)}"
 
     system = (
-        "You are a meticulous senior code reviewer. You analyse unified git diffs "
-        "and surface only meaningful issues. You do NOT comment just to comment: "
-        "if there is nothing important to say about a hunk, say nothing. "
-        "Be specific, cite code, and propose a concrete fix when possible.\n\n"
+        "You are AgentBox, a meticulous senior code reviewer. You analyse "
+        "unified git diffs and surface only meaningful issues. You do NOT "
+        "comment just to comment: if there is nothing important to say "
+        "about a hunk, say nothing. Be specific, cite code, and propose a "
+        "concrete fix when possible.\n\n"
         "Score every issue with exactly one severity:\n"
         "  - suggestion : nitpick, style, minor improvement, doc tweak\n"
         "  - warning    : correctness smell, missing test, risky path, dead code\n"
@@ -276,7 +322,8 @@ def build_prompt(diff: str, meta: dict, agents_md: str) -> tuple[str, str]:
         "- Only reference files and line numbers actually present in the diff.\n"
         "- If an issue doesn't map to a single diff line, omit `line` entirely.\n"
         "- Prefer fewer, high-signal issues over many low-value ones.\n"
-        "- An empty {\"issues\": []} is a valid and good answer when the diff is clean.\n"
+        "- An empty {\"issues\": []} is a valid and good answer when the diff is "
+        "clean.\n"
         "- Never fabricate files, symbols, or behaviour you cannot see.\n"
     )
 
@@ -294,7 +341,7 @@ def build_prompt(diff: str, meta: dict, agents_md: str) -> tuple[str, str]:
         f"PR body:\n{body[:4000]}\n\n"
         f"Files changed: {', '.join(files)}\n"
         f"Diff stats: {stats}\n"
-        f"Head SHA: {SHA}{project_context}\n\n"
+        f"Head SHA: {cfg.sha}{project_context}\n\n"
         "Unified diff to review:\n```diff\n"
         f"{diff[:120000]}\n"
         "```\n\n"
@@ -303,14 +350,14 @@ def build_prompt(diff: str, meta: dict, agents_md: str) -> tuple[str, str]:
     return prompt, system
 
 
-def existing_bot_review_for_sha() -> bool:
+def existing_bot_review_for_sha(cfg: Config) -> bool:
     """Has the bot already posted a review for this exact SHA?"""
-    marker = REVIEW_MARKER.format(sha=SHA)
+    marker = REVIEW_MARKER.format(sha=cfg.sha)
     try:
         out = gh(
             "api",
             f"--header=Accept: application/vnd.github+json",
-            f"/repos/{REPO}/pulls/{PR_NUMBER}/reviews",
+            f"/repos/{cfg.repo}/pulls/{cfg.pr_number}/reviews",
             "--paginate",
             check=False,
         )
@@ -329,7 +376,9 @@ def existing_bot_review_for_sha() -> bool:
     return False
 
 
-def post_review(issues: list[dict], valid_lines: dict[str, set[int]]) -> tuple[int, int, int]:
+def post_review(
+    cfg: Config, issues: list[dict], valid_lines: dict[str, set[int]]
+) -> tuple[int, int, int]:
     """Post a single review with inline comments. Returns (sugg, warn, crit) counts."""
     inline: list[dict] = []
     summary_only: list[dict] = []
@@ -342,7 +391,12 @@ def post_review(issues: list[dict], valid_lines: dict[str, set[int]]) -> tuple[i
             sev = "suggestion"
 
         body = format_comment_body(issue, sev)
-        if path and line is not None and path in valid_lines and int(line) in valid_lines[path]:
+        if (
+            path
+            and line is not None
+            and path in valid_lines
+            and int(line) in valid_lines[path]
+        ):
             comment = {"path": path, "line": int(line), "body": body, "side": "RIGHT"}
             start = issue.get("start_line")
             if isinstance(start, int) and start != line and start in valid_lines[path]:
@@ -366,8 +420,8 @@ def post_review(issues: list[dict], valid_lines: dict[str, set[int]]) -> tuple[i
         counts[(i.get("severity") or "suggestion").lower()] += 1
 
     summary_lines = [
-        f"### opencode-go review — `{SHA[:7]}`",
-        REVIEW_MARKER.format(sha=SHA),
+        f"### {REVIEWER_NAME} review — `{cfg.sha[:7]}`",
+        REVIEW_MARKER.format(sha=cfg.sha),
         "",
         f"- 💡 suggestions: **{counts['suggestion']}**",
         f"- ⚠️ warnings: **{counts['warning']}**",
@@ -394,7 +448,7 @@ def post_review(issues: list[dict], valid_lines: dict[str, set[int]]) -> tuple[i
         summary_lines.insert(2, "✅ Diff reviewed — no significant issues found.")
 
     payload = {
-        "commit_id": SHA,
+        "commit_id": cfg.sha,
         "event": "COMMENT",
         "body": "\n".join(summary_lines),
         "comments": inline,
@@ -404,10 +458,12 @@ def post_review(issues: list[dict], valid_lines: dict[str, set[int]]) -> tuple[i
 
     gh(
         "api",
-        "--method", "POST",
+        "--method",
+        "POST",
         "--header=Accept: application/vnd.github+json",
-        f"/repos/{REPO}/pulls/{PR_NUMBER}/reviews",
-        "--input", str(payload_path),
+        f"/repos/{cfg.repo}/pulls/{cfg.pr_number}/reviews",
+        "--input",
+        str(payload_path),
     )
     return counts["suggestion"], counts["warning"], counts["critical"]
 
@@ -428,45 +484,43 @@ def format_comment_body(issue: dict, sev: str) -> str:
 
 
 def main() -> None:
-    if not API_KEY:
-        die("OPENCODE_API_KEY secret is not set.")
-    if not DIFF_PATH.exists():
-        die(f"diff file not found: {DIFF_PATH}")
+    cfg = Config.from_env()
+    if not cfg.diff_path.exists():
+        die(f"diff file not found: {cfg.diff_path}")
 
-    diff = DIFF_PATH.read_text(errors="replace")
+    diff = cfg.diff_path.read_text(errors="replace")
     if not diff.strip():
         print("::notice::Empty diff, nothing to review.")
         _set_outputs(0, 0, 0)
         return
 
     meta = {}
-    if META_PATH.exists():
+    if cfg.meta_path.exists():
         try:
-            meta = json.loads(META_PATH.read_text())
+            meta = json.loads(cfg.meta_path.read_text())
         except json.JSONDecodeError:
             meta = {}
 
     agents_md = ""
-    if AGENTS_MD_PATH.exists():
-        agents_md = AGENTS_MD_PATH.read_text(errors="replace")
+    if cfg.agents_md_path.exists():
+        agents_md = cfg.agents_md_path.read_text(errors="replace")
 
     # De-duplicate: skip posting if bot already reviewed this exact SHA.
-    if existing_bot_review_for_sha():
+    if existing_bot_review_for_sha(cfg):
         print(
-            f"::notice::A bot review for {SHA[:7]} already exists on PR #{PR_NUMBER}; "
-            "skipping to avoid duplicate comments."
+            f"::notice::A {REVIEWER_NAME} review for {cfg.sha[:7]} already "
+            f"exists on PR #{cfg.pr_number}; skipping to avoid duplicate comments."
         )
         _set_outputs(0, 0, 0)
         return
 
     valid_lines = parse_diff(diff)
-    prompt, system = build_prompt(diff, meta, agents_md)
-    result = call_llm(prompt, system)
+    prompt, system = build_prompt(cfg, diff, meta, agents_md)
+    result = call_llm(cfg, prompt, system)
     issues = result.get("issues", []) if isinstance(result, dict) else []
     if not isinstance(issues, list):
         die(f"LLM `issues` field was not a list: {result!r}")
 
-    # Sanitise
     cleaned: list[dict] = []
     for i in issues:
         if not isinstance(i, dict):
@@ -479,16 +533,16 @@ def main() -> None:
             i["line"] = int(i["line"])
         if isinstance(i.get("start_line"), str) and i["start_line"].isdigit():
             i["start_line"] = int(i["start_line"])
-        # Drop issues referencing files not in the diff at all
         path = i.get("path")
         if path and path not in valid_lines and i.get("line") is not None:
-            # Likely off-base: demote to summary-only by clearing line.
             i["line"] = None
         cleaned.append(i)
 
-    sugg, warn, crit = post_review(cleaned, valid_lines)
-    print(f"::notice::Posted review on PR #{PR_NUMBER}: "
-          f"{sugg} suggestion, {warn} warning, {crit} critical")
+    sugg, warn, crit = post_review(cfg, cleaned, valid_lines)
+    print(
+        f"::notice::Posted {REVIEWER_NAME} review on PR #{cfg.pr_number}: "
+        f"{sugg} suggestion, {warn} warning, {crit} critical"
+    )
     _set_outputs(sugg, warn, crit)
 
 
