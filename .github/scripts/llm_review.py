@@ -322,7 +322,7 @@ def build_prompt(cfg: Config, diff: str, meta: dict, agents_md: str) -> tuple[st
         "- Only reference files and line numbers actually present in the diff.\n"
         "- If an issue doesn't map to a single diff line, omit `line` entirely.\n"
         "- Prefer fewer, high-signal issues over many low-value ones.\n"
-        "- An empty {\"issues\": []} is a valid and good answer when the diff is "
+        '- An empty {"issues": []} is a valid and good answer when the diff is '
         "clean.\n"
         "- Never fabricate files, symbols, or behaviour you cannot see.\n"
     )
@@ -331,9 +331,7 @@ def build_prompt(cfg: Config, diff: str, meta: dict, agents_md: str) -> tuple[st
     if agents_md.strip():
         project_context = (
             "\n\nProject conventions (from AGENTS.md), apply them as "
-            "authoritative review rules:\n```\n"
-            + agents_md
-            + "\n```\n"
+            "authoritative review rules:\n```\n" + agents_md + "\n```\n"
         )
 
     prompt = (
