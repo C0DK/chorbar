@@ -31,4 +31,8 @@ public static class EnvironmentVariable
         GetOrNull("LOG_LEVEL") is { } value
             ? Enum.Parse<LogEventLevel>(value, ignoreCase: true)
             : LogEventLevel.Debug;
+
+    public static string Domain => GetRequired("DOMAIN");
+
+    public static Uri RootUrl => new(GetRequired("ROOT_URL"));
 }
