@@ -140,19 +140,106 @@ def call_llm(prompt: str, system: str) -> dict:
 
 
 def parse_llm_json(content: str) -> object:
-    """Tolerant parser: handles fenced ```json blocks or raw JSON."""
+    """Tolerant JSON parser. Handles fenced ```json blocks, trailing
+    commas, JS-style // comments, and embedded prose around the JSON
+    object. Never raises — returns None on hard failure.
+    """
     s = content.strip()
+
+    # Strip a leading ```json or ``` fence and its closing fence.
     if s.startswith("```"):
         s = re.sub(r"^```(?:json)?\s*", "", s)
-        s = re.sub(r"\s*```\s*$", "", s)
+        # Remove the first closing ``` we find after that.
+        fence = s.find("```")
+        if fence != -1:
+            s = s[:fence] + s[fence + 3 :]
+    s = s.strip()
+
+    # Some models wrap JSON in <json>…</json> tags.
+    m = re.search(r"<json[^>]*>(.*?)</json>", s, re.DOTALL | re.IGNORECASE)
+    if m:
+        s = m.group(1).strip()
+
+    # First attempt: as-is.
     try:
         return json.loads(s)
     except json.JSONDecodeError:
-        # Last-ditch: grab the outermost {...}
-        m = re.search(r"\{.*\}", content, re.DOTALL)
-        if m:
-            return json.loads(m.group(0))
-        return None
+        pass
+
+    # Second attempt: clean trailing commas and // line comments
+    # outside of string literals.
+    cleaned = _lenient_clean_json(s)
+    try:
+        return json.loads(cleaned)
+    except json.JSONDecodeError:
+        pass
+
+    # Third attempt: find the outermost {...} block, then clean.
+    start = s.find("{")
+    end = s.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        fragment = s[start : end + 1]
+        cleaned = _lenient_clean_json(fragment)
+        try:
+            return json.loads(cleaned)
+        except json.JSONDecodeError:
+            pass
+
+    # Last resort: dump content to logs for debugging.
+    print("::warning::Could not parse LLM JSON response. Raw content:")
+    print("---BEGIN RAW---")
+    print(content[:4000])
+    print("---END RAW---")
+    return None
+
+
+def _lenient_clean_json(s: str) -> str:
+    """Remove trailing commas and // comments outside of string literals."""
+    out = []
+    i = 0
+    in_str = False
+    str_quote = ""
+    while i < len(s):
+        ch = s[i]
+        if in_str:
+            out.append(ch)
+            if ch == "\\" and i + 1 < len(s):
+                out.append(s[i + 1])
+                i += 2
+                continue
+            if ch == str_quote:
+                in_str = False
+            i += 1
+            continue
+        if ch in ('"', "'"):
+            in_str = True
+            str_quote = ch
+            out.append(ch)
+            i += 1
+            continue
+        # // comment to end of line
+        if ch == "/" and i + 1 < len(s) and s[i + 1] == "/":
+            while i < len(s) and s[i] != "\n":
+                i += 1
+            continue
+        # /* block comment */
+        if ch == "/" and i + 1 < len(s) and s[i + 1] == "*":
+            i += 2
+            while i + 1 < len(s) and not (s[i] == "*" and s[i + 1] == "/"):
+                i += 1
+            i += 2
+            continue
+        # trailing comma before } or ]
+        if ch == ",":
+            j = i + 1
+            while j < len(s) and s[j].isspace():
+                j += 1
+            if j < len(s) and s[j] in "}]":
+                i += 1
+                continue
+        out.append(ch)
+        i += 1
+    return "".join(out)
 
 
 def build_prompt(diff: str, meta: dict, agents_md: str) -> tuple[str, str]:
