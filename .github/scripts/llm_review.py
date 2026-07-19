@@ -332,8 +332,8 @@ def build_prompt(cfg: Config, diff: str, meta: dict, agents_md: str) -> tuple[st
         "schema validation (SQL).\n\n"
         "If you spot a recurring formatting/style pattern that NO existing "
         "linter in this repo covers, you may emit AT MOST ONE suggestion "
-        "recommending the linter to add (e.g. \"add ruff to CI for unused "
-        "imports\") — do NOT enumerate individual instances.\n\n"
+        'recommending the linter to add (e.g. "add ruff to CI for unused '
+        'imports") — do NOT enumerate individual instances.\n\n'
         "## How to behave like a human reviewer\n"
         "- Prefer fewer, high-signal findings. A clean diff is a good "
         "outcome — return an empty issues list.\n"
