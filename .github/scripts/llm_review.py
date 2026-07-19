@@ -161,6 +161,8 @@ def call_llm(cfg: Config, prompt: str, system: str) -> dict:
         # temperature=0 keeps successive runs on the same diff stable so the
         # review doesn't snowball new low-value findings every push.
         "temperature": 0,
+        # Bump the default so big-pickle doesn't truncate the JSON mid-stream.
+        "max_tokens": 8000,
         "response_format": {"type": "json_object"},
     }
     body = json.dumps(payload).encode("utf-8")
@@ -203,15 +205,18 @@ def call_llm(cfg: Config, prompt: str, system: str) -> dict:
 
 def parse_llm_json(content: str) -> object:
     """Tolerant JSON parser. Handles fenced ```json blocks, trailing
-    commas, JS-style // comments, and embedded prose around the JSON
-    object. Never raises — returns None on hard failure.
+    commas, JS-style // comments, embedded prose around the JSON object,
+    and truncated responses (e.g. when the LLM hits max_tokens mid-stream
+    — we salvage whatever issues it already emitted by closing open
+    braces/brackets). Never raises — returns None on hard failure.
     """
     s = content.strip()
 
-    # Strip a leading ```json or ``` fence and its closing fence.
+    # Strip a leading ```json or ``` fence. If the response was
+    # truncated mid-stream there will be no closing fence, so only
+    # strip the leading one if present and leave the tail alone.
     if s.startswith("```"):
         s = re.sub(r"^```(?:json)?\s*", "", s)
-        # Remove the first closing ``` we find after that.
         fence = s.find("```")
         if fence != -1:
             s = s[:fence] + s[fence + 3 :]
@@ -236,14 +241,14 @@ def parse_llm_json(content: str) -> object:
     except json.JSONDecodeError:
         pass
 
-    # Third attempt: find the outermost {...} block, then clean.
-    start = s.find("{")
-    end = s.rfind("}")
-    if start != -1 and end != -1 and end > start:
-        fragment = s[start : end + 1]
-        cleaned = _lenient_clean_json(fragment)
+    # Third attempt: truncated response — the LLM ran out of tokens
+    # mid-string. Walk from the first '{' to the end and try to close
+    # any open containers by appending the missing `"` `]` `}` chars
+    # in order. Salvages issues already emitted before the cut.
+    repaired = _repair_truncated_json(s)
+    if repaired is not None:
         try:
-            return json.loads(cleaned)
+            return json.loads(repaired)
         except json.JSONDecodeError:
             pass
 
@@ -253,6 +258,68 @@ def parse_llm_json(content: str) -> object:
     print(content[:4000])
     print("---END RAW---")
     return None
+
+
+def _repair_truncated_json(s: str) -> str | None:
+    """Close open containers/strings so a truncated LLM JSON response
+    still parses. Best-effort; returns None if no JSON prefix is found.
+    """
+    start = s.find("{")
+    if start == -1:
+        return None
+    frag = s[start:]
+    out = []
+    in_str = False
+    str_quote = ""
+    stack: list[str] = []  # 'o' for object, 'a' for array
+    i = 0
+    while i < len(frag):
+        ch = frag[i]
+        if in_str:
+            out.append(ch)
+            if ch == "\\" and i + 1 < len(frag):
+                out.append(frag[i + 1])
+                i += 2
+                continue
+            if ch == str_quote:
+                in_str = False
+            i += 1
+            continue
+        if ch in '"\'':
+            in_str = True
+            str_quote = ch
+            out.append(ch)
+            i += 1
+            continue
+        if ch == "{":
+            stack.append("o")
+        elif ch == "[":
+            stack.append("a")
+        elif ch == "}":
+            if stack and stack[-1] == "o":
+                stack.pop()
+            elif stack:
+                return None
+        elif ch == "]":
+            if stack and stack[-1] == "a":
+                stack.pop()
+            elif stack:
+                return None
+        out.append(ch)
+        i += 1
+
+    # If we exited inside a string, close it.
+    suffix = ""
+    if in_str:
+        suffix += str_quote
+    # Drop a trailing comma that's now dangling before the closing brace.
+    stripped = "".join(out)
+    if stripped.rstrip().endswith(","):
+        stripped = stripped.rstrip()[:-1]
+    # Close whatever containers remain on the stack, innermost first.
+    for opener in reversed(stack):
+        suffix += "}" if opener == "o" else "]"
+    return stripped + suffix
 
 
 def _lenient_clean_json(s: str) -> str:
