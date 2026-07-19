@@ -285,7 +285,7 @@ def _repair_truncated_json(s: str) -> str | None:
                 in_str = False
             i += 1
             continue
-        if ch in '"\'':
+        if ch in ("'", '"'):
             in_str = True
             str_quote = ch
             out.append(ch)
