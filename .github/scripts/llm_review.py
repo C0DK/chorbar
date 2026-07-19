@@ -186,10 +186,17 @@ def call_llm(cfg: Config, prompt: str, system: str) -> dict:
             status = resp.status
             raw = resp.read().decode("utf-8")
     except urllib.error.HTTPError as e:
+        # Never print the URL — secrets are in headers, not the URL, but
+        # some upstreams log request URLs/headers back; _redact() scrubs
+        # any Bearer tokens in the body.
         body = _redact(e.read().decode("utf-8", "replace"))[:800]
-        die(f"AgentBox: Zen API HTTP {e.code} at {url}\nresponse body:\n{body}")
+        die(
+            f"AgentBox: Zen API returned HTTP {e.code}. "
+            f"Response body (truncated, redacted):\n{body}"
+        )
     except urllib.error.URLError as e:
-        die(f"AgentBox: could not reach Zen API at {url}: {e}")
+        # Don't echo the URL — keep it opaque.
+        die(f"AgentBox: could not reach the Zen API: {e}")
 
     try:
         data = json.loads(raw)
@@ -241,8 +248,20 @@ def parse_llm_json(content: str) -> object:
     except json.JSONDecodeError:
         pass
 
-    # Third attempt: truncated response — the LLM ran out of tokens
-    # mid-string. Walk from the first '{' to the end and try to close
+    # Third attempt: extract the outermost balanced {...} or [...] block
+    # from a prose-wrapped response, then clean.
+    start = s.find("{")
+    end = s.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        fragment = s[start : end + 1]
+        cleaned = _lenient_clean_json(fragment)
+        try:
+            return json.loads(cleaned)
+        except json.JSONDecodeError:
+            pass
+
+    # Fourth attempt: truncated response — the LLM ran out of tokens
+    # mid-stream. Walk from the first '{' to the end and try to close
     # any open containers by appending the missing `"` `]` `}` chars
     # in order. Salvages issues already emitted before the cut.
     repaired = _repair_truncated_json(s)
@@ -418,14 +437,21 @@ def build_prompt(cfg: Config, diff: str, meta: dict, agents_md: str) -> tuple[st
         "- Stay anchored to the diff. Never fabricate files, symbols, or "
         "behaviour you cannot see.\n"
         "- Do NOT speculate. Only raise issues you can demonstrate from "
-        "the visible code. Phrases like 'if X happens' or 'could leak' "
-        "without evidence in the diff are speculation — drop them. If "
-        "the code does not currently do the bad thing, do not flag it.\n"
-        "- GitHub Actions automatically masks all registered secrets in "
-        "log output, so printing error messages, URLs, or response "
-        "bodies is not a secret-leak risk. Do not flag 'could be "
-        "logged' concerns about secrets that are read from env vars "
-        "and passed via standard auth headers.\n\n"
+        "the visible code. Specifically:\n"
+        "  * Do NOT raise 'X could leak if Y' concerns where Y is a "
+        "hypothetical (e.g. 'if the API base URL contained the key'). "
+        "Only flag what the code currently does.\n"
+        "  * Do NOT raise 'could be logged' concerns about secrets. "
+        "GitHub Actions automatically masks all registered secrets in "
+        "log output. Printing error messages, URLs, or response bodies "
+        "is not a secret-leak risk.\n"
+        "  * Do NOT flag auth headers passed via standard `Authorization: "
+        "Bearer ...` headers as a leak.\n"
+        "  * Do NOT raise issues about forks/external contributors "
+        "lacking secret access — the workflow already gates on "
+        "`github.event.pull_request.head.repo.full_name == github.repository`.\n"
+        "If you cannot cite the specific diff line that demonstrates "
+        "the bad behaviour, do not raise the issue.\n\n"
         "## Severity\n"
         "- suggestion : optional refactor or architectural improvement\n"
         "- warning    : correctness smell, missing test, risky path\n"
