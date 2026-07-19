@@ -1,0 +1,81 @@
+name: AgentBox PR Review
+
+'on':
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  pull-requests: write
+  contents: read
+  checks: write
+
+concurrency:
+  group: agentbox-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    name: AgentBox review
+    runs-on: ubuntu-latest
+    # Skip drafts and PRs from forks (forks don't have access to repo secrets,
+    # so the review would fail with a confusing "missing OPENCODE_API_KEY" error).
+    if: |
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gather PR diff
+        id: diff
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p .llm-review
+          gh pr diff "$PR_NUMBER" --repo "$REPO" > .llm-review/pr.diff
+          gh pr view "$PR_NUMBER" --repo "$REPO" --json title,body,additions,deletions,files \
+            > .llm-review/pr-meta.json
+          {
+            echo "diff-path=.llm-review/pr.diff"
+            echo "meta-path=.llm-review/pr-meta.json"
+            echo "pr-number=$PR_NUMBER"
+            echo "repo=$REPO"
+            echo "sha=$SHA"
+          } >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Run AgentBox review
+        id: review
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          OPENCODE_API_BASE: ${{ vars.OPENCODE_API_BASE || 'https://opencode.ai/zen/v1' }}
+          # Free-tier Zen model. Override with the `OPENCODE_MODEL` repo
+          # variable to switch to a paid model (e.g. glm-5.2, claude-sonnet-5).
+          OPENCODE_MODEL: ${{ vars.OPENCODE_MODEL || 'big-pickle' }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          DIFF_PATH: ${{ steps.diff.outputs.diff-path }}
+          META_PATH: ${{ steps.diff.outputs.meta-path }}
+          AGENTS_MD_PATH: "AGENTS.md"
+        run: python3 .github/scripts/llm_review.py
+
+      - name: Resolve check status
+        if: always()
+        env:
+          CRITICAL_COUNT: ${{ steps.review.outputs.critical_count }}
+        shell: bash
+        run: |
+          count="${CRITICAL_COUNT:-0}"
+          echo "Critical issues found: $count"
+          if [ "${count}" -gt 0 ]; then
+            echo "::error::AgentBox review found $count critical issue(s). See PR comments."
+            exit 1
+          fi
+          echo "::notice::No critical issues found."

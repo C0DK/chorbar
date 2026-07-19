@@ -52,3 +52,8 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+# LLM review scratch
+.llm-review/
+
+__pycache__/
+*.pyc
