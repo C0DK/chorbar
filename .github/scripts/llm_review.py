@@ -112,7 +112,12 @@ def gh(*args: str, check: bool = True, input_text: str | None = None) -> str:
 
 
 def parse_diff(diff: str) -> dict[str, set[int]]:
-    """Return {file_path: set_of_new_file_line_numbers_in_diff} for inline comments."""
+    """Return {file_path: set_of_new_file_line_numbers_in_diff} for inline comments.
+
+    Includes BOTH added lines (`+`) and unchanged context lines (` `) — GitHub
+    accepts inline review comments on either, as long as the line is inside a
+    hunk visible on the commit being reviewed.
+    """
     files: dict[str, set[int]] = {}
     current_file: str | None = None
     current_lines: set[int] = set()
@@ -140,8 +145,12 @@ def parse_diff(diff: str) -> dict[str, set[int]]:
             continue
         if line.startswith("-"):
             continue
-        # context line or added line → advances the new-file line counter
+        # Added line: include and advance the new-file line counter.
         if line.startswith("+"):
+            current_lines.add(new_line)
+        else:
+            # Context line (' '): also a valid inline-comment target as
+            # long as it's inside a hunk.
             current_lines.add(new_line)
         new_line += 1
     if current_file is not None:
