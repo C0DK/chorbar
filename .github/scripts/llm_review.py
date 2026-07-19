@@ -39,6 +39,15 @@ REVIEWER_NAME = "AgentBox"
 DEFAULT_API_BASE = "https://opencode.ai/zen/v1"
 DEFAULT_MODEL = "big-pickle"
 
+# Matches a Bearer token in an Authorization header or anywhere in text —
+# used to scrub error bodies before printing to logs.
+_BEARER_RE = re.compile(r"(Bearer\s+)([A-Za-z0-9._\-]+)", re.IGNORECASE)
+
+
+def _redact(text: str) -> str:
+    """Scrub anything that looks like a Bearer token before printing."""
+    return _BEARER_RE.sub(r"\1***", text)
+
 
 @dataclass
 class Config:
@@ -175,7 +184,7 @@ def call_llm(cfg: Config, prompt: str, system: str) -> dict:
             status = resp.status
             raw = resp.read().decode("utf-8")
     except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8", "replace")[:800]
+        body = _redact(e.read().decode("utf-8", "replace"))[:800]
         die(f"AgentBox: Zen API HTTP {e.code} at {url}\nresponse body:\n{body}")
     except urllib.error.URLError as e:
         die(f"AgentBox: could not reach Zen API at {url}: {e}")
@@ -340,7 +349,16 @@ def build_prompt(cfg: Config, diff: str, meta: dict, agents_md: str) -> tuple[st
         "- Each finding must explain the real-world consequence and a "
         "concrete fix, not just describe the code.\n"
         "- Stay anchored to the diff. Never fabricate files, symbols, or "
-        "behaviour you cannot see.\n\n"
+        "behaviour you cannot see.\n"
+        "- Do NOT speculate. Only raise issues you can demonstrate from "
+        "the visible code. Phrases like 'if X happens' or 'could leak' "
+        "without evidence in the diff are speculation — drop them. If "
+        "the code does not currently do the bad thing, do not flag it.\n"
+        "- GitHub Actions automatically masks all registered secrets in "
+        "log output, so printing error messages, URLs, or response "
+        "bodies is not a secret-leak risk. Do not flag 'could be "
+        "logged' concerns about secrets that are read from env vars "
+        "and passed via standard auth headers.\n\n"
         "## Severity\n"
         "- suggestion : optional refactor or architectural improvement\n"
         "- warning    : correctness smell, missing test, risky path\n"
