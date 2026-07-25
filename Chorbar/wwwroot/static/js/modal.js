@@ -7,6 +7,12 @@ document.addEventListener("toggle", function (e) {
       el.inert = open;
     });
   };
-  if (open) apply();
-  else setTimeout(apply, 30); // sometimes the touch thing is too quick and will click through.
+  if (open) {
+    apply();
+  } else {
+    setTimeout(apply, 30); // sometimes the touch thing is too quick and will click through.
+    if (!e.target.isConnected) return; // element was swapped out, not actually closed by the user
+    var returnUrl = e.target.getAttribute("data-return-url");
+    if (returnUrl && location.pathname !== returnUrl) history.back();
+  }
 }, true);

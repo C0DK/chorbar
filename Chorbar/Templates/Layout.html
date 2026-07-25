@@ -53,8 +53,11 @@
 
 <body hx-ext="sse" hx-headers='{"X-CSRF-TOKEN": "{{csrfToken}}"}' _="on every showToast(message)
        if no #toasts
-         make a <div#toasts/> called c then put c at the end of body
+         make a <div#toasts/> called c
+         set c.popover to 'manual'
+         put c at the end of body
        end
+       call #toasts.showPopover()
        make a <div.toast/> called t
        put message into t
        put t at the start of #toasts

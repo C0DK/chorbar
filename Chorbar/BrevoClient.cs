@@ -17,6 +17,22 @@ public class BrevoClient(HttpClient client, string apiKey, ILogger logger, MailM
         );
     }
 
+    public ValueTask SendHouseholdInvite(
+        Email email,
+        string householdName,
+        string householdUrl,
+        string inviterName,
+        CancellationToken cancellationToken
+    )
+    {
+        return Send(
+            email,
+            $"You've been invited to {householdName}",
+            new HouseholdInviteEmail(householdName, householdUrl, inviterName),
+            cancellationToken
+        );
+    }
+
     public async ValueTask Send(
         Email email,
         string subject,

@@ -1,4 +1,4 @@
-<div id="modal" popover hx-swap-oob="outerHTML" _="
+<div id="modal" popover hx-swap-oob="outerHTML" data-return-url="{{returnUrl?}}" _="
         on htmx:afterSettle from me call #modal.showPopover()
         on closeModal or htmx:beforeHistoryUpdate from body call me.hidePopover() then put '' into me
         ">
