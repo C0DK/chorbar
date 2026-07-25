@@ -154,7 +154,7 @@ public class HouseholdController(
         CancellationToken cancellationToken
     )
     {
-        var page = await ViewHelpers.EditPage(
+        var editform = await ViewHelpers.EditPage(
             userReader,
             household,
             identityProvider.GetIdentity(),
@@ -163,9 +163,12 @@ public class HouseholdController(
         );
         if (Request.Headers["HX-Target"].Contains("modal"))
         {
-            return new ModalResult(page, pushUrl: $"/household/{HouseholdId}/");
+            return new ModalResult(editform, pushUrl: $"/household/{HouseholdId}/");
         }
-        return new PageResult(page, household.Name);
+        if (Request.Headers["HX-Target"].Contains("edit-household"))
+            return new PartialResult(editform);
+
+        return new PageResult(editform, household.Name);
     }
 
     private string BaseUrl() => $"{Request.Scheme}://{Request.Host}";

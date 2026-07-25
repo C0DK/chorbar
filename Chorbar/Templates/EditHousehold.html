@@ -1,4 +1,4 @@
-<div id="edit-household">
+<div id="edit-household" hx-target="#edit-household">
   <form hx-post="">
     <label for="name">Name: </label>
     <input required type="text" id="name" name="name" value="{{name}}" placeholder="My household">
@@ -6,13 +6,13 @@
   </form>
 
   <label>
-    <input type="checkbox" hx-post="enable_shopping_list" hx-trigger="change" name="enabled" hx-target="#edit-household"
-      {% if shoppingListEnabled %}checked{% end %}>
+    <input type="checkbox" hx-post="enable_shopping_list" hx-trigger="change" name="enabled" {% if shoppingListEnabled
+      %}checked{% end %}>
     Enable shopping list
   </label>
   <label>
-    <input type="checkbox" hx-post="enable_todo_list" hx-trigger="change" name="enabled" hx-target="#edit-household" {%
-      if todoListEnabled %}checked{% end %}>
+    <input type="checkbox" hx-post="enable_todo_list" hx-trigger="change" name="enabled" {% if todoListEnabled
+      %}checked{% end %}>
     Enable todo list
   </label>
   <div class="members">
