@@ -52,7 +52,7 @@ public class AuthController(AuthMetrics authMetrics) : Controller
             );
 
         var code = RandomNumberGenerator.GetInt32(100_000, 1_000_000);
-        await mailer.SendAuthToken(email, code, cancellationToken);
+        await mailer.SendAuthToken(email, code, LoginUrl(email, code), cancellationToken);
         authMetrics.OtpRequested();
 
         await connection.ExecuteAsync(
@@ -88,30 +88,13 @@ public class AuthController(AuthMetrics authMetrics) : Controller
         if (form.GetString("code") is not { Length: > 0 } code)
             return RenderCodeForm(email, persist, error: "Invalid code!", returnUrl: returnUrl);
 
-        await using var connection = await db.OpenConnectionAsync(cancellationToken);
-
-        await using var cmd = new NpgsqlCommand(
-            @"
-                SELECT created
-                FROM signin_otp
-                WHERE email = $1 AND code = $2
-            ",
-            connection
-        );
-        cmd.Parameters.AddWithValue(email.Value);
-        cmd.Parameters.AddWithValue(code);
-        var matches = await cmd.ReadAllAsync<DateTime>(
-                (reader, cancellationToken) =>
-                    reader.GetFieldValueAsync<DateTime>(0, cancellationToken),
-                cancellationToken
-            )
-            .ToArrayAsync(cancellationToken);
-        if (matches is not { Length: > 0 })
+        var outcome = await Verify(db, email, code, cancellationToken);
+        if (outcome is VerifyResult.Invalid)
         {
             authMetrics.OtpResult("invalid");
             return RenderCodeForm(email, persist, "Invalid code!");
         }
-        if (DateTimeOffset.UtcNow.Subtract(matches.Single()) > TimeSpan.FromMinutes(10))
+        if (outcome is VerifyResult.Expired)
         {
             authMetrics.OtpResult("expired");
             return RenderLoginForm(email: email, error: "Code expired", returnUrl: returnUrl);
@@ -120,6 +103,37 @@ public class AuthController(AuthMetrics authMetrics) : Controller
         authMetrics.OtpResult("ok");
         await SignIn(HttpContext, email, persist);
         return new HxRedirectResult(returnUrl ?? "/household/");
+    }
+
+    [HttpGet("login")]
+    [EnableRateLimiting(VerifyPolicy)]
+    public async Task<IResult> Login(
+        [FromServices] NpgsqlDataSource db,
+        CancellationToken cancellationToken,
+        [FromQuery] string? email = null,
+        [FromQuery] string? code = null,
+        [FromQuery] string? returnUrl = null
+    )
+    {
+        using var activity = ActivitySource.StartActivity("Auth.Login");
+        if (!Email.TryParse(email, out var parsedEmail) || code is not { Length: > 0 })
+            return AuthErrorPage("Invalid login link!", email, returnUrl);
+
+        var outcome = await Verify(db, parsedEmail, code, cancellationToken);
+        if (outcome is VerifyResult.Invalid)
+        {
+            authMetrics.OtpResult("invalid");
+            return AuthErrorPage("Invalid login link!", parsedEmail.Value, returnUrl);
+        }
+        if (outcome is VerifyResult.Expired)
+        {
+            authMetrics.OtpResult("expired");
+            return AuthErrorPage("The login link has expired.", parsedEmail.Value, returnUrl);
+        }
+
+        authMetrics.OtpResult("ok");
+        await SignIn(HttpContext, parsedEmail, persist: false);
+        return Results.Redirect(returnUrl ?? "/household/");
     }
 
     [HttpGet("logout")]
@@ -167,4 +181,54 @@ public class AuthController(AuthMetrics authMetrics) : Controller
         string error = "",
         string? returnUrl = null
     ) => new PartialResult(new LoginForm(email: email?.Value, error: error, returnUrl: returnUrl));
+
+    private static IResult AuthErrorPage(string error, string? email, string? returnUrl) =>
+        new PageResult(
+            new LoginForm(email: email, error: error, returnUrl: returnUrl),
+            "Please Sign In"
+        );
+
+    private string LoginUrl(Email email, int code) =>
+        $"{Request.Scheme}://{Request.Host}/auth/login"
+        + $"?email={Uri.EscapeDataString(email.Value)}"
+        + $"&code={code:D6}";
+
+    private enum VerifyResult
+    {
+        Invalid,
+        Expired,
+        Ok,
+    }
+
+    private static async Task<VerifyResult> Verify(
+        NpgsqlDataSource db,
+        Email email,
+        string code,
+        CancellationToken cancellationToken
+    )
+    {
+        await using var connection = await db.OpenConnectionAsync(cancellationToken);
+
+        await using var cmd = new NpgsqlCommand(
+            @"
+                SELECT created
+                FROM signin_otp
+                WHERE email = $1 AND code = $2
+            ",
+            connection
+        );
+        cmd.Parameters.AddWithValue(email.Value);
+        cmd.Parameters.AddWithValue(code);
+        var matches = await cmd.ReadAllAsync<DateTime>(
+                (reader, cancellationToken) =>
+                    reader.GetFieldValueAsync<DateTime>(0, cancellationToken),
+                cancellationToken
+            )
+            .ToArrayAsync(cancellationToken);
+        if (matches is not { Length: > 0 })
+            return VerifyResult.Invalid;
+        if (DateTimeOffset.UtcNow.Subtract(matches.Single()) > TimeSpan.FromMinutes(10))
+            return VerifyResult.Expired;
+        return VerifyResult.Ok;
+    }
 }

@@ -110,4 +110,45 @@ public class AuthFlowTests
         Assert.That(verifyDoc.Body?.InnerHtml, Does.Contain("Invalid code!"));
         Assert.That(verifyDoc.Body?.InnerHtml, Does.Contain("wrong@example.com"));
     }
+
+    [Test, CancelAfter(10_000)]
+    public async Task HappyPath_LoginWithLink(CancellationToken cancellationToken)
+    {
+        var client = new HtmxClient(_httpClient);
+
+        // 1. POST /auth/ with email -> OTP form partial
+        await client.PostForm(
+            "/auth/",
+            [("email", "test@example.com"), ("returnUrl", "")],
+            cancellationToken
+        );
+
+        var code = _fixture.FakeMailer.LastCode;
+        Assert.That(code, Is.Not.Null, "Expected OTP to be generated");
+        var loginUrl = _fixture.FakeMailer.LastLoginUrl;
+        Assert.That(loginUrl, Is.Not.Null, "Expected login URL to be generated");
+        Assert.That(loginUrl, Does.Contain("email=test%40example.com"));
+        Assert.That(loginUrl, Does.Contain($"&code={code!.Value:D6}"));
+
+        // 2. GET the login link -> follows redirect to /household/ and sets auth cookie
+        await client.GetHtmlDoc(loginUrl, cancellationToken);
+
+        // 3. GET /household/ -> should be authenticated
+        var authedDoc = await client.GetHtmlDoc("/household/", cancellationToken);
+        Assert.That(
+            authedDoc.Body?.InnerHtml,
+            Does.Not.Contain("Please Sign In"),
+            "Should be authenticated via login link"
+        );
+    }
+
+    [Test, CancelAfter(10_000)]
+    public async Task UnhappyPath_LinkWithWrongCodeShowsError(CancellationToken cancellationToken)
+    {
+        var loginUrl = "/auth/login?email=test%40example.com&code=000000";
+
+        using var response = await _httpClient.GetAsync(loginUrl, cancellationToken);
+        var doc = await HtmxClient.ParseHtmlAsync(response, cancellationToken);
+        Assert.That(doc.Body?.InnerHtml, Does.Contain("Invalid login link!"));
+    }
 }

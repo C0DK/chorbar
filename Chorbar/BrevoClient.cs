@@ -7,12 +7,17 @@ namespace Chorbar;
 public class BrevoClient(HttpClient client, string apiKey, ILogger logger, MailMetrics mailMetrics)
     : IMailSender
 {
-    public ValueTask SendAuthToken(Email email, int code, CancellationToken cancellationToken)
+    public ValueTask SendAuthToken(
+        Email email,
+        int code,
+        string loginUrl,
+        CancellationToken cancellationToken
+    )
     {
         return Send(
             email,
             "Your Chor.bar login code",
-            new AuthEmail(code.ToString("D6")),
+            new AuthEmail(code.ToString("D6"), loginUrl),
             cancellationToken
         );
     }
