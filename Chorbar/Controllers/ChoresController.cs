@@ -37,6 +37,30 @@ public class ChoresController(IHouseholdStore store, UserReader userReader)
         );
     }
 
+    [HttpGet("calendar")]
+    public async Task<IResult> Calendar(
+        [FromQuery] string label,
+        [FromQuery] int? year,
+        [FromQuery] int? month,
+        CancellationToken cancellationToken
+    )
+    {
+        var household = await Get(cancellationToken);
+        var chore = household.Chores.GetValueOrDefault(label);
+        if (chore is null)
+            return Results.NotFound();
+
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+        // Normalize via AddMonths so out-of-range month values roll over cleanly.
+        var firstOfMonth = new DateOnly(year ?? today.Year, 1, 1).AddMonths(
+            (month ?? today.Month) - 1
+        );
+
+        return new PartialResult(
+            ViewHelpers.ChoreCalendar(label, firstOfMonth, chore)
+        );
+    }
+
     // todo: return modal + oob
     [HttpPost("goal")]
     public async Task<IResult> Goal(
