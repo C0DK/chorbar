@@ -10,21 +10,16 @@
         background-color: #181614 !important;
       }
 
-      .wrap {
+      .wrap,
+      .header,
+      .footer {
         background-color: #221f1c !important;
         border-color: #383430 !important;
       }
 
-      .header {
-        border-color: #383430 !important;
-      }
-
-      .footer {
-        border-color: #383430 !important;
-        color: #6a6560 !important;
-      }
-
-      .heading {
+      .header-text,
+      .heading,
+      .link {
         color: #ede9e3 !important;
       }
 
@@ -32,12 +27,9 @@
         color: #b0aca6 !important;
       }
 
-      .muted {
+      .muted,
+      .footer {
         color: #6a6560 !important;
-      }
-
-      .link {
-        color: #ede9e3 !important;
       }
 
       .button {
@@ -56,32 +48,33 @@
           style="background-color:#ede9e3;border:1px solid #c8c4be;border-radius:10px;overflow:hidden;max-width:520px;width:100%;">
           <tr>
             <td class="header" style="padding:24px 36px;border-bottom:1px solid #c8c4be;">
-              <span
-                style="font-family:Georgia,serif;font-size:1.125rem;font-weight:600;color:#1a1814;letter-spacing:0.02em;">Chor.bar</span>
+              <a class="header-text brand" href="https://chor.bar/"
+                style="font-family:'Source Sans Pro',Georgia,serif;font-size:1.125rem;font-weight:800;font-style:normal;letter-spacing:-1px;color:#1a1814;text-decoration:none;">Chor.bar</a>
             </td>
           </tr>
           <tr>
             <td style="padding:32px 36px;">
               <h1 class="heading"
-                style="color:#1a1814;font-family:Georgia,serif;font-size:1.375rem;font-weight:600;line-height:1.25;margin:0 0 14px 0;">
+                style="color:#1a1814;font-size:1.375rem;font-weight:600;line-height:1.25;margin:0 0 14px 0;">
                 You've been invited to {{householdName}}</h1>
-              <p class="body-text"
-                style="color:#4a4640;font-family:Georgia,serif;font-size:1rem;line-height:1.65;margin:0 0 24px 0;">
-                {{inviterName}} has invited you to join their household on Chor.bar. Click the button below to view the household.</p>
+              <p class="body-text" style="color:#4a4640;font-size:1rem;line-height:1.65;margin:0 0 24px 0;">
+                {{inviterName}} has invited you to join their household on <a class="header-text brand"
+                  href="https://chor.bar/"
+                  style="font-family:'Source Sans Pro',Georgia,serif;font-weight:800;font-style:normal;letter-spacing:-1px;color:#1a1814;text-decoration:none;">Chor.bar</a>.
+                Click the button below to view the household.</p>
               <div style="text-align:center;margin:0 0 24px 0;">
                 <a class="button" href="{{householdUrl}}"
-                  style="display:inline-block;background-color:#1a1814;color:#ede9e3;font-family:Georgia,serif;font-size:1rem;font-weight:600;text-decoration:none;padding:14px 28px;border-radius:6px;">
+                  style="display:inline-block;background-color:#1a1814;color:#ede9e3;font-size:1rem;font-weight:600;text-decoration:none;padding:14px 28px;border-radius:6px;">
                   View Household
                 </a>
               </div>
-              <p class="muted"
-                style="color:#8a8480;font-family:Georgia,serif;font-size:0.875rem;line-height:1.65;margin:0;">If
-                you didn't expect this invitation, you can safely ignore this email.</p>
+              <p class="muted" style="color:#8a8480;font-size:0.875rem;line-height:1.65;margin:0;">
+                If you didn't expect this invitation, you can safely ignore this email.</p>
             </td>
           </tr>
           <tr>
             <td class="footer"
-              style="padding:16px 36px;border-top:1px solid #c8c4be;color:#8a8480;font-family:Georgia,serif;font-size:0.75rem;line-height:1.65;">
+              style="padding:16px 36px;border-top:1px solid #c8c4be;color:#8a8480;font-size:0.75rem;line-height:1.65;">
               — the Chor.bar team
             </td>
           </tr>
