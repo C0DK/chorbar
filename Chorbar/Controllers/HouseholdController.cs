@@ -163,8 +163,7 @@ public class HouseholdController(
         );
         if (Request.Headers["HX-Target"].Contains("modal"))
         {
-            Response.Headers.Append("HX-Push-Url", "false");
-            return new ModalResult(page);
+            return new ModalResult(page, pushUrl: $"/household/{HouseholdId}/");
         }
         return new PageResult(page, household.Name);
     }

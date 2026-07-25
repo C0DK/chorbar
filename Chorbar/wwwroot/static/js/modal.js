@@ -7,6 +7,11 @@ document.addEventListener("toggle", function (e) {
       el.inert = open;
     });
   };
-  if (open) apply();
-  else setTimeout(apply, 30); // sometimes the touch thing is too quick and will click through.
+  if (open) {
+    apply();
+  } else {
+    setTimeout(apply, 30); // sometimes the touch thing is too quick and will click through.
+    var returnUrl = e.target.getAttribute("data-return-url");
+    if (returnUrl && location.href !== returnUrl) history.back();
+  }
 }, true);
