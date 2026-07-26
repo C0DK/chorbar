@@ -3,7 +3,7 @@
   options.chorbar.envFile = lib.mkOption {
     type = lib.types.nullOr lib.types.path;
     default = null;
-    example = "/run/secrets/testmaxing.env";
+    example = "/run/secrets/chorbar.env";
     description = ''
       Path to an env file (KEY=VALUE lines) injected into the
       chorbar-web container at boot, or null to skip. Use this for
@@ -33,8 +33,8 @@
       enableTCPIP = true;
       # 10.88.0.0/16 is podman's default bridge network — that's where the
       # chorbar-web container lives. Keep this tight; using `samenet` here
-      # would also match the host's external interface, which on a VPS
-      # means anyone in the same datacenter subnet.
+      # would also match the host's external interface, which on a shared
+      # host means anyone in the same datacenter subnet.
       authentication = lib.mkOverride 10 ''
         #type database DBuser             origin-address  auth-method
         local all      all                                 trust
@@ -53,7 +53,7 @@
     virtualisation.oci-containers = {
       backend = "podman";
       containers.chorbar-web = {
-        image = "chorbar:main";
+        image = "ghcr.io/c0dk/chorbar:latest";
         environment = {
           DEV_MODE = "false";
           ASPNETCORE_FORWARDEDHEADERS_ENABLED = "true";
@@ -74,8 +74,14 @@
     systemd.services.chorbar-init-schema = {
       description = "Chorbar DB grants (idempotent)";
       wantedBy = [ "multi-user.target" ];
-      after = [ "postgresql.service" "postgresql-setup.service" ];
-      requires = [ "postgresql.service" "postgresql-setup.service" ];
+      after = [
+        "postgresql.service"
+        "postgresql-setup.service"
+      ];
+      requires = [
+        "postgresql.service"
+        "postgresql-setup.service"
+      ];
       serviceConfig = {
         Type = "oneshot";
         User = "postgres";
