@@ -171,5 +171,6 @@ public class HouseholdController(
         return new PageResult(editform, household.Name);
     }
 
-    private string BaseUrl() => $"{Request.Scheme}://{Request.Host}";
+    private string BaseUrl() =>
+        EnvironmentVariable.GetOrNull("BASE_URL") ?? $"{Request.Scheme}://{Request.Host}";
 }

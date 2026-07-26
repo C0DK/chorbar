@@ -116,7 +116,10 @@ public class AuthFlowTests
     {
         var client = new HtmxClient(_httpClient);
 
-        // 1. POST /auth/ with email -> OTP form partial
+        // 1. GET /auth/ -> full page with login form (seeds CSRF token)
+        await client.GetHtmlDoc("/auth/", cancellationToken);
+
+        // 2. POST /auth/ with email -> OTP form partial
         await client.PostForm(
             "/auth/",
             [("email", "test@example.com"), ("returnUrl", "")],
@@ -130,10 +133,10 @@ public class AuthFlowTests
         Assert.That(loginUrl, Does.Contain("email=test%40example.com"));
         Assert.That(loginUrl, Does.Contain($"&code={code!.Value:D6}"));
 
-        // 2. GET the login link -> follows redirect to /household/ and sets auth cookie
+        // 3. GET the login link -> follows redirect to /household/ and sets auth cookie
         await client.GetHtmlDoc(loginUrl, cancellationToken);
 
-        // 3. GET /household/ -> should be authenticated
+        // 4. GET /household/ -> should be authenticated
         var authedDoc = await client.GetHtmlDoc("/household/", cancellationToken);
         Assert.That(
             authedDoc.Body?.InnerHtml,

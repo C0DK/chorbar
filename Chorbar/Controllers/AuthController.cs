@@ -189,7 +189,7 @@ public class AuthController(AuthMetrics authMetrics) : Controller
         );
 
     private string LoginUrl(Email email, int code) =>
-        $"{Request.Scheme}://{Request.Host}/auth/login"
+        $"{EnvironmentVariable.GetOrNull("BASE_URL") ?? $"{Request.Scheme}://{Request.Host}"}/auth/login"
         + $"?email={Uri.EscapeDataString(email.Value)}"
         + $"&code={code:D6}";
 
