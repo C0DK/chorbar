@@ -9,10 +9,14 @@ namespace Chorbar.Tests.Integration;
 
 public class AppFixture : WebApplicationFactory<Program>
 {
+    public const string BaseUrl = "http://localhost";
+
     public FakeMailer FakeMailer { get; } = new();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        Environment.SetEnvironmentVariable("BASE_URL", BaseUrl);
+
         builder.ConfigureServices(services =>
         {
             services.RemoveAll<NpgsqlDataSource>();

@@ -188,8 +188,8 @@ public class AuthController(AuthMetrics authMetrics) : Controller
             "Please Sign In"
         );
 
-    private string LoginUrl(Email email, int code) =>
-        $"{EnvironmentVariable.GetOrNull("BASE_URL") ?? $"{Request.Scheme}://{Request.Host}"}/auth/login"
+    private static string LoginUrl(Email email, int code) =>
+        $"{EnvironmentVariable.GetRequired("BASE_URL")}/auth/login"
         + $"?email={Uri.EscapeDataString(email.Value)}"
         + $"&code={code:D6}";
 

@@ -130,6 +130,7 @@ public class AuthFlowTests
         Assert.That(code, Is.Not.Null, "Expected OTP to be generated");
         var loginUrl = _fixture.FakeMailer.LastLoginUrl;
         Assert.That(loginUrl, Is.Not.Null, "Expected login URL to be generated");
+        Assert.That(loginUrl, Does.StartWith($"{AppFixture.BaseUrl}/auth/login"));
         Assert.That(loginUrl, Does.Contain("email=test%40example.com"));
         Assert.That(loginUrl, Does.Contain($"&code={code!.Value:D6}"));
 
