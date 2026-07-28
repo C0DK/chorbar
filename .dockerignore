@@ -1,6 +1,5 @@
 .git
 .gitignore
-.editorconfig
 .agents
 .claude
 .config
