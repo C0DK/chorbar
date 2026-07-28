@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace Chorbar.Model;
 
 // TODO: remove constructor so we always lower it?
-[JsonConverter(typeof(HouseholdId.DefaultJsonConverter))]
+[JsonConverter(typeof(HouseholdIdJsonConverter))]
 public readonly record struct HouseholdId(int Value)
 {
     public override string ToString() => Value.ToString();
@@ -41,32 +41,35 @@ public readonly record struct HouseholdId(int Value)
 
     public static implicit operator int(HouseholdId id) => id.Value;
 
+    public int ToInt32() => Value;
+
     static bool IsValid(int value) => value >= 0;
 
-    public class DefaultJsonConverter : JsonConverter<HouseholdId>
-    {
-        public override HouseholdId Read(
-            ref Utf8JsonReader reader,
-            Type typeToConvert,
-            JsonSerializerOptions options
-        )
-        {
-            if (
-                reader.TokenType == JsonTokenType.Number
-                && reader.TryGetInt16(out var value)
-                && HouseholdId.TryParse(value, out var id)
-            )
-                return id;
-            throw new JsonException($"Expected number, found {reader.TokenType}");
-        }
+    }
 
-        public override void Write(
-            Utf8JsonWriter writer,
-            HouseholdId value,
-            JsonSerializerOptions options
+public class HouseholdIdJsonConverter : JsonConverter<HouseholdId>
+{
+    public override HouseholdId Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        if (
+            reader.TokenType == JsonTokenType.Number
+            && reader.TryGetInt16(out var value)
+            && HouseholdId.TryParse(value, out var id)
         )
-        {
-            writer.WriteNumberValue(value.Value);
-        }
+            return id;
+        throw new JsonException($"Expected number, found {reader.TokenType}");
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        HouseholdId value,
+        JsonSerializerOptions options
+    )
+    {
+        writer.WriteNumberValue(value.Value);
     }
 }
