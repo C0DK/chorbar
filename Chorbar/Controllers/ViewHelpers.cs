@@ -77,7 +77,9 @@ internal static class ViewHelpers
 
     public static string GenerateSlug(string phrase)
     {
+#pragma warning disable CA1308 // slug is lowercase by URL convention; regex below only matches a-z
         string str = phrase.ToLowerInvariant();
+#pragma warning restore CA1308
         // invalid chars
         str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
         // convert multiple spaces into one space

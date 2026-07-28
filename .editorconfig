@@ -59,9 +59,6 @@ dotnet_naming_style.underscore_camel_case.capitalization = camel_case
 # CA2007: await a Task without ConfigureAwait(false). Noise in ASP.NET Core (no SynchronizationContext).
 dotnet_diagnostic.CA2007.severity = none
 
-# CA1859: return a more concrete type (e.g. PartialResult over IResult) for perf. Already Addressed.
-dotnet_diagnostic.CA1859.severity = none
-
 # CA1062: validate public-method parameters for null. Tedious; nullable annotations cover most cases.
 dotnet_diagnostic.CA1062.severity = none
 
@@ -70,12 +67,6 @@ dotnet_diagnostic.CA1054.severity = none
 
 # CA1305: specify IFormatProvider/culture in string formatting. Fix when touching the call site.
 dotnet_diagnostic.CA1305.severity = none
-
-# CA1308: normalize strings to uppercase instead of ToLower(). Fix in collation-sensitive code.
-dotnet_diagnostic.CA1308.severity = none
-
-# CA1309: use ordinal StringComparison. Most call sites already pass StringComparison.Ordinal.
-dotnet_diagnostic.CA1309.severity = none
 
 # CA1515: don't make types public in a non-library assembly. App project, not relevant.
 dotnet_diagnostic.CA1515.severity = none

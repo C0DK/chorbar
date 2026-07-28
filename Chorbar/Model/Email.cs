@@ -27,7 +27,9 @@ public readonly record struct Email(string Value)
             output = default;
             return false;
         }
+#pragma warning disable CA1308 // emails are conventionally lowercase; this is output casing, not normalization
         output = new(value.ToLowerInvariant());
+#pragma warning restore CA1308
         return true;
     }
 
@@ -51,8 +53,7 @@ public readonly record struct Email(string Value)
             && !domain.EndsWith('.')
             && !domain.StartsWith('.');
     }
-
-    }
+}
 
 public class EmailJsonConverter : JsonConverter<Email>
 {
@@ -73,9 +74,6 @@ public class EmailJsonConverter : JsonConverter<Email>
         throw new JsonException($"Expected string, found {reader.TokenType}");
     }
 
-    public override void Write(
-        Utf8JsonWriter writer,
-        Email value,
-        JsonSerializerOptions options
-    ) => writer.WriteStringValue(value.Value);
+    public override void Write(Utf8JsonWriter writer, Email value, JsonSerializerOptions options) =>
+        writer.WriteStringValue(value.Value);
 }

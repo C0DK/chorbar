@@ -23,6 +23,6 @@ public sealed class StaticFileVersion
             hasher.AppendData(bytes);
         }
 
-        Hash = Convert.ToHexString(hasher.GetHashAndReset())[..12].ToLowerInvariant();
+        Hash = Convert.ToHexString(hasher.GetHashAndReset())[..12].ToUpperInvariant();
     }
 }

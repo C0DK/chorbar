@@ -41,8 +41,7 @@ public class ShoppingListController(IHouseholdStore store) : SpecificHouseholdCo
         Render(
             await Write(
                 new SetShoppingListCategoryItems(
-                    category?.Trim()?.Equals("misc", StringComparison.InvariantCultureIgnoreCase)
-                        is true
+                    category?.Trim()?.Equals("misc", StringComparison.OrdinalIgnoreCase) is true
                         ? null
                         : category,
                     itemId.ToImmutableArray()
@@ -102,7 +101,7 @@ public class ShoppingListController(IHouseholdStore store) : SpecificHouseholdCo
         CancellationToken cancellationToken
     ) => Render(await Write(new RenameShoppingListItem(itemId, newLabel), cancellationToken));
 
-    private IResult Render(Household household)
+    private PartialResult Render(Household household)
     {
         var miscItems = household.ShoppingListItems.Where(item => item.Category is null);
 

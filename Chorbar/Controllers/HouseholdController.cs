@@ -73,6 +73,7 @@ public class HouseholdController(
     public async Task<IResult> ExportJson(CancellationToken cancellationToken)
     {
         var household = await Get(cancellationToken);
+#pragma warning disable CA1308 // export unit and download filename are lowercase by convention
         var export = new
         {
             id = household.Id.Value,
@@ -96,6 +97,7 @@ public class HouseholdController(
 
         var json = JsonSerializer.Serialize(export, exportOptions);
         var filename = $"household-{household.Name.ToLowerInvariant().Replace(' ', '-')}.json";
+#pragma warning restore CA1308
         Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{filename}\"");
         return Results.Text(json, "application/json");
     }

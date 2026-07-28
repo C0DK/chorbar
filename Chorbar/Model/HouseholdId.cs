@@ -44,8 +44,7 @@ public readonly record struct HouseholdId(int Value)
     public int ToInt32() => Value;
 
     static bool IsValid(int value) => value >= 0;
-
-    }
+}
 
 public class HouseholdIdJsonConverter : JsonConverter<HouseholdId>
 {

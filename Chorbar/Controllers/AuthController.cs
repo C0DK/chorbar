@@ -152,7 +152,7 @@ public class AuthController(AuthMetrics authMetrics) : Controller
         );
     }
 
-    private static IResult RenderCodeForm(
+    private static PartialResult RenderCodeForm(
         Email email,
         bool persist = false,
         string? returnUrl = null,
@@ -162,7 +162,7 @@ public class AuthController(AuthMetrics authMetrics) : Controller
             new OtpCodeField(email: email, error: error, persist: persist, returnUrl: returnUrl)
         );
 
-    private static IResult RenderLoginForm(
+    private static PartialResult RenderLoginForm(
         Email? email,
         string error = "",
         string? returnUrl = null
