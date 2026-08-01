@@ -2,7 +2,12 @@ namespace Chorbar.Model;
 
 public interface IMailSender
 {
-    public ValueTask SendAuthToken(Email email, int code, CancellationToken cancellationToken);
+    public ValueTask SendAuthToken(
+        Email email,
+        int code,
+        string loginUrl,
+        CancellationToken cancellationToken
+    );
 
     public ValueTask SendHouseholdInvite(
         Email email,
@@ -15,9 +20,18 @@ public interface IMailSender
 
 public class LogMailer(ILogger logger) : IMailSender
 {
-    public ValueTask SendAuthToken(Email email, int code, CancellationToken cancellationToken)
+    public ValueTask SendAuthToken(
+        Email email,
+        int code,
+        string loginUrl,
+        CancellationToken cancellationToken
+    )
     {
-        logger.ForContext("code", code).ForContext("email", email.Value).Warning("Sent auth code");
+        logger
+            .ForContext("code", code)
+            .ForContext("email", email.Value)
+            .ForContext("loginUrl", loginUrl)
+            .Warning("Sent auth code");
 
         return ValueTask.CompletedTask;
     }
