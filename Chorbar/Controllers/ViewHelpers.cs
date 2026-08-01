@@ -182,6 +182,7 @@ internal static class ViewHelpers
                     label: label,
                     user: await userReader.DisplayName(a.User, cancellationToken)
                 )),
+            calendar: ChoreCalendar(label, CurrentMonthStart(), chore),
             // badges are annoying to update for the form..
             //badges: ChoreBadges(chore),
             goalNumerator: chore.Goal?.Numerator,
@@ -202,12 +203,79 @@ internal static class ViewHelpers
                     label: label,
                     user: a.User
                 )),
+            calendar: ChoreCalendar(label, CurrentMonthStart(), chore),
             // badges are annoying to update for the form..
             //badges: ChoreBadges(chore),
             goalNumerator: chore.Goal?.Numerator,
             goalUnit: chore?.Goal?.Unit.ToString(),
             today: DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd")
         );
+
+    private static DateOnly CurrentMonthStart() =>
+        DateOnly.FromDateTime(DateTime.UtcNow).StartOfMonth();
+
+    public static ChoreCalendar ChoreCalendar(
+        string label,
+        DateOnly firstOfMonth,
+        Chore chore
+    )
+    {
+        // Monday-first weekday offset: Sunday=0..Saturday=6 -> Monday=0..Sunday=6
+        var leadingBlanks = ((int)firstOfMonth.DayOfWeek + 6) % 7;
+        var daysInMonth = DateTime.DaysInMonth(firstOfMonth.Year, firstOfMonth.Month);
+
+        var doneDays = chore
+            .History.Select(entry => entry.Timestamp.GetCalendarDate())
+            .ToHashSet();
+
+        var days = new List<ChoreCalendarDay>(leadingBlanks + daysInMonth);
+
+        var prevMonth = firstOfMonth.AddMonths(-1);
+        var prevDaysInMonth = DateTime.DaysInMonth(prevMonth.Year, prevMonth.Month);
+        for (var i = leadingBlanks - 1; i >= 0; i--)
+        {
+            days.Add(
+                new ChoreCalendarDay(
+                    dayNumber: (prevDaysInMonth - i).ToString(),
+                    done: false,
+                    adjacent: true
+                )
+            );
+        }
+
+        for (var day = 1; day <= daysInMonth; day++)
+        {
+            var date = new DateOnly(firstOfMonth.Year, firstOfMonth.Month, day);
+            days.Add(
+                new ChoreCalendarDay(
+                    dayNumber: day.ToString(),
+                    done: doneDays.Contains(date),
+                    adjacent: false
+                )
+            );
+        }
+
+        var nextDay = 1;
+        while (days.Count % 7 != 0)
+        {
+            days.Add(new ChoreCalendarDay(nextDay.ToString(), false, true));
+            nextDay++;
+        }
+
+        var prev = firstOfMonth.AddMonths(-1);
+        var next = firstOfMonth.AddMonths(1);
+
+        return new ChoreCalendar(
+            label: label,
+            labelEscaped: Uri.EscapeDataString(label),
+            monthLabel: firstOfMonth.ToString("MMMM yyyy"),
+            prevYear: prev.Year,
+            prevMonth: prev.Month,
+            nextYear: next.Year,
+            nextMonth: next.Month,
+            days: days
+        );
+    }
 
     public static string TimeAgo(DateTimeOffset? timestamp)
     {

@@ -1,0 +1,21 @@
+<section id="chore-calendar" class="chore-calendar" hx-target="this" hx-swap="outerHTML">
+  <header class="calendar-nav">
+    <button type="button" class="calendar-prev small"
+      hx-get="chore/calendar?label={{labelEscaped}}&amp;year={{prevYear}}&amp;month={{prevMonth}}"
+      title="Previous month" aria-label="Previous month">‹</button>
+    <h3>{{monthLabel}}</h3>
+    <button type="button" class="calendar-next small"
+      hx-get="chore/calendar?label={{labelEscaped}}&amp;year={{nextYear}}&amp;month={{nextMonth}}"
+      title="Next month" aria-label="Next month">›</button>
+  </header>
+  <div class="calendar-grid">
+    <span class="weekday">Mon</span>
+    <span class="weekday">Tue</span>
+    <span class="weekday">Wed</span>
+    <span class="weekday">Thu</span>
+    <span class="weekday">Fri</span>
+    <span class="weekday">Sat</span>
+    <span class="weekday">Sun</span>
+    {{..days}}
+  </div>
+</section>
