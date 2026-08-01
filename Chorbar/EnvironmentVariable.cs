@@ -6,7 +6,7 @@ public static class EnvironmentVariable
 {
     public static bool? GetBool(string key) =>
         GetOrNull(key) is { Length: > 0 } value
-            ? value.Equals("true", StringComparison.InvariantCultureIgnoreCase)
+            ? value.Equals("true", StringComparison.OrdinalIgnoreCase)
             : null;
 
     public static string GetRequired(string name)

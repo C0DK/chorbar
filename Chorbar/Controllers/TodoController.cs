@@ -62,7 +62,7 @@ public class TodoController(IHouseholdStore store) : SpecificHouseholdController
     public async Task<IResult> Sort([FromForm] int[] itemId, CancellationToken cancellationToken) =>
         Render(await Write(new OrderTodo(itemId.ToImmutableArray()), cancellationToken));
 
-    private IResult Render(Household household)
+    private PartialResult Render(Household household)
     {
         return new PartialResult(
             new TodoList(

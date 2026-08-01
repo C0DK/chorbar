@@ -5,7 +5,7 @@ using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Chorbar;
 
-public static class Logging
+public static class LoggerComposition
 {
     public static LoggerConfiguration CreateConfiguration()
     {

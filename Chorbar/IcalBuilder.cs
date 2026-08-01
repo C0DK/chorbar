@@ -31,9 +31,11 @@ public static class IcalBuilder
             sb.AppendLine($"DTSTART;VALUE=DATE:{FormatDate(deadline.Value)}");
             sb.AppendLine($"DTEND;VALUE=DATE:{FormatDate(deadline.Value.AddDays(1))}");
             sb.AppendLine($"SUMMARY:{EscapeText(label)}");
+#pragma warning disable CA1308 // display text; lowercase reads naturally as "day(s)"
             sb.AppendLine(
                 $"DESCRIPTION:Due every {chore.Goal!.Numerator} {chore.Goal.Unit.ToString().ToLowerInvariant()}(s) - household: {EscapeText(household.Name)}"
             );
+#pragma warning restore CA1308
             sb.AppendLine("END:VEVENT");
         }
 

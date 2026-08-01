@@ -7,7 +7,7 @@ using Strongbars.Abstractions;
 namespace Chorbar.Model;
 
 // TODO: remove constructor so we always lower it?
-[JsonConverter(typeof(Email.DefaultJsonConverter))]
+[JsonConverter(typeof(EmailJsonConverter))]
 public readonly record struct Email(string Value)
 {
     public override string ToString() => Value;
@@ -27,13 +27,19 @@ public readonly record struct Email(string Value)
             output = default;
             return false;
         }
+#pragma warning disable CA1308 // emails are conventionally lowercase; this is output casing, not normalization
         output = new(value.ToLowerInvariant());
+#pragma warning restore CA1308
         return true;
     }
 
     public static implicit operator string(Email email) => email.ToString();
 
     public static implicit operator TemplateArgument(Email value) => value.ToString();
+
+    public string ToStringValue() => Value;
+
+    public TemplateArgument ToTemplateArgument() => Value;
 
     static bool IsValidEmail(string email)
     {
@@ -47,30 +53,27 @@ public readonly record struct Email(string Value)
             && !domain.EndsWith('.')
             && !domain.StartsWith('.');
     }
+}
 
-    public class DefaultJsonConverter : JsonConverter<Email>
+public class EmailJsonConverter : JsonConverter<Email>
+{
+    public override Email Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
     {
-        public override Email Read(
-            ref Utf8JsonReader reader,
-            Type typeToConvert,
-            JsonSerializerOptions options
+        if (
+            reader.TokenType == JsonTokenType.String
+            && reader.GetString() is { } value
+            && Email.TryParse(value, out var email)
         )
         {
-            if (
-                reader.TokenType == JsonTokenType.String
-                && reader.GetString() is { } value
-                && Email.TryParse(value, out var email)
-            )
-            {
-                return email;
-            }
-            throw new JsonException($"Expected string, found {reader.TokenType}");
+            return email;
         }
-
-        public override void Write(
-            Utf8JsonWriter writer,
-            Email value,
-            JsonSerializerOptions options
-        ) => writer.WriteStringValue(value.Value);
+        throw new JsonException($"Expected string, found {reader.TokenType}");
     }
+
+    public override void Write(Utf8JsonWriter writer, Email value, JsonSerializerOptions options) =>
+        writer.WriteStringValue(value.Value);
 }

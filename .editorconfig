@@ -54,16 +54,22 @@ dotnet_naming_style.underscore_camel_case.capitalization = camel_case
 
 
 
-# dumb rules
+# Suppressed code-quality rules. Review periodically; some are worth fixing.
+
+# CA2007: await a Task without ConfigureAwait(false). Noise in ASP.NET Core (no SynchronizationContext).
 dotnet_diagnostic.CA2007.severity = none
-dotnet_diagnostic.CA1859.severity = none
-dotnet_diagnostic.CA1724.severity = none
+
+# CA1062: validate public-method parameters for null. Tedious; nullable annotations cover most cases.
 dotnet_diagnostic.CA1062.severity = none
+
+# CA1054: string URI parameter should be System.Uri. Often awkward with templated/fragment URLs.
 dotnet_diagnostic.CA1054.severity = none
+
+# CA1305: specify IFormatProvider/culture in string formatting. Fix when touching the call site.
 dotnet_diagnostic.CA1305.severity = none
-dotnet_diagnostic.CA1308.severity = none
-dotnet_diagnostic.CA1309.severity = none
+
+# CA1515: don't make types public in a non-library assembly. App project, not relevant.
 dotnet_diagnostic.CA1515.severity = none
-dotnet_diagnostic.CA2225.severity = none
-dotnet_diagnostic.CA1034.severity = none
+
+# CA2100: review SQL for injection. SQL is built with parameters; manually audited. Review on schema change.
 dotnet_diagnostic.CA2100.severity = none

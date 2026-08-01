@@ -16,7 +16,7 @@ using OpenTelemetry.Trace;
 using Prometheus;
 using Serilog;
 
-Log.Logger = Logging.CreateConfiguration().CreateLogger();
+Log.Logger = LoggerComposition.CreateConfiguration().CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
